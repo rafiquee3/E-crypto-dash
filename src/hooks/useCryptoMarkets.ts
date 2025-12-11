@@ -1,3 +1,4 @@
+'use client';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
@@ -6,12 +7,12 @@ const MARKETS_QUERY_KEY = 'cryptoMarkets';
 
 export function useCryptoMarkets(options = {}) {
     const defaultOptions = {
-        vsCurrency: 'usd',
-        perPage: '100',
+        vs_currency: 'usd',
+    /*     perPage: '100',
         page: '1',
         order: 'market_cap_desc',
         sparkline: true,
-        priceChangePercentage: '1h,24h,7d',
+        priceChangePercentage: '1h,24h,7d', */
     };
     
     const params: any = useMemo(() => ({
@@ -27,7 +28,7 @@ export function useCryptoMarkets(options = {}) {
     const queryFn = async () => {
         const urlParams = new URLSearchParams(params).toString();
         const url = `/api/markets?${urlParams}`;
-        
+        console.log('URL',url );
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -43,7 +44,7 @@ export function useCryptoMarkets(options = {}) {
         queryFn: queryFn,
 
         // staleTime: 5 * 60 * 1000, // ex: 5 min interval 
-        refetchInterval: 60 * 1000, 
+        refetchInterval: 5 * 60 * 1000, 
         refetchOnWindowFocus: true,
     });
 }
