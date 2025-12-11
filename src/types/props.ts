@@ -3,7 +3,7 @@ export interface MarketDataProps {
     per_page: string;             
     page: string;                  
     order: string;  
-    sparkline: string;        
+    sparkline: string;  // charts      
     price_change_percentage: string;
     locale: string;               
 };

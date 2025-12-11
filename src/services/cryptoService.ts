@@ -15,11 +15,11 @@ export async function fetchMarketData(params: MarketDataProps) {
     }
 
     const defaultParams = {
-  /*       per_page: '100',
+        per_page: '100',
         page: '1',
         sparkline: true,
         price_change_percentage: '1h,24h,7d',
-        order: 'market_cap_desc', */
+        order: 'market_cap_desc',
     };
 
     const finalParams = {

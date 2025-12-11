@@ -13,7 +13,8 @@ export function AssetList() {
         isSuccess,      
     } = useCryptoMarkets({ 
         vs_currency: 'usd', 
-        perPage: '100' 
+        per_page: '15',
+        page: '2' 
     });
     if(data) console.log('data',data)
     return (
