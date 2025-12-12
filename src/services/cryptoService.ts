@@ -1,17 +1,16 @@
-import 'server-only' // only server run
 import { MarketDataProps } from '../types/props';
+//export const runtime = 'nodejs';
 
 const API_KEY = process.env.COINGECKO_API_KEY_SECRET;
 const BASE_URL = 'https://api.coingecko.com/api/v3';
 
 export async function fetchMarketData(params: MarketDataProps) {
-    console.log('paramsfetchMarD', params)
     if (!API_KEY) {
             throw new Error("COINGECKO_API_KEY_SECRET is not available.");
     }
     
     if (!params.vs_currency) {
-        throw new Error("The required parameter 'vs_currency' is not available..");
+        throw new Error("The required parameter 'vs_currency' is not available.");
     }
 
     const defaultParams = {
@@ -33,8 +32,6 @@ export async function fetchMarketData(params: MarketDataProps) {
     // EX: https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin&names=Bitcoin&symbols=btc&category=layer-1&price_change_percentage=1h'
     // https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd
     try {
-        console.log('API CALL URL', url)
-        console.log('KEY', API_KEY)
         const response = await fetch(url, {
             headers: {
                 'x-cg-demo-api-key': API_KEY, 
@@ -42,7 +39,7 @@ export async function fetchMarketData(params: MarketDataProps) {
             },
             cache: 'no-store' // fresh data
         });
-        console.log('resp', response)
+        
         if (!response.ok) {
             const errorBody = await response.text();
             throw new Error(`CoinGecko API status: ${response.status}: ${errorBody}`);
