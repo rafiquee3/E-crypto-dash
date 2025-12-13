@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "@/src/providers/QueryProvider";
 import { Header } from "@/src/components/Header";
 import { MswProvider } from "@/src/providers/MswProvider";
+import React from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
