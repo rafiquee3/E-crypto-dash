@@ -22,7 +22,8 @@ export function AssetList() {
     if (isLoading) {
         return <div>Loading...</div>
     }
-        if (isError) {
+    
+    if (isError) {
         return <div>Error loading assets</div>;
     }
 
