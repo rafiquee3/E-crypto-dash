@@ -3,6 +3,7 @@ import { useCryptoMarkets } from "../hooks/useCryptoMarkets";
 import { AssetListItem } from "./AssetListItem";
 
 export function AssetList() {
+    const currency = 'usd';
     const { 
         data,           
         isLoading,      
@@ -31,12 +32,23 @@ export function AssetList() {
 
     return (
         <div>
-            <h1>Assets List</h1>
-            <ul>
-                {
-                    data.map(data => <AssetListItem key={data.id} marketData={data}/>)
-                }
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                       <th>#</th>
+                        <th>Coin</th>
+                        <th>Price</th>
+                        <th>1h</th>
+                        <th>24h</th>
+                        <th>Volume</th>
+                        <th>Market Cap</th>
+                        <th>Last 7 Days</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map(data => <AssetListItem key={data.id} marketData={data} currency={currency}/>)}
+                </tbody>
+            </table>
         </div>
     )
 }

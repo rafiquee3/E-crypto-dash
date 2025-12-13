@@ -12,6 +12,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.90.12",
     "next": "16.0.8",
+    "numeral": "^2.0.6",
     "react": "19.2.1",
     "react-dom": "19.2.1",
     "recharts": "^3.5.1",
@@ -33,6 +34,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^29.5.14",
     "@types/node": "^20.19.26",
+    "@types/numeral": "^2.0.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/recharts": "^1.8.29",

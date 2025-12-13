@@ -11,7 +11,7 @@ export function useCryptoMarkets(options = {}) {
         page: '1',
         order: 'market_cap_desc',
         sparkline: true,
-        priceChangePercentage: '1h,24h,7d', 
+        price_change_percentage: '1h,24h,7d', 
     };
     
     const params: any = useMemo(() => ({
@@ -32,7 +32,7 @@ export function useCryptoMarkets(options = {}) {
         }
 
         let data: any = await response.json();
-        
+
         // test env chceck
         if (typeof data === 'string') {
             try {
