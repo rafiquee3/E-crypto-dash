@@ -21,7 +21,7 @@ export async function fetchMarketData(params: MarketDataProps) {
         order: 'market_cap_desc',
     };
 
-    const finalParams = {
+    const finalParams: any = {
         ...defaultParams,
         ...params, 
     };

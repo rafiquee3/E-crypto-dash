@@ -1,6 +1,9 @@
 import numeral from 'numeral';
 
-export const formatCurrency = (value: number, currency: string) => {
+export const formatCurrency = (value: number | null | undefined, currency: string) => {
+    if (value === null || value === undefined || isNaN(value)) {
+        return 'N/A';
+    }
     return new Intl.NumberFormat('en-US', { 
         style: 'currency', 
         currency: `${currency.toUpperCase()}`,
@@ -9,7 +12,10 @@ export const formatCurrency = (value: number, currency: string) => {
     }).format(value);
 }
 
-export const formatPercentage = (value: number | null) => value ? (value * 100).toFixed(2) : '';  
+export const formatPercentage = (value: number | null | undefined) => {
+    if (value === null || value === undefined) return 'N/A';
+    return value ? `${value > 0 ? '+' : ''}${(value * 100).toFixed(2)}%` : '0.00%'
+};  
 
 export const formatLargeNumber = (value: number | null | undefined): string => {
     if (value === null || value === undefined || isNaN(value)) {
