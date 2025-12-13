@@ -12,7 +12,13 @@ describe('Asset List Component', () => {
             })
         );
 
-        render()
+        render(<AssetList/>);
+
+        const firstAssetElement = await screen.findByText(/Bitcoin/i);
+        expect(firstAssetElement).toBeInTheDocument();
+
+        const allAssets = await screen.findAllByRole('listitem');
+        expect(allAssets.length).toBe(marketDataMock.length);
     })
 })
 
