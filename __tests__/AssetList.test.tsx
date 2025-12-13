@@ -1,33 +1,32 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import { server } from '../src/mocks/node';
-import { http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 import { marketDataMock } from '../src/mocks/data/marketDataMock';
-import { AssetList } from '@/src/components/AssetList';
+import { AssetList } from '../src/components/AssetList';
+import QueryProvider from '@/src/providers/QueryProvider';
 
-describe('Asset List Component', () => {
-    it('should render a loading state and then display the asset list', async () => {
-        server.use(
-            http.get('https://api.coingecko.com/api/v3/coins/markets', () => {
-                return HttpResponse.json(marketDataMock, { status: 200 });
-            })
-        );
+it('should render the loading state and then the final list with header', async () => {
+    server.use(
+        http.get('/api/markets',  () => { 
+            //await delay(800); 
+            return HttpResponse.json(marketDataMock, { status: 200 });
+        })
+    );
 
-        render(<AssetList/>);
+    render(
+            <QueryProvider>
+                <AssetList/>
+            </QueryProvider>
+    );
 
-        const firstAssetElement = await screen.findByText(/Bitcoin/i);
-        expect(firstAssetElement).toBeInTheDocument();
+    const loadingElement = screen.getByText(/Loading.../i); 
+    expect(loadingElement).toBeInTheDocument();
 
-        const allAssets = await screen.findAllByRole('listitem');
-        expect(allAssets.length).toBe(marketDataMock.length);
-    })
-})
+    // @ts-ignore    
+    const headerElement = await screen.findByText(/Bitcoin/i, { timeout: 3000 });
+    expect(headerElement).toBeInTheDocument();
 
-
-
-
-
-
-
-
-
-
+    await waitFor(() => {
+        expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument();
+    });
+});

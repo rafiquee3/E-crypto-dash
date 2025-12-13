@@ -1,9 +1,8 @@
 export function AssetListItem({marketData}) {
-
     return (
-        <div className="flex bg:gray-200">
+        <li className="flex bg:grey-200">
             {marketData.name}
-        </div>
+        </li>
     )
 }
 

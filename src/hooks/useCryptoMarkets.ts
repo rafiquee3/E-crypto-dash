@@ -2,7 +2,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-// The key that identifies this specific piece of data in the TanStack Query cache.
 const MARKETS_QUERY_KEY = 'cryptoMarkets';
 
 export function useCryptoMarkets(options = {}) {
@@ -20,11 +19,8 @@ export function useCryptoMarkets(options = {}) {
         ...options,
     }), [options]);
 
-    // Create a dynamic query key.
-    // TanStack Query automatically refreshes data when any key element changes
     const queryKey = [MARKETS_QUERY_KEY, options];
 
-    // The function to fetch data, which is only called when the data is not in the cache.
     const queryFn = async () => {
         const urlParams = new URLSearchParams(params).toString();
         const url = `/api/markets?${urlParams}`;
@@ -35,7 +31,18 @@ export function useCryptoMarkets(options = {}) {
             throw new Error(errorData.error || 'Server error while fetching data.');
         }
 
-        return response.json();
+        let data: any = await response.json();
+        
+        // test env chceck
+        if (typeof data === 'string') {
+            try {
+                data = JSON.parse(data);
+            } catch (err) {
+                console.warn('Failed to parse JSON string from response', err);
+            }
+        }
+
+        return data;
     };
 
     return useQuery({
