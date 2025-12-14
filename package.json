@@ -21,7 +21,8 @@
     "socket.io-client": "^4.8.1",
     "ts-jest": "^29.4.6",
     "util": "^0.12.5",
-    "whatwg-fetch": "^3.6.20"
+    "whatwg-fetch": "^3.6.20",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",

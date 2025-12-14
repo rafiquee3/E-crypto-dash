@@ -1,9 +1,13 @@
 'use client';
 import { useCryptoMarkets } from "../hooks/useCryptoMarkets";
+import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
+import { RootState } from "../store/store";
 import { AssetListItem } from "./AssetListItem";
+import { setCurrency } from "../store/uiSlice";
 
 export function AssetList() {
-    const currency = 'usd';
+    const currency = useAppSelector((state: RootState) => state.currency);
+    const dispatch = useAppDispatch();
     const { 
         data,           
         isLoading,      
@@ -14,7 +18,7 @@ export function AssetList() {
         status,         
         isSuccess,      
     } = useCryptoMarkets({ 
-        vs_currency: 'usd', 
+        vs_currency: currency, 
         per_page: '15',
         page: '2' 
     });
@@ -33,6 +37,7 @@ export function AssetList() {
 
     return (
         <div>
+            <button onClick={() => dispatch(setCurrency('eur'))}>set curr</button>
             <table>
                 <thead>
                     <tr>

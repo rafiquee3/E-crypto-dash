@@ -1,6 +1,7 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
+import { CoinMarketListSchema } from '../types/yup';
 
 const MARKETS_QUERY_KEY = 'cryptoMarkets';
 
@@ -41,8 +42,19 @@ export function useCryptoMarkets(options = {}) {
                 console.warn('Failed to parse JSON string from response', err);
             }
         }
+        
+        try {
+            const validatedData = await CoinMarketListSchema.validate(data, {
+                abortEarly: false,
+                strict: true
+            });
+            console.log('valid', validatedData)
+            return validatedData;
 
-        return data;
+        } catch (validationError: any) {
+            console.error('Validation Error:', validationError.errors);
+            throw new Error(`Validation failed: ${validationError.message}`);
+        }
     };
 
     return useQuery({
