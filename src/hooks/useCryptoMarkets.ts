@@ -48,7 +48,7 @@ export function useCryptoMarkets(options = {}) {
                 abortEarly: false,
                 strict: true
             });
-            console.log('valid', validatedData)
+
             return validatedData;
 
         } catch (validationError: any) {

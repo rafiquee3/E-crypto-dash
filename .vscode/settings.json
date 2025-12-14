@@ -1,0 +1,11 @@
+{
+  "workbench.colorTheme": "Default Dark+",
+  "editor.fontSize": 12,
+  "editor.lineHeight": 0,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.renderWhitespace": "selection",
+  "editor.minimap.enabled": true,
+  "editor.wordWrap": "off"
+}
+
