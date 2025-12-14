@@ -62,7 +62,7 @@ export function useCryptoMarkets(options = {}) {
         queryFn: queryFn,
 
         // staleTime: 5 * 60 * 1000, // ex: 5 min interval 
-        refetchInterval: 60 * 1000, 
+        refetchInterval: 60 * 60 * 1000, 
         refetchOnWindowFocus: true,
     });
 }

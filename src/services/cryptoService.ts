@@ -1,5 +1,4 @@
-import { MarketDataProps } from '../types/props';
-import { CoinMarketParams } from '../types/yup';
+import { CoinMarketParams, CoinsMarketParamsSchema } from '../types/yup';
 //export const runtime = 'nodejs';
 
 const API_KEY = process.env.COINGECKO_API_KEY_SECRET;
@@ -33,6 +32,11 @@ export async function fetchMarketData(params: CoinMarketParams) {
     // EX: https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin&names=Bitcoin&symbols=btc&category=layer-1&price_change_percentage=1h'
     // https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd
     try {
+        await CoinsMarketParamsSchema.validate(finalParams, {
+            abortEarly: false,
+            strict: false
+        });
+        
         const response = await fetch(url, {
             headers: {
                 'x-cg-demo-api-key': API_KEY, 
