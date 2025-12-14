@@ -46,6 +46,7 @@ export const CoinsMarketParamsSchema = yup.object({
         .transform(transformToNumber)
         .nullable()
         .min(1, 'Page number must be greater or equal to 1.')
+        .max(1000, 'Must be between 1 and 1000')
         .integer('Must be an integer value.')
         .default(1),
     

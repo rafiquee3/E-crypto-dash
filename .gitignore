@@ -43,5 +43,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# tips - generated documentation and analysis files
-/tips
+# doc - generated documentation and analysis files
+/doc
+
+.vscode/

@@ -1,10 +1,11 @@
 import { MarketDataProps } from '../types/props';
+import { CoinMarketParams } from '../types/yup';
 //export const runtime = 'nodejs';
 
 const API_KEY = process.env.COINGECKO_API_KEY_SECRET;
 const BASE_URL = 'https://api.coingecko.com/api/v3';
 
-export async function fetchMarketData(params: MarketDataProps) {
+export async function fetchMarketData(params: CoinMarketParams) {
     if (!API_KEY) {
             throw new Error("COINGECKO_API_KEY_SECRET is not available.");
     }
