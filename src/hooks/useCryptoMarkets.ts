@@ -1,7 +1,7 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { CoinMarketListSchema } from '../types/yup';
+import { CoinMarketListSchema, CoinsMarketParamsSchema } from '../types/yup';
 
 const MARKETS_QUERY_KEY = 'cryptoMarkets';
 
@@ -25,6 +25,17 @@ export function useCryptoMarkets(options = {}) {
     const queryFn = async () => {
         const urlParams = new URLSearchParams(params).toString();
         const url = `/api/markets?${urlParams}`;
+        
+        try {
+            const validatedParams = await CoinsMarketParamsSchema.validate(params, {
+                abortEarly: false,
+                strict: false
+            });
+        } catch (validationError: any) {
+            console.error('Validation Error:', validationError.errors);
+            throw new Error(`Validation failed: ${validationError.message}`);
+        }
+
         const response = await fetch(url);
 
         if (!response.ok) {
