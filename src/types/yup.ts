@@ -1,10 +1,11 @@
 import * as yup from 'yup';
 import { currencies } from '../mocks/data/marketDataMock';
 
-export const CoinMarketSchema = yup.object({
-    id: yup.string().required(),
-    symbol: yup.string().required(),
-    name: yup.string().required(),
+export const CoinMarketDataSchema = yup.object({
+    id: yup.string().required('Required value'),
+    symbol: yup.string().required('Required value'),
+    name: yup.string().required('Required value'),
+    image: yup.string().url().default(''),
     current_price: yup.number().nullable().default(0),
     market_cap: yup.number().nullable().default(0),
     market_cap_rank: yup.number().nullable().default(0),
@@ -12,11 +13,11 @@ export const CoinMarketSchema = yup.object({
     price_change_percentage_1h_in_currency: yup.number().nullable().default(0),
     price_change_percentage_24h_in_currency: yup.number().nullable().default(0),
     price_change_percentage_7d_in_currency: yup.number().nullable().default(0),
-}).strict();
+}).strict()
 
-export const CoinMarketListSchema = yup.array(CoinMarketSchema);
+export const CoinMarketDataListSchema = yup.array(CoinMarketDataSchema);
 
-export interface CoinMarketData extends yup.InferType<typeof CoinMarketSchema> {}
+export interface CoinMarketData extends yup.InferType<typeof CoinMarketDataSchema> {}
 
 const transformToNumber = (originalValue: any): number | null => {
     if (originalValue === null || originalValue === undefined || originalValue === '') {

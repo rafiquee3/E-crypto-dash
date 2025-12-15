@@ -6,7 +6,15 @@ export default function QueryProvider({ children }: { children: React.ReactNode 
   const queryClientRef = useRef<QueryClient>(undefined);
 
   if (!queryClientRef.current) {
-    queryClientRef.current = new QueryClient();
+    queryClientRef.current = new QueryClient(
+      {
+        defaultOptions: {
+          queries: {
+            retry: false, // for test reason
+          },
+        },
+      }
+    );
   }
 
   return (

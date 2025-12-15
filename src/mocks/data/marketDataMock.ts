@@ -228,3 +228,19 @@ export const currencies =
         "bits", 
         "sats"
       ]
+
+      export const MarketDataFrontMock = [
+        {
+          id: "bitcoin",
+          symbol: "btc",
+          name: "Bitcoin",
+          image: "https://url.com/btc.png",
+          current_price: 95000,
+          market_cap: 1000000,
+          market_cap_rank: 1,
+          total_volume: 50000,
+          price_change_percentage_1h_in_currency: 0.1,
+          price_change_percentage_24h_in_currency: 0.5,
+          price_change_percentage_7d_in_currency: 1.2,
+        }
+      ]

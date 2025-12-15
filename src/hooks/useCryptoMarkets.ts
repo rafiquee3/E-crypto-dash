@@ -1,33 +1,34 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { CoinMarketListSchema, CoinsMarketParamsSchema } from '../types/yup';
+import { CoinMarketData, CoinMarketDataListSchema, CoinMarketParams, CoinsMarketParamsSchema } from '../types/yup';
 
 const MARKETS_QUERY_KEY = 'cryptoMarkets';
 
 export function useCryptoMarkets(options = {}) {
     const defaultOptions = {
         vs_currency: 'usd',
-        per_page: '100',
-        page: '1',
+        per_page: 100,
+        page: 1,
         order: 'market_cap_desc',
         sparkline: true,
         price_change_percentage: '1h,24h,7d', 
     };
     
-    const params: any = useMemo(() => ({
+    const params: {[key: string]: string | number | boolean} = useMemo(() => ({
         ...defaultOptions,
         ...options,
     }), [options]);
 
+    const stringifiedParams = Object.fromEntries(
+        Object.entries(params).map(([key, value]) => [key, String(value)])
+    );
+
     const queryKey = [MARKETS_QUERY_KEY, options];
 
     const queryFn = async () => {
-        const urlParams = new URLSearchParams(params).toString();
-        const url = `/api/markets?${urlParams}`;
-        
         try {
-            const validatedParams = await CoinsMarketParamsSchema.validate(params, {
+            const validatedParams: CoinMarketParams = await CoinsMarketParamsSchema.validate(params, {
                 abortEarly: false,
                 strict: false
             });
@@ -35,7 +36,10 @@ export function useCryptoMarkets(options = {}) {
             console.error('Validation Error:', validationError.errors);
             throw new Error(`Validation failed: ${validationError.message}`);
         }
-
+        
+        const urlParams = new URLSearchParams(stringifiedParams).toString();
+        const url = `/api/markets?${urlParams}`;
+        
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -43,7 +47,7 @@ export function useCryptoMarkets(options = {}) {
             throw new Error(errorData.error || 'Server error while fetching data.');
         }
 
-        let data: any = await response.json();
+        let data = await response.json();
 
         // test env chceck
         if (typeof data === 'string') {
@@ -53,20 +57,19 @@ export function useCryptoMarkets(options = {}) {
                 console.warn('Failed to parse JSON string from response', err);
             }
         }
-        
+
         try {
-            const validatedData = await CoinMarketListSchema.validate(data, {
+            const validatedData = await CoinMarketDataListSchema.validate(data, {
                 abortEarly: false,
                 strict: true
             });
 
             return validatedData;
-
         } catch (validationError: any) {
             console.error('Validation Error:', validationError.errors);
             throw new Error(`Validation failed: ${validationError.message}`);
         }
-    };
+    }; 
 
     return useQuery({
         queryKey: queryKey,

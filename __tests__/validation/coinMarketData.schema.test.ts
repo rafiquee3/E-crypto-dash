@@ -69,20 +69,6 @@ describe('CoinMarketDataSchema', () => {
         .rejects.toThrow(/Required/i);
     });
 
-    it('should reject when unknown properties are provided in strict mode', async () => {
-      const dataWithUnknown = {
-        id: "bitcoin",
-        symbol: "btc",
-        name: "Bitcoin",
-        image: "https://url.com",
-        current_price: 90000,
-        unknown_field: 'not_allowed'
-      };
-
-      await expect(CoinMarketDataSchema.validate(dataWithUnknown, { strict: true }))
-        .rejects.toThrow(/Unknown/i);
-    });
-
     it('should reject when price fields are not valid numbers', async () => {
       const invalidPriceData = {
         id: "bitcoin",

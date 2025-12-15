@@ -4,6 +4,7 @@ import { delay, http, HttpResponse } from 'msw';
 import { marketDataMock } from '../../src/mocks/data/marketDataMock';
 import { AssetList } from '../../src/components/AssetList';
 import QueryProvider from '@/src/providers/QueryProvider';
+import { ReduxProvider } from '@/src/store/ReduxProvider';
 
 it('should render the loading state and then the final list with header', async () => {
     server.use(
@@ -12,11 +13,13 @@ it('should render the loading state and then the final list with header', async 
             return HttpResponse.json(marketDataMock, { status: 200 });
         })
     );
-
-    render(
+  
+    render (
+        < ReduxProvider>
             <QueryProvider>
                 <AssetList/>
             </QueryProvider>
+        </ReduxProvider>
     );
 
     const loadingElement = screen.getByText(/Loading.../i); 
