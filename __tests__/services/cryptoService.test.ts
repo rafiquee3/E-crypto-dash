@@ -1,13 +1,15 @@
-process.env.COINGECKO_API_KEY_SECRET = 'TEST_API_KEY';
 const { fetchMarketData } = require('../../src/services/cryptoService');
-
 const { rest, http, HttpResponse } = require('msw');
+import { marketDataMock } from '@/src/mocks/data/marketDataMock';
 import { server } from '../../src/mocks/node';
 
+const Request = global.Request;
+
 describe('fetchMarketData', () => {
-    it('1. Should correctly build the URL with default and custom parameters', async () => {
+
+    it('should correctly build the URL with default and custom parameters', async () => {
         server.use(
-            http.get('https://api.coingecko.com/api/v3/coins/markets', ({ request }: any) => {
+            http.get('https://api.coingecko.com/api/v3/coins/markets', ({ request }: { request: Request }) => {
                 const url = new URL(request.url);
 
                 expect(url.searchParams.get('vs_currency')).toBe('eur');
@@ -16,7 +18,7 @@ describe('fetchMarketData', () => {
                 expect(url.searchParams.get('price_change_percentage')).toBe('1h,24h,7d');
                 expect(request.headers.get('x-cg-demo-api-key')).toBe('TEST_API_KEY');
 
-                return HttpResponse.json({ result: 'ok' }, { status: 200 });
+                return HttpResponse.json({ result: 'ok' });
             })
         );
 
@@ -29,17 +31,39 @@ describe('fetchMarketData', () => {
         expect.assertions(5);
     });
 
-    it('2. Should throw an error if vs_currency is missing', async () => {
-        // @ts-ignore
+    it('should return data when only the required argument is provided', async () => {
+        server.use(
+            http.get('https://api.coingecko.com/api/v3/coins/markets', () => {
+                return HttpResponse.json(marketDataMock);
+            })
+        );
+
+        const result = await fetchMarketData({ vs_currency: 'usd' });
+        expect(result).toStrictEqual(marketDataMock);
+    });
+
+    it('should handle API responses that return stringified JSON', async () => {
+        server.use(
+            http.get('https://api.coingecko.com/api/v3/coins/markets', () => {
+                return HttpResponse.text(JSON.stringify(marketDataMock));
+            })
+        );
+
+        const result = await fetchMarketData({ vs_currency: 'usd' });
+        expect(result).toStrictEqual(marketDataMock);
+    });
+
+    it('should throw an error if vs_currency is missing', async () => {
+        // @ts-ignore 
         await expect(fetchMarketData({})).rejects.toThrow(
             "The required parameter 'vs_currency' is not available."
         );
     });
 
-    it('3. Should throw an error for an unsuccessful HTTP status - 401)', async () => {
+    it('should throw a generic error for 401 Unauthorized status', async () => {
         server.use(
             http.get('https://api.coingecko.com/api/v3/coins/markets', () => {
-                return HttpResponse.json({ message: 'Unauthorized Access' }, { status: 401 });
+                return new HttpResponse(null, { status: 401 });
             })
         );
 

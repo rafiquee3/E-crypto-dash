@@ -1,3 +1,6 @@
+process.env.COINGECKO_API_KEY_SECRET = 'TEST_API_KEY';
+process.env.NEXT_PUBLIC_API_URL = 'http://localhost:3000';
+
 try {
   const undici = require('undici');
   global.fetch = undici.fetch as any;

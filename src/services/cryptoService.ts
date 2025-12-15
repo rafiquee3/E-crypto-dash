@@ -1,5 +1,4 @@
 import { CoinMarketParams, CoinsMarketParamsSchema } from '../types/yup';
-//export const runtime = 'nodejs';
 
 const API_KEY = process.env.COINGECKO_API_KEY_SECRET;
 const BASE_URL = 'https://api.coingecko.com/api/v3';
@@ -28,9 +27,7 @@ export async function fetchMarketData(params: CoinMarketParams) {
 
     const queryParams = new URLSearchParams(finalParams).toString();
     const url = `${BASE_URL}/coins/markets?${queryParams}`;
-    // MY: GET /api/markets?vs_currency=usd&perPage=100&page=1&order=market_cap_desc&sparkline=true&priceChangePercentage=1h%2C24h%2C7d
-    // EX: https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin&names=Bitcoin&symbols=btc&category=layer-1&price_change_percentage=1h'
-    // https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd
+
     try {
         await CoinsMarketParamsSchema.validate(finalParams, {
             abortEarly: false,
@@ -49,8 +46,18 @@ export async function fetchMarketData(params: CoinMarketParams) {
             const errorBody = await response.text();
             throw new Error(`CoinGecko API status: ${response.status}: ${errorBody}`);
         }
+        let data = await response.json();
 
-        return response.json();
+        // env-test, case: coingecko => string data type 
+        if (typeof data === 'string') {
+            try {
+                data = JSON.parse(data);
+            } catch (err) { 
+                console.warn('Failed to parse JSON string from response', err);
+            }
+        }
+        
+        return data;
 
     } catch (error: any) {
         console.error('Market data error:', error.message);
