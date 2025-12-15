@@ -1,8 +1,8 @@
 import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
-import { server } from '../src/mocks/node';
+import { server } from '../../src/mocks/node';
 import { delay, http, HttpResponse } from 'msw';
-import { marketDataMock } from '../src/mocks/data/marketDataMock';
-import { AssetList } from '../src/components/AssetList';
+import { marketDataMock } from '../../src/mocks/data/marketDataMock';
+import { AssetList } from '../../src/components/AssetList';
 import QueryProvider from '@/src/providers/QueryProvider';
 
 it('should render the loading state and then the final list with header', async () => {

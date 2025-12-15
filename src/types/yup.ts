@@ -73,14 +73,13 @@ export const CoinsMarketParamsSchema = yup.object({
     
     price_change_percentage: yup
         .string()
-        .required('Field price_change_percentage is required.')
+        .optional()
         .default('1h,24h,7d') 
         .test('is-valid-timeframe-csv', 
             `Field contains invalid options or duplicates. Allowed: ${['1h', '24h', '7d'].join(', ')}`,
             (value) => {
-                // If the value is null/undefined, it will be handled by .required()
                 if (!value) {
-                    return false; // Error, required field
+                    return true; 
                 }
 
                 const transformedArray = value
@@ -100,7 +99,8 @@ export const CoinsMarketParamsSchema = yup.object({
                 }
 
                 return true;
-            }),
-}).noUnknown(true); // Reject unknown object keys
+            })
+        .transform((value) =>  value.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0).join(','))
+}).noUnknown(true, 'Unknown object keys'); // Reject unknown object keys
 
 export interface CoinMarketParams extends yup.InferType<typeof CoinsMarketParamsSchema> {}

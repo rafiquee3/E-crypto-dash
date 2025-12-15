@@ -1,8 +1,8 @@
 process.env.COINGECKO_API_KEY_SECRET = 'TEST_API_KEY';
-const { fetchMarketData } = require('../src/services/cryptoService');
+const { fetchMarketData } = require('../../src/services/cryptoService');
 
 const { rest, http, HttpResponse } = require('msw');
-import { server } from '../src/mocks/node';
+import { server } from '../../src/mocks/node';
 
 describe('fetchMarketData', () => {
     it('1. Should correctly build the URL with default and custom parameters', async () => {
