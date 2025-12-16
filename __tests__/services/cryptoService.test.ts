@@ -1,7 +1,7 @@
-const { fetchMarketData } = require('../../src/services/cryptoService');
+const { fetchMarketData } = require('@/services/cryptoService');
 const { rest, http, HttpResponse } = require('msw');
-import { marketDataMock } from '@/src/mocks/data/marketDataMock';
-import { server } from '../../src/mocks/node';
+import { marketDataMock } from '@/mocks/data/marketDataMock';
+import { server } from '@/mocks/node';
 
 const Request = global.Request;
 

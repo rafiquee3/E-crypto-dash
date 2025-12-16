@@ -1,6 +1,6 @@
-import { marketsRateLimit, getClientIdentifier } from "@/src/lib/rateLimit";
-import { fetchMarketData } from "@/src/services/cryptoService";
-import { CoinMarketParams, CoinsMarketParamsSchema } from "@/src/types/yup";
+import { marketsRateLimit, getClientIdentifier } from "@/lib/rateLimit";
+import { fetchMarketData } from "@/services/cryptoService";
+import { CoinMarketParams, CoinsMarketParamsSchema } from "@/types/yup";
 import { NextResponse } from 'next/server';
 
 export async function GET(req: Request & {guery: {[key: string]: string | string[]}}) {

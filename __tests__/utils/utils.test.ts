@@ -1,6 +1,6 @@
-import { formatPercentage } from "@/src/utils/utils";
-import { formatLargeNumber } from "@/src/utils/utils";
-import { formatCurrency } from "@/src/utils/utils";
+import { formatPercentage } from "@/utils/utils";
+import { formatLargeNumber } from "@/utils/utils";
+import { formatCurrency } from "@/utils/utils";
 
 describe('Utility Functions', () => {
     describe('formatCurrency', () => {

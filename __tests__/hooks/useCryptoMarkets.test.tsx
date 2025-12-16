@@ -1,9 +1,9 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
-import { server } from '@/src/mocks/node';
-import { useCryptoMarkets } from '@/src/hooks/useCryptoMarkets';
-import QueryProvider from '@/src/providers/QueryProvider';
-import { MarketDataFrontMock } from '@/src/mocks/data/marketDataMock';
+import { server } from '@/mocks/node';
+import { useCryptoMarkets } from '@/hooks/useCryptoMarkets';
+import QueryProvider from '@/providers/QueryProvider';
+import { MarketDataFrontMock } from '@/mocks/data/marketDataMock';
 
 describe('useCryptoMarkets Hook', () => {
     beforeEach(() => {

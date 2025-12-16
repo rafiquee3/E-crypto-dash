@@ -44,11 +44,22 @@ export async function fetchMarketData(params: CoinMarketParams) {
         
         if (!response.ok) {
             const errorBody = await response.text();
-            throw new Error(`CoinGecko API status: ${response.status}: ${errorBody}`);
+            console.error(`CoinGecko API error: status=${response.status}, body=${errorBody}`);
+
+            let userMessage = 'Failed to retrieve data from API.';
+            if (response.status === 401 || response.status === 403) {
+                userMessage = 'Invalid CoinGecko API credentials.';
+            } else if (response.status === 429) {
+                userMessage = 'CoinGecko rate limit exceeded, please try again later.';
+            } else if (response.status >= 500) {
+                userMessage = 'CoinGecko server error, please try again later.';
+            }
+   
+            throw new Error(`${userMessage} (status: ${response.status})`);
         }
         let data = await response.json();
 
-        // env-test, case: coingecko => string data type 
+        // env-test, case: coingecko res => string data type 
         if (typeof data === 'string') {
             try {
                 data = JSON.parse(data);

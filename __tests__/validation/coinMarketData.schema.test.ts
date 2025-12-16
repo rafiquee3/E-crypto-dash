@@ -1,4 +1,4 @@
-import { CoinMarketDataSchema } from "@/src/types/yup";
+import { CoinMarketDataSchema } from "@/types/yup";
 
 describe('CoinMarketDataSchema', () => {
 

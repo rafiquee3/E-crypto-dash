@@ -7,12 +7,40 @@ try {
   global.Request = undici.Request as any;
   global.Response = undici.Response as any;
   global.Headers = undici.Headers as any;
+  
+  // Add Response.json() static method if not available
+  if (!global.Response.json) {
+    global.Response.json = function(data: any, init?: ResponseInit) {
+      const body = JSON.stringify(data);
+      return new global.Response(body, {
+        ...init,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(init?.headers || {}),
+        },
+      });
+    };
+  }
 } catch (err) {
   const nodeFetch = require('node-fetch');
   global.fetch = nodeFetch as any;
   global.Request = nodeFetch.Request as any;
   global.Response = nodeFetch.Response as any;
   global.Headers = nodeFetch.Headers as any;
+  
+  // Add Response.json() static method if not available
+  if (!global.Response.json) {
+    global.Response.json = function(data: any, init?: ResponseInit) {
+      const body = JSON.stringify(data);
+      return new global.Response(body, {
+        ...init,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(init?.headers || {}),
+        },
+      });
+    };
+  }
 }
 
 import '@testing-library/jest-dom';
