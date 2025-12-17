@@ -5,6 +5,8 @@ import QueryProvider from "@/providers/QueryProvider";
 import { Header } from "@/components/Header";
 import { MswProvider } from "@/providers/MswProvider";
 import { ReduxProvider } from "@/store/ReduxProvider";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ErrorFallback } from "@/components/ErrorFallback";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,14 +33,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       > 
-        <ReduxProvider>
-          <Header/>
-          <MswProvider>
-            <QueryProvider>
-                {children}   
-            </QueryProvider>
-          </MswProvider>
-        </ReduxProvider>
+        <ErrorBoundary fallback={<ErrorFallback />}>
+          <ReduxProvider>
+            <Header/>
+            <MswProvider>
+              <QueryProvider>
+                  {children}   
+              </QueryProvider>
+            </MswProvider>
+          </ReduxProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
