@@ -24,7 +24,7 @@ describe('fetchMarketData', () => {
 
         await adapter.fetchMarketData({
             vs_currency: 'eur',
-            per_page: '10',
+            per_page: 10,
             order: 'volume_desc',
         });
 

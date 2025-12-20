@@ -15,7 +15,7 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
     this.apiKey = apiKey;
   }
 
-  async fetchMarketData(params: CoinMarketParams): Promise<CoinMarketData[]> {
+  async fetchMarketData(params: Partial<CoinMarketParams> & {vs_currency: string}): Promise<CoinMarketData[]> {
     if (!params?.vs_currency) {
       throw new Error("The required parameter 'vs_currency' is not available.");
     }
@@ -34,7 +34,7 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
           'x-cg-demo-api-key': this.apiKey,
           'Content-Type': 'application/json',
         },
-        cache: 'no-store',
+        next: { revalidate: 60 }
     });
 
     if (!response.ok) {
