@@ -43,7 +43,6 @@ describe('AssetListItem', () => {
 
   it('formats large numbers (volume, market cap) to a shortened form', () => {
     renderItem();
-    screen.debug()
     expect(screen.getAllByText(/B|M|T/i, { exact: false })[0]).toBeInTheDocument();
   });
 

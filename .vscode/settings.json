@@ -1,11 +1,98 @@
 {
-  "workbench.colorTheme": "Default Dark+",
+  // === MOTYW I IKONY ===
+  "workbench.colorTheme": "One Dark Pro Darker",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.productIconTheme": "material-product-icons",
+  // === CUSTOMIZACJA KOLORÓW (Dracula - popularny wśród programistów) ===
+  "workbench.colorCustomizations": {
+    "editor.background": "#282a36",
+    "sideBar.background": "#21222c",
+    "sideBarSectionHeader.background": "#2d2f3d",
+    "activityBar.background": "#21222c",
+    "activityBar.foreground": "#bd93f9",
+    "activityBarBadge.background": "#ff79c6",
+    "titleBar.activeBackground": "#21222c",
+    "titleBar.inactiveBackground": "#1e1f29",
+    "tab.activeBackground": "#282a36",
+    "tab.inactiveBackground": "#21222c",
+    "tab.activeBorderTop": "#ff79c6",
+    "editorGroupHeader.tabsBackground": "#21222c",
+    "panel.background": "#282a36",
+    "panel.border": "#bd93f9",
+    "terminal.background": "#282a36",
+    "terminal.foreground": "#f8f8f2",
+    "statusBar.background": "#6272a4",
+    "statusBar.foreground": "#f8f8f2",
+    "editorGutter.background": "#282a36",
+    "minimap.background": "#21222c",
+    "editorCursor.foreground": "#f8f8f2",
+    "editor.lineHighlightBackground": "#44475a",
+    "editor.selectionBackground": "#44475a",
+    "list.activeSelectionBackground": "#44475a",
+    "list.hoverBackground": "#2d2f3d"
+  },
+  // === TWOJE USTAWIENIA TEKSTU (zachowane) ===
   "editor.fontSize": 12,
   "editor.lineHeight": 0,
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.renderWhitespace": "selection",
+  "editor.wordWrap": "off",
+  // === ESTETYKA EDYTORA ===
+  "editor.fontLigatures": true,
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.smoothScrolling": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.indentation": true,
+  "editor.guides.highlightActiveIndentation": true,
+  "editor.renderLineHighlight": "all",
+  "editor.stickyScroll.enabled": true,
+  // === MINIMAP ===
   "editor.minimap.enabled": true,
-  "editor.wordWrap": "off"
-}
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.maxColumn": 80,
+  "editor.minimap.showSlider": "always",
+  // === TERMINAL ===
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.fontFamily": "MesloLGS NF, Menlo, Monaco, monospace",
+  // === INTERFEJS ===
+  "workbench.startupEditor": "none",
+  "workbench.tree.indent": 16,
+  "workbench.tree.renderIndentGuides": "always",
+  "workbench.list.smoothScrolling": true,
+  "workbench.sideBar.location": "left",
+  // === FORMATOWANIE ===
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  // === AUTO-IMPORT SUGGESTIONS ===
+  "typescript.suggest.enabled": true,
+  "javascript.suggest.enabled": true,
+  "typescript.suggest.autoImports": true,
+  "javascript.suggest.autoImports": true,
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "javascript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.preferences.importModuleSpecifier": "shortest",
+  "javascript.preferences.importModuleSpecifier": "shortest",
 
+  // === INTELLISENSE ===
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "off",
+    "strings": "on"
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.suggest.showFunctions": true,
+  "editor.suggest.showModules": true,
+  "editor.parameterHints.enabled": true,
+
+  // === INLINE SUGGESTIONS (AI) ===
+  "editor.inlineSuggest.enabled": true,
+  "intelliphp.inlineSuggestionsEnabled": false,
+  "editor.inlineSuggest.syntaxHighlightingEnabled": true,
+  "editor.inlineSuggest.suppressSuggestions": false
+}

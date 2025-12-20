@@ -12,9 +12,9 @@ export function useCryptoMarkets(options = {}) {
         page: 1,
         order: 'market_cap_desc',
         sparkline: true,
-        price_change_percentage: '1h,24h,7d', 
+        price_change_percentage: '1h,24h,7d',
     };
-    
+
     const params: {[key: string]: string | number | boolean} = useMemo(() => ({
         ...defaultOptions,
         ...options,
@@ -27,19 +27,9 @@ export function useCryptoMarkets(options = {}) {
     const queryKey = [MARKETS_QUERY_KEY, options];
 
     const queryFn = async () => {
-        try {
-            const validatedParams: CoinMarketParams = await CoinsMarketParamsSchema.validate(params, {
-                abortEarly: false,
-                strict: false
-            });
-        } catch (validationError: any) {
-            console.error('Validation Error:', validationError.errors);
-            throw new Error(`Validation failed: ${validationError.message}`);
-        }
-        
         const urlParams = new URLSearchParams(stringifiedParams).toString();
         const url = `/api/markets?${urlParams}`;
-        
+
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -58,25 +48,15 @@ export function useCryptoMarkets(options = {}) {
             }
         }
 
-        try {
-            const validatedData = await CoinMarketDataListSchema.validate(data, {
-                abortEarly: false,
-                strict: true
-            });
-
-            return validatedData;
-        } catch (validationError: any) {
-            console.error('Validation Error:', validationError.errors);
-            throw new Error(`Validation failed: ${validationError.message}`);
-        }
-    }; 
+        return data;
+    };
 
     return useQuery({
         queryKey: queryKey,
         queryFn: queryFn,
 
-        // staleTime: 5 * 60 * 1000, // ex: 5 min interval 
-        refetchInterval: 60 * 60 * 1000, 
+        // staleTime: 5 * 60 * 1000, // ex: 5 min interval
+        refetchInterval: 60 * 60 * 1000,
         refetchOnWindowFocus: true,
     });
 }

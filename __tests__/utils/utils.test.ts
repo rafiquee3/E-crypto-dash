@@ -39,7 +39,7 @@ describe('Utility Functions', () => {
         });
 
         test('should return "N/A" for undefined input', () => {
-            expect(formatPercentage(null)).toBe('N/A');
+            expect(formatPercentage(undefined)).toBe('N/A');
         });
     });
 

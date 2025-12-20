@@ -1,4 +1,5 @@
 'use client';
+import { useState } from "react";
 import { useCryptoMarkets } from "../hooks/useCryptoMarkets";
 import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 import { RootState } from "../store/store";
@@ -7,6 +8,7 @@ import { setCurrency } from "../store/uiSlice";
 
 export function AssetList() {
     const currency = useAppSelector((state: RootState) => state.currency);
+    const [shouldThrow, setShouldThrow] = useState(false);
     const dispatch = useAppDispatch();
     const { 
         data,           
@@ -28,16 +30,25 @@ export function AssetList() {
     }
     
     if (isError) {
-        return <div>Error loading assets</div>;
+        return (
+            <div>
+                <p>Error loading assets</p>
+                <button onClick={() => refetch()}>Retry</button>
+            </div>
+        );
     }
 
-    if (!Array.isArray(data)) {
+    if (!Array.isArray(data) || !data.length) {
         return <div>No data</div>;
+    }
+
+    if (shouldThrow) {
+        throw new Error('Error test from component');
     }
 
     return (
         <div>
-            <button onClick={() => dispatch(setCurrency('eur'))}>set curr</button>
+            <button onClick={() => setShouldThrow(true)}>click to crash</button>
             <table>
                 <thead>
                     <tr>

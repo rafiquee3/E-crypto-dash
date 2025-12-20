@@ -46,4 +46,6 @@ next-env.d.ts
 # doc - generated documentation and analysis files
 /doc
 
-.vscode/
+# vscode - ignore all except shared settings
+.vscode/*
+!.vscode/settings.json
