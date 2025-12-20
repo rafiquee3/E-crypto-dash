@@ -35,30 +35,34 @@ export const CoinsMarketParamsSchema = yup.object({
 
     per_page: yup
         .number()
+        .notRequired()
         .transform(transformToNumber)
         .nullable()
         .min(1, 'There must be at least 1 result per page.')
         .max(250, 'A maximum of 250 results per page.') // CoinGecko limit
         .integer('Must be an integer value.')
-        .default(15), 
-    
+        .default(15),
+
     page: yup
         .number()
         .transform(transformToNumber)
+        .notRequired()
         .nullable()
         .min(1, 'Page number must be greater or equal to 1.')
         .max(1000, 'Must be between 1 and 1000')
         .integer('Must be an integer value.')
         .default(1),
-    
+
     order: yup
         .string()
-        .oneOf(['market_cap_desc', 'market_cap_asc', 'volume_desc', 'volume_asc'], 
+        .notRequired()
+        .oneOf(['market_cap_desc', 'market_cap_asc', 'volume_desc', 'volume_asc'],
             'Invalid sorting option.')
-        .default('market_cap_desc'), 
-    
+        .default('market_cap_desc'),
+
     sparkline: yup
         .boolean()
+        .notRequired()
         .transform((value, originalValue) => {
             if (typeof originalValue === 'boolean') return originalValue;
             if (originalValue === null || originalValue === undefined || originalValue === '') return null;
@@ -70,17 +74,17 @@ export const CoinsMarketParamsSchema = yup.object({
             return null;
         })
         .nullable()
-        .default(false), 
-    
+        .default(false),
+
     price_change_percentage: yup
         .string()
-        .optional()
-        .default('1h,24h,7d') 
-        .test('is-valid-timeframe-csv', 
+        .notRequired()
+        .default('1h,24h,7d')
+        .test('is-valid-timeframe-csv',
             `Field contains invalid options or duplicates. Allowed: ${['1h', '24h', '7d'].join(', ')}`,
             (value) => {
                 if (!value) {
-                    return true; 
+                    return true;
                 }
 
                 const transformedArray = value

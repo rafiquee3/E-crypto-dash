@@ -1,8 +1,8 @@
 import { marketsRateLimit } from "@/lib/rateLimit";
-import { fetchMarketData } from "@/services/cryptoService";
 import { getClientIdentifier } from "@/lib/rateLimit";
 import { GET } from '@/app/api/markets/route';
 import { marketDataMock } from "@/mocks/data/marketDataMock";
+import { CoinGeckoAdapter } from "@/adapters/adapters/CoinGeckoAdapter";
 
 jest.mock('@/lib/rateLimit', () => ({
     marketsRateLimit: {
@@ -11,17 +11,18 @@ jest.mock('@/lib/rateLimit', () => ({
     getClientIdentifier: jest.fn(() => 'test-ip')
 }));
 
-jest.mock("@/services/cryptoService", () => ({
-    fetchMarketData: jest.fn()
-}));
+jest.mock("@/adapters/adapters/CoinGeckoAdapter");
 
 const mockMarketsRateLimit = marketsRateLimit as jest.Mocked<typeof marketsRateLimit>;
-const mockFetchMarketData = fetchMarketData as jest.MockedFunction<typeof fetchMarketData>;
 const mockGetClientIdentifier = getClientIdentifier as jest.MockedFunction<typeof getClientIdentifier>;
+
+const mockFetchMarketData = jest.fn();
 
 describe('api/markets', () => {
     beforeEach(() => {
         jest.clearAllMocks();
+        // Spy on the prototype method - this works with singleton instances
+        jest.spyOn(CoinGeckoAdapter.prototype, 'fetchMarketData').mockImplementation(mockFetchMarketData);
         mockMarketsRateLimit.limit.mockResolvedValue({
             success: true,
             limit: 60,
@@ -208,7 +209,7 @@ describe('api/markets', () => {
 });
 
 // API route `/api/markets`
-// codes 
+// codes
 //
 // 200 - Success ok
 // /400 - Bad Request

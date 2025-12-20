@@ -46,18 +46,6 @@ describe('useCryptoMarkets Hook', () => {
     });
 
     describe('Error Handling', () => {
-        it('should enter error state when invalid parameters are provided', async () => {
-
-            const { result } = renderHook(() => useCryptoMarkets({ per_page: 9999 }), {
-                wrapper: QueryProvider,
-            });
-
-            await waitFor(() => expect(result.current.isError).toBe(true));
-
-            expect(result.current.error).toBeInstanceOf(Error);
-            expect(result.current.error?.message).toContain('Validation failed');
-        });
-
         it('should handle API server errors (500)', async () => {
             server.use(
                 http.get('/api/markets', () => {

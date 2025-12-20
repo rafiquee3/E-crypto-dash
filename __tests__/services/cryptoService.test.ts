@@ -1,12 +1,12 @@
-const { fetchMarketData } = require('@/services/cryptoService');
+import { CoinGeckoAdapter } from '@/adapters/adapters/CoinGeckoAdapter';
 const { rest, http, HttpResponse } = require('msw');
 import { marketDataMock } from '@/mocks/data/marketDataMock';
 import { server } from '@/mocks/node';
 
 const Request = global.Request;
+const adapter = new CoinGeckoAdapter(process.env.COINGECKO_API_KEY_SECRET!);
 
 describe('fetchMarketData', () => {
-
     it('should correctly build the URL with default and custom parameters', async () => {
         server.use(
             http.get('https://api.coingecko.com/api/v3/coins/markets', ({ request }: { request: Request }) => {
@@ -18,11 +18,11 @@ describe('fetchMarketData', () => {
                 expect(url.searchParams.get('price_change_percentage')).toBe('1h,24h,7d');
                 expect(request.headers.get('x-cg-demo-api-key')).toBe('TEST_API_KEY');
 
-                return HttpResponse.json({ result: 'ok' });
+                return HttpResponse.json(marketDataMock);
             })
         );
 
-        await fetchMarketData({
+        await adapter.fetchMarketData({
             vs_currency: 'eur',
             per_page: '10',
             order: 'volume_desc',
@@ -38,7 +38,7 @@ describe('fetchMarketData', () => {
             })
         );
 
-        const result = await fetchMarketData({ vs_currency: 'usd' });
+        const result = await adapter.fetchMarketData({ vs_currency: 'usd' });
         expect(result).toStrictEqual(marketDataMock);
     });
 
@@ -49,13 +49,13 @@ describe('fetchMarketData', () => {
             })
         );
 
-        const result = await fetchMarketData({ vs_currency: 'usd' });
+        const result = await adapter.fetchMarketData({ vs_currency: 'usd' });
         expect(result).toStrictEqual(marketDataMock);
     });
 
     it('should throw an error if vs_currency is missing', async () => {
-        // @ts-ignore 
-        await expect(fetchMarketData({})).rejects.toThrow(
+        // @ts-ignore
+        await expect(adapter.fetchMarketData({})).rejects.toThrow(
             "The required parameter 'vs_currency' is not available."
         );
     });
@@ -67,8 +67,8 @@ describe('fetchMarketData', () => {
             })
         );
 
-        await expect(fetchMarketData({ vs_currency: 'usd' })).rejects.toThrow(
-            'Failed to retrieve data from API.'
+        await expect(adapter.fetchMarketData({ vs_currency: 'usd' })).rejects.toThrow(
+            'Invalid CoinGecko API credentials'
         );
     });
 });

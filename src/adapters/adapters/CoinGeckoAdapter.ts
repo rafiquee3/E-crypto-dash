@@ -1,6 +1,9 @@
 import { CoinMarketData, CoinMarketDataListSchema, CoinMarketDataSchema, CoinMarketParams } from "@/types/yup";
 import { ICryptoDataProvider } from "./ICryptoDataProvider";
 
+interface CoinMarketParamsPartial extends Partial<CoinMarketParams> {
+  vs_currency: string;
+}
 export class CoinGeckoAdapter implements ICryptoDataProvider {
   private readonly apiKey: string;
   private readonly baseUrl = 'https://api.coingecko.com/api/v3';
@@ -13,6 +16,10 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
   }
 
   async fetchMarketData(params: CoinMarketParams): Promise<CoinMarketData[]> {
+    if (!params?.vs_currency) {
+      throw new Error("The required parameter 'vs_currency' is not available.");
+    }
+
     const queryParams = new URLSearchParams({
       vs_currency: params.vs_currency,
       per_page: String(params.per_page ?? 15),
@@ -34,8 +41,14 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
       throw this.handleApiError(response);
     }
 
-    const rawData = await response.json();
-
+    let rawData = await response.json();
+      if (typeof rawData === 'string') {
+            try {
+                rawData = JSON.parse(rawData);
+            } catch (err) {
+                console.warn('Failed to parse JSON string from response', err);
+            }
+        }
     return CoinMarketDataListSchema.validateSync(rawData, {
       abortEarly: false,
       strict: false,
