@@ -1,9 +1,6 @@
 import { CoinMarketData, CoinMarketDataListSchema, CoinMarketDataSchema, CoinMarketParams, GlobalDataSchema, GlobalData } from "@/types/yup";
 import { ICryptoDataProvider } from "./ICryptoDataProvider";
 
-interface CoinMarketParamsPartial extends Partial<CoinMarketParams> {
-  vs_currency: string;
-}
 export class CoinGeckoAdapter implements ICryptoDataProvider {
   private readonly apiKey: string;
   private readonly baseUrl = 'https://api.coingecko.com/api/v3';
