@@ -5,8 +5,6 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { unstable_cache } from 'next/cache';
 
-const adapter = new CoinGeckoAdapter(process.env.COINGECKO_API_KEY_SECRET!);
-
 // Unstable cache also caches the result of expensive validation with Yup.
 const getValidatedMarkets = unstable_cache(
   async (params) => {

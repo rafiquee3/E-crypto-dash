@@ -1,6 +1,6 @@
-import { fetchMarketData } from "@/services/cryptoService"
-import { CoinMarketData, CoinMarketParams } from "@/types/yup"
+import { CoinMarketData, CoinMarketParams, GlobalData } from "@/types/yup"
 
 export interface ICryptoDataProvider {
-    fetchMarketData(params: CoinMarketParams): Promise<CoinMarketData[]>
+    fetchMarketData(params: CoinMarketParams): Promise<CoinMarketData[]>;
+    fetchGlobalData(currency: string): Promise<GlobalData>;
 }

@@ -1,4 +1,4 @@
-import { CoinMarketData, CoinMarketDataListSchema, CoinMarketDataSchema, CoinMarketParams } from "@/types/yup";
+import { CoinMarketData, CoinMarketDataListSchema, CoinMarketDataSchema, CoinMarketParams, GlobalDataSchema, GlobalData } from "@/types/yup";
 import { ICryptoDataProvider } from "./ICryptoDataProvider";
 
 interface CoinMarketParamsPartial extends Partial<CoinMarketParams> {
@@ -55,7 +55,29 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
     }) as CoinMarketData[];
   }
 
-    private handleApiError(response: Response): Error {
+  async fetchGlobalData(currency: string): Promise<GlobalData> {
+    const response = await fetch(`${this.baseUrl}/global`, {
+      headers: {
+        'x-cg-demo-api-key': this.apiKey,
+        'Content-Type': 'application/json',
+      },
+      next: { revalidate: 60 }
+    });
+
+    if (!response.ok) {
+      throw this.handleApiError(response);
+    }
+
+    const rawData = await response.json();
+    const data = rawData.data;
+
+    return GlobalDataSchema(currency).validateSync(data, {
+      abortEarly: false,
+      strict: false,
+    }) as GlobalData;
+  }
+
+  private handleApiError(response: Response): Error {
     const errorMessages: Record<number, string> = {
       401: 'Invalid CoinGecko API credentials',
       403: 'Access forbidden',

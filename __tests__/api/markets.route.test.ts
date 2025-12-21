@@ -12,6 +12,9 @@ jest.mock('@/lib/rateLimit', () => ({
 }));
 
 jest.mock("@/adapters/adapters/CoinGeckoAdapter");
+jest.mock("next/cache", () => ({
+    unstable_cache: (fn: any) => fn,
+}));
 
 const mockMarketsRateLimit = marketsRateLimit as jest.Mocked<typeof marketsRateLimit>;
 const mockGetClientIdentifier = getClientIdentifier as jest.MockedFunction<typeof getClientIdentifier>;

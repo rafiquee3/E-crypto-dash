@@ -109,3 +109,44 @@ export const CoinsMarketParamsSchema = yup.object({
 }).noUnknown(true, 'Unknown object keys'); // Reject unknown object keys
 
 export interface CoinMarketParams extends yup.InferType<typeof CoinsMarketParamsSchema> {}
+
+export interface GlobalData {
+  total_market_cap: Record<string, number>;
+  total_volume: Record<string, number>;
+  market_cap_percentage: {
+    btc: number;
+    eth: number;
+    [key: string]: number;
+  };
+  market_cap_change_percentage_24h_usd: number;
+}
+
+export const GlobalDataSchema = (currency: string) =>
+  yup.object({
+    total_market_cap: yup.object({
+      [currency]: yup.number().required(`Price in ${currency} is required`)
+    }).required(),
+    total_volume: yup.object({
+      [currency]: yup.number().required(`Volume in ${currency} is required`)
+    }).required(),
+    market_cap_percentage: yup.object({
+      btc: yup.number().required(),
+      eth: yup.number().required(),
+    }).required(),
+    market_cap_change_percentage_24h_usd: yup.number().required(),
+  }).noUnknown();
+
+export const VsCurrencySchema = yup.object({
+  currency: yup
+    .string()
+    .lowercase() // Converts "USD" to "usd" automatically
+    .trim()
+    .required('Currency is required')
+    .oneOf(
+      [...currencies],
+      ({ values }) => `Unsupported currency. Please use one of: ${values}`
+    )
+    .default('usd'),
+}).noUnknown();
+
+export interface GlobalDataParams extends yup.InferType<typeof VsCurrencySchema> {}

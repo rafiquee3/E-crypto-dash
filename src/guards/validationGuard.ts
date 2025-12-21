@@ -1,6 +1,7 @@
-import { CoinMarketParams, CoinsMarketParamsSchema } from "@/types/yup";
+import { CoinMarketParams, CoinsMarketParamsSchema, VsCurrencySchema } from "@/types/yup";
 import { NextResponse } from "next/server";
 import { ValidationError } from "yup";
+import { GlobalDataParams } from "@/types/yup";
 
 export type GuardResult<T> =
 | {success: true, data: T}
@@ -11,6 +12,37 @@ export async function validateMarketParams(searchParams: URLSearchParams): Promi
     const rawParams = Object.fromEntries(searchParams);
 
     const validatedData = await CoinsMarketParamsSchema.validate(rawParams, {
+      abortEarly: false,
+      strict: false,
+    });
+
+    return { success: true, data: validatedData };
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      return {
+          success: false,
+          response: NextResponse.json(
+            { error: 'Invalid parameters', details: error.errors },
+            { status: 400 }
+          ),
+        };
+      }
+
+      return {
+        success: false,
+        response: NextResponse.json(
+          { error: 'Validation error' },
+          { status: 400 }
+        ),
+      };
+    }
+}
+
+export async function validateGlobalParams(searchParams: URLSearchParams): Promise<GuardResult<GlobalDataParams>> {
+  try {
+    const rawParams = Object.fromEntries(searchParams);
+
+    const validatedData = await VsCurrencySchema.validate(rawParams, {
       abortEarly: false,
       strict: false,
     });
