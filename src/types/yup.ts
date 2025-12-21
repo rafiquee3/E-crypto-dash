@@ -139,7 +139,7 @@ export const GlobalDataSchema = (currency: string) =>
 export const VsCurrencySchema = yup.object({
   currency: yup
     .string()
-    .lowercase() // Converts "USD" to "usd" automatically
+    .lowercase()
     .trim()
     .required('Currency is required')
     .oneOf(

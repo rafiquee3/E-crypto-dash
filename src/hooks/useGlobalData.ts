@@ -12,7 +12,7 @@ export function useGlobalData() {
     const queryFn = async () => {
         const params = { currency };
         const urlParams = new URLSearchParams(params).toString();
-        const url = `/api/market/global?${urlParams}`;
+        const url = `/api/markets/global?${urlParams}`;
         const response = await fetch(url);
 
         if (!response.ok) {

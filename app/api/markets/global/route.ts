@@ -7,6 +7,7 @@ import { unstable_cache } from 'next/cache';
 
 const getValidatedGlobalData = unstable_cache(
   async (currency: string) => {
+    console.log('[CACHE MISS]: Fetching Global Data from CoinGecko and validating with Yup...');
      const adapter = new CoinGeckoAdapter(process.env.COINGECKO_API_KEY_SECRET!);
      return await adapter.fetchGlobalData(currency);
   },
@@ -36,9 +37,9 @@ export async function GET(req: Request) {
         const duration = Date.now() - startTime;
 
         if (duration < 10) {
-            console.log(`[GLOBAL CACHE HIT]: Response served in ${duration}ms`);
+            console.log(`[GLOBAL CACHE HIT - Global]: Response served in ${duration}ms`);
         } else {
-            console.log(`[GLOBAL DATA FRESH]: Request completed in ${duration}ms`);
+            console.log(`[GLOBAL DATA FRESH - Global]: Request completed in ${duration}ms`);
         }
 
         const dataString = JSON.stringify(data);

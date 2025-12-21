@@ -32,13 +32,13 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      > 
+      >
         <ErrorBoundary fallback={<ErrorFallback />}>
           <ReduxProvider>
-            <Header/>
             <MswProvider>
               <QueryProvider>
-                  {children}   
+              <Header/>
+                  {children}
               </QueryProvider>
             </MswProvider>
           </ReduxProvider>

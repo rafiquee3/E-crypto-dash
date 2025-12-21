@@ -53,6 +53,7 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
   }
 
   async fetchGlobalData(currency: string): Promise<GlobalData> {
+    console.log('curr', currency)
     const response = await fetch(`${this.baseUrl}/global`, {
       headers: {
         'x-cg-demo-api-key': this.apiKey,

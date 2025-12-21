@@ -7,28 +7,28 @@ import { AssetListItem } from "./AssetListItem";
 import { setCurrency } from "../store/uiSlice";
 
 export function AssetList() {
-    const currency = useAppSelector((state: RootState) => state.currency);
+    const currency = useAppSelector((state: RootState) => state.ui.currency);
     const [shouldThrow, setShouldThrow] = useState(false);
     const dispatch = useAppDispatch();
-    const { 
-        data,           
-        isLoading,      
-        isError,        
+    const {
+        data,
+        isLoading,
+        isError,
         error,          // object
-        isFetching,     
+        isFetching,
         refetch,        // refresh data
-        status,         
-        isSuccess,      
-    } = useCryptoMarkets({ 
-        vs_currency: currency, 
+        status,
+        isSuccess,
+    } = useCryptoMarkets({
+        vs_currency: currency,
         per_page: '15',
-        page: '2' 
+        page: '2'
     });
- 
+
     if (isLoading) {
         return <div>Loading...</div>
     }
-    
+
     if (isError) {
         return (
             <div>
