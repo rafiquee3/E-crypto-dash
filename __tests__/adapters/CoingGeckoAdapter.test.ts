@@ -2,6 +2,7 @@ import { CoinGeckoAdapter } from '@/adapters/adapters/CoinGeckoAdapter';
 const { rest, http, HttpResponse } = require('msw');
 import { marketDataMock } from '@/mocks/data/marketDataMock';
 import { server } from '@/mocks/node';
+import { globalDataMock } from '@/mocks/data/marketDataMock';
 
 const Request = global.Request;
 const adapter = new CoinGeckoAdapter(process.env.COINGECKO_API_KEY_SECRET!);
@@ -70,5 +71,57 @@ describe('fetchMarketData', () => {
         await expect(adapter.fetchMarketData({ vs_currency: 'usd' })).rejects.toThrow(
             'Invalid CoinGecko API credentials'
         );
+    });
+});
+
+describe('fetchGlobalData', () => {
+    it('should correctly fetch and validate global data', async () => {
+        server.use(
+            http.get('https://api.coingecko.com/api/v3/global', () => {
+                return HttpResponse.json(globalDataMock);
+            })
+        );
+
+        const result = await adapter.fetchGlobalData('usd');
+        expect(result).toStrictEqual(globalDataMock.data);
+    });
+
+    it('should throw validation error if global data is missing required fields', async () => {
+        const invalidGlobalDataMock = {
+            data: {
+                total_market_cap: { usd: 2500000000000 },
+                // missing total_volume
+                market_cap_percentage: { btc: 50.1, eth: 17.5 },
+                market_cap_change_percentage_24h_usd: -1.2
+            }
+        };
+
+        server.use(
+            http.get('https://api.coingecko.com/api/v3/global', () => {
+                return HttpResponse.json(invalidGlobalDataMock);
+            })
+        );
+
+        await expect(adapter.fetchGlobalData('usd')).rejects.toThrow();
+    });
+
+    it('should throw Rate limit exceeded error for 429 status', async () => {
+        server.use(
+            http.get('https://api.coingecko.com/api/v3/global', () => {
+                return new HttpResponse(null, { status: 429 });
+            })
+        );
+
+        await expect(adapter.fetchGlobalData('usd')).rejects.toThrow('Rate limit exceeded');
+    });
+
+    it('should throw Invalid credentials error for 401 status', async () => {
+        server.use(
+            http.get('https://api.coingecko.com/api/v3/global', () => {
+                return new HttpResponse(null, { status: 401 });
+            })
+        );
+
+        await expect(adapter.fetchGlobalData('usd')).rejects.toThrow('Invalid CoinGecko API credentials');
     });
 });

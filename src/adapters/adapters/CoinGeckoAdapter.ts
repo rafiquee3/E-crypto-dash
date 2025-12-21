@@ -53,7 +53,6 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
   }
 
   async fetchGlobalData(currency: string): Promise<GlobalData> {
-    console.log('curr', currency)
     const response = await fetch(`${this.baseUrl}/global`, {
       headers: {
         'x-cg-demo-api-key': this.apiKey,
@@ -66,7 +65,15 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
       throw this.handleApiError(response);
     }
 
-    const rawData = await response.json();
+    let rawData = await response.json();
+    if (typeof rawData === 'string') {
+          try {
+              rawData = JSON.parse(rawData);
+          } catch (err) {
+              console.warn('Failed to parse JSON string from response', err);
+          }
+      }
+
     const data = rawData.data;
 
     return GlobalDataSchema(currency).validateSync(data, {
