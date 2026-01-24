@@ -5,14 +5,13 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { unstable_cache } from 'next/cache';
 
-// 1. Define the base fetching function
 const fetchMarketsData = async (params: any) => {
   console.log('[CACHE MISS]: Fetching from CoinGecko for params:', params);
   const adapter = new CoinGeckoAdapter(process.env.COINGECKO_API_KEY_SECRET!);
   return await adapter.fetchMarketData(params);
 };
 
-// 2. Wrap it with unstable_cache.
+// Wrap it with unstable_cache.
 // We include the params as the second argument to ensure uniqueness.
 const getValidatedMarkets = (params: any) => {
   return unstable_cache(
