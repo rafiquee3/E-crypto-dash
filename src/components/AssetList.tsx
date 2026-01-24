@@ -21,8 +21,8 @@ export function AssetList() {
         isSuccess,
     } = useCryptoMarkets({
         vs_currency: currency,
-        per_page: '15',
-        page: '2'
+        per_page: '10',
+        page: '2    '
     });
 
     if (isLoading) {

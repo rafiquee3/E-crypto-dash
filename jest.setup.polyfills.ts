@@ -99,9 +99,14 @@ if (typeof (global as any).TextEncoder === 'undefined') {
 
 if (typeof (global as any).TextDecoder === 'undefined') {
   class PolyTextDecoder {
-    decode(input: ArrayBuffer | Uint8Array, encoding = 'utf-8'): string {
+    private encoding: BufferEncoding;
+    constructor(encoding: BufferEncoding = 'utf-8') {
+      this.encoding = encoding;
+    }
+    decode(input?: ArrayBuffer | Uint8Array): string {
+      if (!input) return '';
       const u8 = input instanceof ArrayBuffer ? new Uint8Array(input) : input as Uint8Array;
-      return Buffer.from(u8).toString(encoding);
+      return Buffer.from(u8).toString(this.encoding);
     }
   }
   (global as any).TextDecoder = PolyTextDecoder as any;

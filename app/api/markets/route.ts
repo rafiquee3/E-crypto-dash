@@ -5,17 +5,22 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { unstable_cache } from 'next/cache';
 
-// Unstable cache also caches the result of expensive validation with Yup.
-const getValidatedMarkets = unstable_cache(
-  async (params) => {
-     console.log('[CACHE MISS]: Fetching from CoinGecko and validating with Yup...');
-     const adapter = new CoinGeckoAdapter(process.env.COINGECKO_API_KEY_SECRET!);
+// 1. Define the base fetching function
+const fetchMarketsData = async (params: any) => {
+  console.log('[CACHE MISS]: Fetching from CoinGecko for params:', params);
+  const adapter = new CoinGeckoAdapter(process.env.COINGECKO_API_KEY_SECRET!);
+  return await adapter.fetchMarketData(params);
+};
 
-     return await adapter.fetchMarketData(params);
-  },
-  ['markets-cache-key'],
-  { revalidate: 60, tags: ['markets'] }
-);
+// 2. Wrap it with unstable_cache.
+// We include the params as the second argument to ensure uniqueness.
+const getValidatedMarkets = (params: any) => {
+  return unstable_cache(
+    () => fetchMarketsData(params),
+    ['markets-list', params.vs_currency, String(params.per_page), String(params.page), params.order],
+    { revalidate: 60, tags: ['markets'] }
+  )();
+};
 
 export async function GET(req: Request) {
     const rateLimitResult = await checkRateLimit(req);
