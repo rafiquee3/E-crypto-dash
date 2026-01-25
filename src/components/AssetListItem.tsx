@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 export function AssetListItem({marketData, currency}: {marketData: CoinMarketData, currency: string}) {
 const {
+        id,
         market_cap_rank,
         name,
         symbol,
@@ -19,7 +20,7 @@ const {
         <tr>
             <td>{market_cap_rank}</td>
             <td>
-                <Link href={`/dashboard/${name}`}>
+                <Link href={`/dashboard/${id}?price=${current_price}`}>
                     <div className="flex items-center">
                         <span>{name}-</span>
                         <span>{symbol}</span>

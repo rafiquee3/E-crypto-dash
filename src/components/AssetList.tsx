@@ -22,7 +22,7 @@ export function AssetList() {
     } = useCryptoMarkets({
         vs_currency: currency,
         per_page: '10',
-        page: '2'
+        page: '1'
     });
 
     if (isLoading) {
