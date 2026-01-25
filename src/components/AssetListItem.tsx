@@ -1,5 +1,6 @@
 import { CoinMarketData } from "../types/yup";
 import { formatCurrency, formatLargeNumber, formatPercentage } from "../utils/utils";
+import Link from 'next/link';
 
 export function AssetListItem({marketData, currency}: {marketData: CoinMarketData, currency: string}) {
 const {
@@ -15,13 +16,15 @@ const {
     } = marketData;
 
     return (
-        <tr>         
+        <tr>
             <td>{market_cap_rank}</td>
             <td>
-                <div className="flex items-center">
-                    <span>{name}</span>
-                    <span>{symbol}</span>
-                </div>
+                <Link href={`/dashboard/${name}`}>
+                    <div className="flex items-center">
+                        <span>{name}-</span>
+                        <span>{symbol}</span>
+                    </div>
+                </Link>
             </td>
             <td>{formatCurrency(current_price, currency)}</td>
             <td>{formatPercentage(price_change_percentage_1h_in_currency)}</td>
