@@ -23,14 +23,14 @@ export function GlobalStats() {
     const formatCurrency = (value: number) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
-            currency: currency,
+            currency: currency.code,
             notation: 'compact',
             maximumFractionDigits: 1,
         }).format(value);
     };
 
-    const marketCap = data.total_market_cap[currency];
-    const volume = data.total_volume[currency];
+    const marketCap = data.total_market_cap[currency.code];
+    const volume = data.total_volume[currency.code];
     const btcDominance = data.market_cap_percentage.btc;
     const ethDominance = data.market_cap_percentage.eth;
     const change24h = data.market_cap_change_percentage_24h_usd;

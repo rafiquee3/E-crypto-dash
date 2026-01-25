@@ -20,7 +20,7 @@ export function AssetList() {
         status,
         isSuccess,
     } = useCryptoMarkets({
-        vs_currency: currency,
+        vs_currency: currency.code,
         per_page: '10',
         page: '1'
     });
@@ -63,7 +63,7 @@ export function AssetList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(data => <AssetListItem key={data.id} marketData={data} currency={currency}/>)}
+                    {data.map(data => <AssetListItem key={data.id} marketData={data} currency={currency.code}/>)}
                 </tbody>
             </table>
         </div>

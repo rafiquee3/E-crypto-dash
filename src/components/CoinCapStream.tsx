@@ -1,7 +1,7 @@
 'use client';
 import { RootState } from "@/store/store";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
 export function CoinCapStream({coinId, initialPrice}: {coinId: string, initialPrice?: string}) {
@@ -50,7 +50,7 @@ export function CoinCapStream({coinId, initialPrice}: {coinId: string, initialPr
 
               setPrice(numericPrice.toLocaleString(undefined, {
                   style: 'currency',
-                  currency: currency.toUpperCase(),
+                  currency: currency.code.toUpperCase(),
               }));
 
 
@@ -79,11 +79,11 @@ export function CoinCapStream({coinId, initialPrice}: {coinId: string, initialPr
           }
         };
     }, [coinId]);
-    console.log('chart:', chartData);
+
     return (
       <div>
         <p>price: {price || 'loading data...'}</p>
-        <p>currency: {currency}</p>
+        <p>currency: {currency.code}</p>
         <div className="h-[200px] w-full mt-4">
           <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData}>
@@ -114,6 +114,5 @@ export function CoinCapStream({coinId, initialPrice}: {coinId: string, initialPr
           </ResponsiveContainer>
         </div>
       </div>
-    )
-
+    );
 }

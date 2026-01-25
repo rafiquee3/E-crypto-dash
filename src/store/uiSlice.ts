@@ -2,18 +2,24 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface UiState {
-  currency: string
+  currency: {
+    code: string;
+    exchangeRate: number;
+  }
 }
 
 const initialState: UiState = {
-  currency: 'usd',
-}
+  currency: {
+    code: 'usd',
+    exchangeRate: 1.0,
+  }
+};
 
 export const counterSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    setCurrency: (state, action: PayloadAction<string>) => {
+    setCurrency: (state, action: PayloadAction<{code: string, exchangeRate: number}>) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
