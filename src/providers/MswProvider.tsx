@@ -8,11 +8,14 @@ export function MswProvider({children}: {children: React.ReactNode;}) {
     if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
       const initMsw = async () => {
         const { worker } = await import('../mocks/browser');
-        await worker.start();
+        await worker.start({
+        onUnhandledRequest: 'bypass', // for Websocket CoinCap
+      });
         setIsReady(true);
       };
-      
-      initMsw();
+
+      //initMsw();
+      setIsReady(true);
     } else {
       setIsReady(true);
     }
