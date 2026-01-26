@@ -1,21 +1,22 @@
 'use client';
 import { RootState } from "@/store/store";
 import { useEffect, useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
 export function CoinCapStream({coinId, initialPrice}: {coinId: string, initialPrice?: string}) {
+    const [chartData, setChartData] = useState<{time: number, price: number}[]>([]);
+    const currency = useSelector((state: RootState) => state.ui.currency);
+
     const [price, setPrice] = useState<string | null>(() => {
       if (initialPrice) {
           return parseFloat(initialPrice).toLocaleString(undefined, {
-                style: 'currency', currency: 'USD'
+                style: 'currency', currency: currency.code
             });
         }
         return null;
     });
 
-    const [chartData, setChartData] = useState<{time: number, price: number}[]>([]);
-    const currency = useSelector((state: RootState) => state.ui.currency);
     const lastPriceRef = useRef<number | null>(null);
 
     useEffect(() => {
@@ -44,7 +45,7 @@ export function CoinCapStream({coinId, initialPrice}: {coinId: string, initialPr
             const data = JSON.parse(event.data);
 
             if (data[coinId]) {
-              const numericPrice = parseFloat(data[coinId]);
+              const numericPrice = parseFloat(data[coinId]) * currency.exchangeRate;
 
               lastPriceRef.current = numericPrice;
 
@@ -52,8 +53,6 @@ export function CoinCapStream({coinId, initialPrice}: {coinId: string, initialPr
                   style: 'currency',
                   currency: currency.code.toUpperCase(),
               }));
-
-
               }
           };
 
@@ -78,7 +77,7 @@ export function CoinCapStream({coinId, initialPrice}: {coinId: string, initialPr
               ws.close();
           }
         };
-    }, [coinId]);
+    }, [coinId, currency.code]);
 
     return (
       <div>
