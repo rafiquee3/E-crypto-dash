@@ -15,39 +15,34 @@ export const CoinMarketDataSchema = yup.object({
     price_change_percentage_7d_in_currency: yup.number().nullable().default(0),
 }).strict()
 
-export const CoinChartDataSchema = yup.object({
-    prices: yup.array()
+export const CoinDetailDataSchema = yup.object({
+  stats: yup.object({
+    price: yup.number()
+      .positive('Price must be a positive number')
+      .required('Price is required'),
+    marketCap: yup.number()
+      .positive('Market cap must be a positive number')
+      .required('Market cap is required'),
+    volume: yup.number()
+      .min(0, 'Volume cannot be negative')
+      .required('Volume is required'),
+    supply: yup.number()
+      .min(0, 'Circulating supply cannot be negative')
+      .required('Supply is required'),
+  }).required(),
+
+  chart: yup.array()
     .of(
       yup.array()
         .of(yup.number().required())
-        .min(2, 'Each data point must contain a Timestamp and a Price')
-        .max(2, 'Each data point cannot exceed 2 values')
+        .min(2, 'Each point must have timestamp and price')
+        .max(2, 'Each point cannot have more than 2 values')
     )
-    .required('Price array is required')
-    .min(1, 'Price array cannot be empty'),
+    .required('Chart data is required')
+    .min(1, 'Chart data cannot be empty'),
 });
 
-export interface CoinChartData extends yup.InferType<typeof CoinChartDataSchema> {}
-
-export const CoinDetailDataSechema = yup.object({
-   price: yup.number()
-    .positive('Price must be a positive number')
-    .required('Current price is required'),
-
-  marketCap: yup.number()
-    .positive('Market cap must be a positive number')
-    .required('Market cap is required'),
-
-  volume: yup.number()
-    .min(0, 'Volume cannot be negative')
-    .required('24h volume is required'),
-
-  supply: yup.number()
-    .min(0, 'Circulating supply cannot be negative')
-    .required('Circulating supply is required'),
-});
-
-export interface CoinDetailData extends yup.InferType<typeof CoinDetailDataSechema> {}
+export interface CoinDetailData extends yup.InferType<typeof CoinDetailDataSchema> {}
 
 export const CoinMarketDataListSchema = yup.array(CoinMarketDataSchema);
 

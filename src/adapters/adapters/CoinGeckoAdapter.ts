@@ -1,4 +1,4 @@
-import { CoinMarketData, CoinMarketDataListSchema, CoinMarketDataSchema, CoinMarketParams, GlobalDataSchema, GlobalData } from "@/types/yup";
+import { CoinMarketData, CoinMarketDataListSchema, CoinMarketDataSchema, CoinMarketParams, GlobalDataSchema, GlobalData, CoinDetailDataSchema, CoinDetailData } from "@/types/yup";
 import { ICryptoDataProvider } from "./ICryptoDataProvider";
 
 export class CoinGeckoAdapter implements ICryptoDataProvider {
@@ -81,6 +81,67 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
       strict: false,
     }) as GlobalData;
   }
+
+  async fetchCoinData(currency: string, coinId: string) {
+    const [marketRes, chartRes] = await Promise.all([
+      fetch(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false`, {
+      headers: {
+        'x-cg-demo-api-key': this.apiKey,
+        'Content-Type': 'application/json',
+      },
+      next: { revalidate: 60 }
+      }),
+      fetch(`${this.baseUrl}/${coinId}/market_chart?vs_currency=${currency}&days=1`, {
+      headers: {
+        'x-cg-demo-api-key': this.apiKey,
+        'Content-Type': 'application/json',
+      },
+      next: { revalidate: 60 }
+      })
+    ]);
+
+    if (!marketRes.ok) {
+      throw this.handleApiError(marketRes);
+    };
+
+    if (!chartRes.ok) {
+      throw this.handleApiError(chartRes);
+    };
+
+    let marketData = await marketRes.json();
+    let chartData = await chartRes.json();
+
+    if (typeof marketData === 'string') {
+        try {
+            marketData = JSON.parse(marketData);
+        } catch (err) {
+            console.warn('Failed to parse JSON string from response', err);
+        }
+    }
+
+    if (typeof chartData === 'string') {
+        try {
+            chartData = JSON.parse(chartData);
+        } catch (err) {
+            console.warn('Failed to parse JSON string from response', err);
+        }
+    }
+
+    const data = {
+      stats: {
+        price: marketData.market_data.current_price[currency],
+        marketCap: marketData.market_data.market_cap[currency],
+        volume: marketData.market_data.total_volume[currency],
+        supply: marketData.market_data.circulating_supply,
+      },
+      chart: chartData.prices
+    };
+
+    return CoinDetailDataSchema.validateSync(data, {
+      abortEarly: false,
+      strict: false,
+    }) as CoinDetailData;
+  };
 
   private handleApiError(response: Response): Error {
     const errorMessages: Record<number, string> = {
