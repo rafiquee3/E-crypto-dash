@@ -1,33 +1,41 @@
 'use client';
+import { useCoinData } from "@/hooks/useCoinData";
 import { RootState } from "@/store/store";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
-export function CoinCapStream({coinId, initialPrice}: {coinId: string, initialPrice?: string}) {
+export function CoinCapStream({coinId}: {coinId: string}) {
+    const {
+        data,
+        isLoading,
+        isError,
+        error,          // object
+        isFetching,
+        refetch,        // refresh data
+        status,
+        isSuccess,
+    } = useCoinData(coinId);
+
     const [chartData, setChartData] = useState<{time: number, price: number}[]>([]);
     const currency = useSelector((state: RootState) => state.ui.currency);
-
-    const [price, setPrice] = useState<string | null>(() => {
-      if (initialPrice) {
-          return parseFloat(initialPrice).toLocaleString(undefined, {
-                style: 'currency', currency: currency.code
-            });
-        }
-        return null;
-    });
-
+    const [price, setPrice] = useState<string | null>(null);
     const lastPriceRef = useRef<number | null>(null);
 
     useEffect(() => {
         if (!coinId) return;
+        if (!data?.stats || !data?.chart) return;
+
         let ws: WebSocket | null = null;
         let timeoutId: NodeJS.Timeout;
 
-        if (initialPrice && lastPriceRef.current === null) {
-          lastPriceRef.current = parseFloat(initialPrice);
-          setChartData([{time: Date.now(), price: lastPriceRef.current as number}]);
-        }
+        lastPriceRef.current = data.stats.price;
+        setPrice(data.stats.price.toLocaleString(undefined, {
+          style: 'currency', currency: currency.code
+        }));
+
+        const history = data.chart.map((p: any) => ({ time: p[0], price: p[1] }));
+        setChartData([...history].slice(-20));
 
         const chartInterval = setInterval(() => {
             if (lastPriceRef.current !== null) {
@@ -77,7 +85,8 @@ export function CoinCapStream({coinId, initialPrice}: {coinId: string, initialPr
               ws.close();
           }
         };
-    }, [coinId, currency.code]);
+    }, [data]);
+    if (isLoading) return <p>Loading...</p>
 
     return (
       <div>
@@ -115,3 +124,13 @@ export function CoinCapStream({coinId, initialPrice}: {coinId: string, initialPr
       </div>
     );
 }
+
+/*   const data = {
+      stats: {
+        price: marketData.market_data.current_price[currency],
+        marketCap: marketData.market_data.market_cap[currency],
+        volume: marketData.market_data.total_volume[currency],
+        supply: marketData.market_data.circulating_supply,
+      },
+      chart: chartData.prices
+    }; */

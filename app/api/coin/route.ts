@@ -31,7 +31,7 @@ export async function GET(req: Request) {
 
     const currency = validationResult.data.currency;
     const coinId = validationResult.data.coinId;
-    console.log('curr', currency , 'id', coinId)
+
     try {
         const data = await getValidatedCoinData(currency, coinId);
         const duration = Date.now() - startTime;
