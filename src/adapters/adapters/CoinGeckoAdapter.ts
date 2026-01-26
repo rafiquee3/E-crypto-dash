@@ -84,14 +84,14 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
 
   async fetchCoinData(currency: string, coinId: string) {
     const [marketRes, chartRes] = await Promise.all([
-      fetch(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false`, {
+      fetch(`${this.baseUrl}/coins/${coinId}?localization=false&tickers=false`, {
       headers: {
         'x-cg-demo-api-key': this.apiKey,
         'Content-Type': 'application/json',
       },
       next: { revalidate: 60 }
       }),
-      fetch(`${this.baseUrl}/${coinId}/market_chart?vs_currency=${currency}&days=1`, {
+      fetch(`${this.baseUrl}/coins/${coinId}/market_chart?vs_currency=${currency}&days=1`, {
       headers: {
         'x-cg-demo-api-key': this.apiKey,
         'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
       next: { revalidate: 60 }
       })
     ]);
-
+     console.log('mark', marketRes , 'chart', chartRes)
     if (!marketRes.ok) {
       throw this.handleApiError(marketRes);
     };

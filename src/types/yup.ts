@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { currencies } from '../mocks/data/marketDataMock';
+import { ALL_COIN_IDS, currencies } from '../mocks/data/marketDataMock';
 
 export const CoinMarketDataSchema = yup.object({
     id: yup.string().required('Required value'),
@@ -179,3 +179,31 @@ export const VsCurrencySchema = yup.object({
 }).noUnknown();
 
 export interface GlobalDataParams extends yup.InferType<typeof VsCurrencySchema> {}
+
+export const CoinDetailParamsSchema = yup.object({
+  currency: yup
+    .string()
+    .lowercase()
+    .trim()
+    .required('Currency is required')
+    .oneOf(
+      [...currencies],
+      ({ values }) => `Unsupported currency. Please use one of: ${values}`
+    )
+    .default('usd'),
+  coinId: yup
+    .string()
+    .lowercase()
+    .trim()
+    .required('coinsId is required')
+    .oneOf(
+      [...ALL_COIN_IDS],
+      ({ values }) => `Unsupported id. Please use one of: ${values}`
+    )
+    .default('btc'),
+
+}).noUnknown();
+
+export interface CoinDetailParams extends yup.InferType<typeof CoinDetailParamsSchema> {}
+
+

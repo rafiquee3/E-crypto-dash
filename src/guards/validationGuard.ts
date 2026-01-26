@@ -1,4 +1,4 @@
-import { CoinMarketParams, CoinsMarketParamsSchema, VsCurrencySchema } from "@/types/yup";
+import { CoinDetailParamsSchema, CoinMarketParams, CoinsMarketParamsSchema, VsCurrencySchema, CoinDetailParams } from "@/types/yup";
 import { NextResponse } from "next/server";
 import { ValidationError } from "yup";
 import { GlobalDataParams } from "@/types/yup";
@@ -69,6 +69,37 @@ export async function validateGlobalParams(searchParams: URLSearchParams): Promi
     }
 }
 
+export async function validateDetailParams(searchParams: URLSearchParams): Promise<GuardResult<CoinDetailParams>> {
+  try {
+    const rawParams = Object.fromEntries(searchParams);
+
+    const validatedData = await CoinDetailParamsSchema.validate(rawParams, {
+      abortEarly: false,
+      strict: false,
+    });
+
+    return { success: true, data: validatedData };
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      return {
+          success: false,
+          response: NextResponse.json(
+            { error: 'Invalid parameters', details: error.errors },
+            { status: 400 }
+          ),
+        };
+      }
+
+      return {
+        success: false,
+        response: NextResponse.json(
+          { error: 'Validation error' },
+          { status: 400 }
+        ),
+      };
+    }
+}
+
 export function isCoinMarketParams(obj: unknown): obj is CoinMarketParams {
   if (typeof obj !== 'object' || obj === null) return false;
   const params = obj as Record<string, unknown>;
@@ -77,4 +108,4 @@ export function isCoinMarketParams(obj: unknown): obj is CoinMarketParams {
     typeof params.vs_currency === 'string' &&
     params.vs_currency.length > 0
   )
-}
+};

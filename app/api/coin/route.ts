@@ -1,0 +1,72 @@
+import { CoinGeckoAdapter } from "@/adapters/adapters/CoinGeckoAdapter";
+import { checkRateLimit } from "@/guards/rateLimitGuard";
+import { validateDetailParams } from "@/guards/validationGuard";
+import { NextResponse } from 'next/server';
+import crypto from 'crypto';
+import { unstable_cache } from 'next/cache';
+
+const getValidatedCoinData = unstable_cache(
+  async (currency: string, coinId: string) => {
+    console.log('[CACHE MISS]: Fetching Coin Data from CoinGecko and validating with Yup...');
+     const adapter = new CoinGeckoAdapter(process.env.COINGECKO_API_KEY_SECRET!);
+     return await adapter.fetchCoinData(currency, coinId);
+  },
+  ['coin-detail-data'],
+  { revalidate: 60, tags: ['coin-data'] }
+);
+
+export async function GET(req: Request) {
+    const rateLimitResult = await checkRateLimit(req);
+    const startTime = Date.now();
+    if (!rateLimitResult.success) {
+        return rateLimitResult.response;
+    }
+
+    const url = new URL(req.url);
+    const validationResult = await validateDetailParams(url.searchParams);
+
+    if (!validationResult.success) {
+        return validationResult.response;
+    }
+
+    const currency = validationResult.data.currency;
+    const coinId = validationResult.data.coinId;
+    console.log('curr', currency , 'id', coinId)
+    try {
+        const data = await getValidatedCoinData(currency, coinId);
+        const duration = Date.now() - startTime;
+
+        if (duration < 10) {
+            console.log(`[GLOBAL CACHE HIT - Global]: Response served in ${duration}ms`);
+        } else {
+            console.log(`[GLOBAL DATA FRESH - Global]: Request completed in ${duration}ms`);
+        }
+
+        const dataString = JSON.stringify(data);
+        const etag = crypto.createHash('md5').update(dataString).digest('hex');
+        const ifNoneMatch = req.headers.get('if-none-match');
+
+        if (ifNoneMatch === etag) {
+            return new Response(null, { status: 304 });
+        }
+
+        const response = NextResponse.json(data, {
+            status: 200,
+            headers: {
+                'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
+                'ETag': etag
+            }
+        });
+
+        response.headers.set('X-RateLimit-Limit', String(rateLimitResult.limit));
+        response.headers.set('X-RateLimit-Remaining', String(rateLimitResult.remaining));
+        response.headers.set('X-RateLimit-Reset', String(Math.ceil(rateLimitResult.reset / 1000)));
+        return response;
+    } catch (error: unknown) {
+        console.error('API Error:', error);
+        return NextResponse.json(
+        { error: 'Internal Server Error', message: 'An error occurred while processing your request.' },
+        { status: 500 }
+        );
+    }
+}
