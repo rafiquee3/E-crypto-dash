@@ -4,7 +4,7 @@ import { RootState } from "@/store/store";
 import { setCurrency } from "@/store/uiSlice";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function CurrencySelector() {
+export function CurrencySelector() {
   const currency = useSelector((state: RootState) => state.ui.currency);
   const dispatch = useDispatch();
   const handleCurrencyChange = async (newCode: string) => {

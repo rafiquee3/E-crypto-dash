@@ -1,4 +1,4 @@
-import CurrencySelector from './CurrencySelector';
+import { CurrencySelector } from './CurrencySelector';
 import { GlobalStats } from './GlobalStats';
 
 export function Header() {

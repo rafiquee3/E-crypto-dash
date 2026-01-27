@@ -14,11 +14,11 @@ interface State {
 
 export class ErrorBoundary extends Component<Props, State> {
     state: State = { hasError: false };
-    
+
     static getDerivedStateFromError(error: Error): State {
         return { hasError: true, error };
     }
-    
+
     componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
         console.error('Error caught by boundary:', error, errorInfo);
     }
@@ -26,7 +26,7 @@ export class ErrorBoundary extends Component<Props, State> {
     resetError = () => {
         this.setState({ hasError: false, error: undefined });
     };
-    
+
     render() {
         if (this.state.hasError) {
             const { fallback } = this.props;
@@ -36,7 +36,6 @@ export class ErrorBoundary extends Component<Props, State> {
             if (typeof fallback === 'function') {
                 return fallback({ error, resetError: this.resetError });
             }
-
 
             return fallback;
         }

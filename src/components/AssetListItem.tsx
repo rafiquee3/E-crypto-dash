@@ -20,7 +20,7 @@ const {
         <tr>
             <td>{market_cap_rank}</td>
             <td>
-                <Link href={`/dashboard/${id}?price=${current_price}`}>
+                <Link href={`/dashboard/${id}`}>
                     <div className="flex items-center">
                         <span>{name}-</span>
                         <span>{symbol}</span>
