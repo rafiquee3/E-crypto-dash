@@ -134,6 +134,11 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
         volume: marketData.market_data.total_volume[currency],
         supply: marketData.market_data.circulating_supply,
         change24h: marketData.market_data.price_change_percentage_24h,
+        high24h: marketData.market_data.high_24h[currency],
+        low24h: marketData.market_data.low_24h[currency],
+        ath: marketData.market_data.ath[currency],
+        athChange: marketData.market_data.ath_change_percentage[currency],
+        rank: marketData.market_cap_rank,
       },
       chart: chartData.prices
     };

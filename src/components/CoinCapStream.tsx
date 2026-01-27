@@ -89,29 +89,76 @@ export function CoinCapStream({coinId}: {coinId: string}) {
     if (isLoading) return <p>Loading...</p>
 
     return (
-      <div>
-        <div className={`text-[15px] ${data.stats.change24h >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{data.stats.change24h >= 0 ? '▲' : '▼'}{Math.abs(data.stats.change24h).toFixed(1)}% (24h)</div>
-        <p>price: {price || 'loading data...'}</p>
-        <p>currency: {currency.code}</p>
-        <div className="h-[200px] w-full mt-4">
-          <Chart width={'50%'} height={'100%'} chartData={chartData} currencyCode={currency.code}/>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <div className="md:col-span-1 space-y-6">
+          <div>
+              <h2 className="text-4xl font-bold tracking-tight text-white">
+                {price || '...'}
+              </h2>
+              <div className={`text-lg font-medium ${data.stats.change24h >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                {data.stats.change24h >= 0 ? '▲' : '▼'}{Math.abs(data.stats.change24h).toFixed(1)}%(24h)
+              </div>
+
+            <p className="text-gray-500 text-sm mt-1 uppercase tracking-wider font-medium">Currency ({currency.code})</p>
+          </div>
+
+          <div className="space-y-1 border-t border-gray-800 pt-6">
+            {[
+              { label: 'Market Cap Rank', value: data.stats.rank, isRank: true },
+              { label: 'Market Cap', value: data.stats.marketCap, isCurrency: true },
+              { label: '24h Trading Vol', value: data.stats.volume, isCurrency: true },
+              { label: '24h High', value: data.stats.high24h, isCurrency: true },
+              { label: '24h Low', value: data.stats.low24h, isCurrency: true },
+              { label: 'Circulating Supply', value: data.stats.supply, isCurrency: false },
+              { label: 'All-Time High', value: data.stats.ath, isCurrency: true },
+              { label: 'From ATH', value: data.stats.athChange, isPercentage: true },
+            ].map((stat) => (
+              <div key={stat.label} className="flex justify-between items-center py-3 border-b border-gray-800/50 group gap-4">
+                <span className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors truncate min-w-0">
+                  {stat.label}
+                </span>
+                <span className={`font-semibold truncate min-w-0 ${
+                  stat.isPercentage ? (stat.value < 0 ? 'text-red-500' : 'text-green-500') : 'text-gray-100'
+                }`}>
+                  {stat.isCurrency && stat.value.toLocaleString(undefined, {
+                    style: 'currency',
+                    currency: currency.code,
+                  })}
+                  {stat.isPercentage && `${stat.value.toFixed(1)}%`}
+                  {stat.isRank && `#${stat.value}`}
+                  {!stat.isCurrency && !stat.isPercentage && !stat.isRank && stat.value.toLocaleString(
+                    undefined, {
+                    style: 'currency',
+                    currency: currency.code,
+                  }
+                  )}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
-          <div className="h-[200px] w-full mt-4">
-          <Chart width={'50%'} height={'100%'} chartData={data.chart.map((p: any) => ({ time: p[0], price: p[1] }))} currencyCode={currency.code}/>
+
+        <div className="md:col-span-2 space-y-8">
+          <div className="bg-gray-900/40 rounded-2xl p-6 border border-gray-800/50">
+            <h3 className="text-gray-400 text-xs uppercase tracking-widest font-bold mb-4">Live Real-time Feed (1s)</h3>
+            <div className="h-[250px] w-full">
+              <Chart width={'100%'} height={'100%'} chartData={chartData} currencyCode={currency.code}/>
+            </div>
+          </div>
+
+          <div className="bg-gray-900/40 rounded-2xl p-6 border border-gray-800/50">
+            <h3 className="text-gray-400 text-xs uppercase tracking-widest font-bold mb-4">Historical Context (24h)</h3>
+            <div className="h-[250px] w-full">
+              <Chart
+                width={'100%'}
+                height={'100%'}
+                chartData={data.chart.map((p: any) => ({ time: p[0], price: p[1] }))}
+                currencyCode={currency.code}
+              />
+            </div>
+          </div>
         </div>
       </div>
     );
 }
-
-/*   const data = {
-      stats: {
-        price: marketData.market_data.current_price[currency],
-        marketCap: marketData.market_data.market_cap[currency],
-        volume: marketData.market_data.total_volume[currency],
-        supply: marketData.market_data.circulating_supply,
-        change24h:
-      },
-      chart: chartData.prices
-    }; */
-
-    // const trend24h = marketData.market_data.price_change_percentage_24h;

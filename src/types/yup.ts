@@ -31,6 +31,26 @@ export const CoinDetailDataSchema = yup.object({
       .required('Supply is required'),
     change24h: yup.number()
     .required('24h trend is required'),
+    rank: yup.number()
+    .integer('Rank must be an integer')
+    .positive('Rank must be a positive number')
+    .required('Market cap rank is required')
+    .nullable(),
+    high24h: yup.number()
+      .positive('Price must be positive')
+      .required('High 24h is required')
+      .nullable(),
+    low24h: yup.number()
+      .positive('Price must be positive')
+      .required('Low 24h is required')
+      .nullable(),
+    ath: yup.number()
+      .positive('ATH must be positive')
+      .required('ATH is required')
+      .nullable(),
+    athChange: yup.number()
+      .required('ATH change percentage is required')
+      .nullable(),
   }).required(),
 
   chart: yup.array()
