@@ -1,5 +1,6 @@
 import { CurrencySelector } from './CurrencySelector';
 import { GlobalStats } from './GlobalStats';
+import { Search } from './Search';
 
 export function Header() {
     return (
@@ -14,6 +15,10 @@ export function Header() {
 
                 <GlobalStats />
                 <CurrencySelector />
+            </div>
+
+            <div className="flex-1 max-w-md mx-8 hidden md:block">
+                <Search />
             </div>
 
             <div className="flex items-center gap-4">
