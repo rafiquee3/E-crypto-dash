@@ -99,7 +99,7 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
       next: { revalidate: 60 }
       })
     ]);
-     console.log('mark', marketRes , 'chart', chartRes)
+
     if (!marketRes.ok) {
       throw this.handleApiError(marketRes);
     };
@@ -133,6 +133,7 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
         marketCap: marketData.market_data.market_cap[currency],
         volume: marketData.market_data.total_volume[currency],
         supply: marketData.market_data.circulating_supply,
+        change24h: marketData.market_data.price_change_percentage_24h,
       },
       chart: chartData.prices
     };

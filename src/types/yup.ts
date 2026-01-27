@@ -29,6 +29,8 @@ export const CoinDetailDataSchema = yup.object({
     supply: yup.number()
       .min(0, 'Circulating supply cannot be negative')
       .required('Supply is required'),
+    change24h: yup.number()
+    .required('24h trend is required'),
   }).required(),
 
   chart: yup.array()

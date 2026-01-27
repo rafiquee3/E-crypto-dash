@@ -90,6 +90,7 @@ export function CoinCapStream({coinId}: {coinId: string}) {
 
     return (
       <div>
+        <div className={`text-[15px] ${data.stats.change24h >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{data.stats.change24h >= 0 ? '▲' : '▼'}{Math.abs(data.stats.change24h).toFixed(1)}% (24h)</div>
         <p>price: {price || 'loading data...'}</p>
         <p>currency: {currency.code}</p>
         <div className="h-[200px] w-full mt-4">
@@ -108,6 +109,9 @@ export function CoinCapStream({coinId}: {coinId: string}) {
         marketCap: marketData.market_data.market_cap[currency],
         volume: marketData.market_data.total_volume[currency],
         supply: marketData.market_data.circulating_supply,
+        change24h:
       },
       chart: chartData.prices
     }; */
+
+    // const trend24h = marketData.market_data.price_change_percentage_24h;
