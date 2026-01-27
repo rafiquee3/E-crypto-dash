@@ -1,4 +1,4 @@
-import { CoinDetailParamsSchema, CoinMarketParams, CoinsMarketParamsSchema, VsCurrencySchema, CoinDetailParams } from "@/types/yup";
+import { CoinDetailParamsSchema, CoinMarketParams, CoinsMarketParamsSchema, VsCurrencySchema, CoinDetailParams, SearchQuery, SearchQuerySchema } from "@/types/yup";
 import { NextResponse } from "next/server";
 import { ValidationError } from "yup";
 import { GlobalDataParams } from "@/types/yup";
@@ -109,3 +109,34 @@ export function isCoinMarketParams(obj: unknown): obj is CoinMarketParams {
     params.vs_currency.length > 0
   )
 };
+
+export async function validateSearchParams(searchParams: URLSearchParams): Promise<GuardResult<SearchQuery>> {
+  try {
+    const rawParams = Object.fromEntries(searchParams);
+
+    const validatedData = await SearchQuerySchema.validate(rawParams, {
+      abortEarly: false,
+      strict: false,
+    });
+
+    return { success: true, data: validatedData };
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      return {
+          success: false,
+          response: NextResponse.json(
+            { error: 'Invalid parameters', details: error.errors },
+            { status: 400 }
+          ),
+        };
+      }
+
+      return {
+        success: false,
+        response: NextResponse.json(
+          { error: 'Validation error' },
+          { status: 400 }
+        ),
+      };
+    }
+}

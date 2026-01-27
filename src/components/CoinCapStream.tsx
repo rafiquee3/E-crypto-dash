@@ -121,13 +121,13 @@ export function CoinCapStream({coinId}: {coinId: string}) {
                 <span className={`font-semibold truncate min-w-0 ${
                   stat.isPercentage ? (stat.value < 0 ? 'text-red-500' : 'text-green-500') : 'text-gray-100'
                 }`}>
-                  {stat.isCurrency && stat.value.toLocaleString(undefined, {
+                  {stat.isCurrency && stat.value?.toLocaleString(undefined, {
                     style: 'currency',
                     currency: currency.code,
                   })}
-                  {stat.isPercentage && `${stat.value.toFixed(1)}%`}
-                  {stat.isRank && `#${stat.value}`}
-                  {!stat.isCurrency && !stat.isPercentage && !stat.isRank && stat.value.toLocaleString(
+                  {stat.isPercentage && stat.value !== undefined && `${stat.value?.toFixed(1)}%`}
+                  {stat.isRank && stat.value !== undefined && `#${stat.value}`}
+                  {!stat.isCurrency && !stat.isPercentage && !stat.isRank && stat.value?.toLocaleString(
                     undefined, {
                     style: 'currency',
                     currency: currency.code,

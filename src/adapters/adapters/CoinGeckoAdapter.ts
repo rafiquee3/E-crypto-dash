@@ -149,6 +149,23 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
     }) as CoinDetailData;
   };
 
+  async search(query: string) {
+    const response = await fetch(`${this.baseUrl}/search?query=${query}`, {
+      headers: {
+        'x-cg-demo-api-key': this.apiKey,
+        'Content-Type': 'application/json',
+      },
+      next: { revalidate: 300 }
+    });
+
+    if (!response.ok) {
+      throw this.handleApiError(response);
+    }
+
+    const data = await response.json();
+    return data;
+  }
+
   private handleApiError(response: Response): Error {
     const errorMessages: Record<number, string> = {
       401: 'Invalid CoinGecko API credentials',

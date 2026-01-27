@@ -1,6 +1,6 @@
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
-export function Chart({width, height, chartData, currencyCode = 'USD'} : {width: number | `${number}%`, height: number | `${number}%`, chartData: {time: number, price: number}[], currencyCode?: string}) {
+export function Chart({width, height, chartData, currencyCode} : {width: number | `${number}%`, height: number | `${number}%`, chartData: {time: number, price: number}[], currencyCode: string}) {
   return (
     <ResponsiveContainer width={width} height={height}>
       <AreaChart data={chartData}>
