@@ -85,7 +85,7 @@ export async function validateDetailParams(searchParams: URLSearchParams): Promi
           success: false,
           response: NextResponse.json(
             { error: 'Invalid parameters', details: error.errors },
-            { status: 400 }
+            { status: 404 }
           ),
         };
       }

@@ -24,7 +24,7 @@ export async function GET(req: Request) {
 
     const url = new URL(req.url);
     const validationResult = await validateDetailParams(url.searchParams);
-
+    console.log('res' , validationResult);
     if (!validationResult.success) {
         return validationResult.response;
     }

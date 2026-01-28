@@ -4,6 +4,7 @@ import { RootState } from "@/store/store";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Chart } from "./Chart";
+import { notFound } from "next/navigation";
 
 export function CoinCapStream({coinId}: {coinId: string}) {
     const {
@@ -87,6 +88,7 @@ export function CoinCapStream({coinId}: {coinId: string}) {
         };
     }, [data]);
     if (isLoading) return <p>Loading...</p>
+    if (!data) notFound();
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
