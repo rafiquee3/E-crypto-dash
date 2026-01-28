@@ -255,7 +255,7 @@ export const currencies =
     };
 
     export const ALL_COIN_IDS = [
-        "bitcoin", "ethereum", "tether", "binancecoin", "solana", "ripple", "usd-coin", "staked-ether", "dogecoin", "cardano",
+        "bitcoin", "ripple-usd", "ethereum", "tether", "binancecoin", "solana", "ripple", "usd-coin", "staked-ether", "dogecoin", "cardano",
         "tron", "avalanche-2", "shiba-inu", "polkadot", "chainlink", "bitcoin-cash", "near", "wrapped-bitcoin", "polygon-ecosystem", "litecoin",
         "internet-computer", "uniswap", "pepe", "dai", "ethereum-classic", "render-token", "kaspa", "stellar", "aptos", "monero",
         "arbitrum", "hedera-hashgraph", "cosmos", "okb", "filecoin", "stacks", "lido-dao", "cronos", "immutable-x", "theta-token",
