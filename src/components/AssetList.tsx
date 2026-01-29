@@ -8,8 +8,7 @@ import { setCurrency } from "../store/uiSlice";
 
 export function AssetList() {
     const currency = useAppSelector((state: RootState) => state.ui.currency);
-    const [shouldThrow, setShouldThrow] = useState(false);
-    const dispatch = useAppDispatch();
+
     const {
         data,
         isLoading,
@@ -42,27 +41,22 @@ export function AssetList() {
         return <div>No data</div>;
     }
 
-    if (shouldThrow) {
-        throw new Error('Error test from component');
-    }
-
     return (
-        <div>
-            <button onClick={() => setShouldThrow(true)}>click to crash</button>
-            <table>
+        <div className="overflow-x-auto rounded-xl border border-gray-800 bg-gray-950/50 backdrop-blur-sm mb-20 mt-30">
+            <table className="w-full text-left border-collapse">
                 <thead>
-                    <tr>
-                       <th>#</th>
-                        <th>Coin</th>
-                        <th>Price</th>
-                        <th>1h</th>
-                        <th>24h</th>
-                        <th>Volume</th>
-                        <th>Market Cap</th>
-                        <th>Last 7 Days</th>
+                    <tr className="border-b border-gray-800 text-gray-400 text-xs uppercase tracking-wider font-semibold bg-gray-800/30">
+                       <th className="px-6 py-4 font-medium">#</th>
+                        <th className="px-6 py-4 font-medium">Coin</th>
+                        <th className="px-6 py-4 font-medium text-right">Price</th>
+                        <th className="px-6 py-4 font-medium text-right">1h</th>
+                        <th className="px-6 py-4 font-medium text-right">24h</th>
+                        <th className="px-6 py-4 font-medium text-right">Volume</th>
+                        <th className="px-6 py-4 font-medium text-right">Market Cap</th>
+                        <th className="px-6 py-4 font-medium text-right pr-8">Last 7 Days</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-gray-800/50">
                     {data.map(data => <AssetListItem key={data.id} marketData={data} currency={currency.code}/>)}
                 </tbody>
             </table>

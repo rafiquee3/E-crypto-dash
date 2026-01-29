@@ -17,22 +17,40 @@ const {
     } = marketData;
 
     return (
-        <tr>
-            <td>{market_cap_rank}</td>
-            <td>
-                <Link href={`/dashboard/${id}`}>
-                    <div className="flex items-center">
-                        <span>{name}-</span>
-                        <span>{symbol}</span>
+        <tr className="hover:bg-gray-800/30 transition-colors group">
+            <td className="px-6 py-4 text-gray-500 font-mono text-sm bg-gray-800/30 text-center">{market_cap_rank}</td>
+            <td className="px-6 py-4 bg-gray-800/50">
+                <Link href={`/dashboard/${id}`} className="flex items-center gap-3">
+                    <div className="flex flex-col">
+                        <span className="text-white font-semibold group-hover:text-indigo-400 transition-colors">{name}</span>
+                        <span className="text-gray-500 text-xs uppercase font-medium">{symbol}</span>
                     </div>
                 </Link>
             </td>
-            <td>{formatCurrency(current_price, currency)}</td>
-            <td>{formatPercentage(price_change_percentage_1h_in_currency)}</td>
-            <td>{formatPercentage(price_change_percentage_24h_in_currency)}</td>
-            <td>{formatLargeNumber(total_volume)}</td>
-            <td>{formatLargeNumber(market_cap)}</td>
-            <td>{formatPercentage(price_change_percentage_7d_in_currency)}</td>
+            <td className="px-6 py-4 text-right font-medium text-gray-100">
+                {formatCurrency(current_price, currency)}
+            </td>
+            <td className={`px-6 py-4 text-right font-medium ${
+                (price_change_percentage_1h_in_currency ?? 0) >= 0 ? 'text-emerald-400' : 'text-rose-400'
+            }`}>
+                {formatPercentage(price_change_percentage_1h_in_currency)}
+            </td>
+            <td className={`px-6 py-4 text-right font-medium ${
+                (price_change_percentage_24h_in_currency ?? 0) >= 0 ? 'text-emerald-400' : 'text-rose-400'
+            }`}>
+                {formatPercentage(price_change_percentage_24h_in_currency)}
+            </td>
+            <td className="px-6 py-4 text-right text-gray-300">
+                {formatLargeNumber(total_volume)}
+            </td>
+            <td className="px-6 py-4 text-right text-gray-300">
+                {formatLargeNumber(market_cap)}
+            </td>
+            <td className={`px-6 py-4 text-right pr-8 font-medium ${
+                (price_change_percentage_7d_in_currency ?? 0) >= 0 ? 'text-emerald-400' : 'text-rose-400'
+            }`}>
+                {formatPercentage(price_change_percentage_7d_in_currency)}
+            </td>
         </tr>
     )
 }
