@@ -11,7 +11,7 @@ export function AssetList() {
     const router = useRouter();
 
     const currentPage = parseInt(searchParams.get('page') || '1', 10);
-    const PER_PAGE = 10;
+    const perPage = parseInt(searchParams.get('perPage') || '10', 10);
 
     const {
         data,
@@ -24,7 +24,7 @@ export function AssetList() {
         isSuccess,
     } = useCryptoMarkets({
         vs_currency: currency.code,
-        per_page: String(PER_PAGE),
+        per_page: String(perPage),
         page: String(currentPage)
     });
 
@@ -34,23 +34,31 @@ export function AssetList() {
         router.push(`?${params.toString()}`, { scroll: false });
     };
 
+    const handlePerPageChange = (newPerPage: string) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('perPage', newPerPage);
+        params.set('page', '1');
+        router.push(`?${params.toString()}`, { scroll: false });
+    };
+
     if (isLoading) {
         return (
-            <div className="flex flex-col items-center justify-center py-20 bg-gray-900/20 rounded-xl border border-gray-800 animate-pulse">
+            <div className="flex flex-col items-center justify-center py-20 bg-gray-900/20 rounded-xl border border-gray-800 animate-pulse text-center">
                 <div className="text-gray-500 font-medium">Loading markets...</div>
+                <div className="text-gray-600 text-xs mt-2 italic">Fetching real-time data from CoinGecko</div>
             </div>
         )
     }
 
     if (isError) {
         return (
-            <div className="p-8 bg-red-900/10 border border-red-900/20 rounded-xl text-center">
-                <p className="text-red-400 mb-4 font-medium">Error loading assets</p>
+            <div className="p-8 bg-rose-900/10 border border-rose-900/20 rounded-xl text-center">
+                <p className="text-rose-400 mb-4 font-medium">Failed to load market data</p>
                 <button
                   onClick={() => refetch()}
-                  className="px-6 py-2 bg-red-900/20 hover:bg-red-900/30 text-red-300 rounded-lg transition-colors border border-red-900/30"
+                  className="px-6 py-2 bg-rose-900/20 hover:bg-rose-900/30 text-rose-300 rounded-lg transition-colors border border-rose-900/30 font-bold uppercase text-xs tracking-widest"
                 >
-                  Retry
+                  Retry Connection
                 </button>
             </div>
         );
@@ -86,24 +94,39 @@ export function AssetList() {
                 </div>
             </div>
 
-            <div className="flex items-center justify-between px-2">
-                <div className="text-gray-500 font-medium tracking-wide">
-                    Page <span className="text-indigo-400">{currentPage}</span>
+            <div className="flex flex-col sm:flex-row items-center justify-between px-2 gap-4">
+                <div className="flex items-center gap-6">
+                    <div className="text-gray-500 text-[12px] uppercase font-bold tracking-wider">
+                        Page <span className="text-indigo-400 font-bold">{currentPage}</span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                        <span className="text-gray-600 text-[12px] uppercase font-bold tracking-wider">Show:</span>
+                        <select
+                            value={perPage}
+                            onChange={(e) => handlePerPageChange(e.target.value)}
+                            className="bg-gray-900 border border-gray-800 text-gray-300 text-xs font-bold rounded-md px-2 py-1.5 focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
+                        >
+                            {[10, 20, 30, 40, 50, 60, 70, 80].map(val => (
+                                <option key={val} value={val}>{val}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex gap-2 w-full sm:w-auto">
                     <button
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1 || isFetching}
-                        className="cursor-pointer px-4 py-3 rounded-md bg-gray-900 border border-gray-800 text-gray-400 hover:text-white hover:border-indigo-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-xs font-bold uppercase tracking-wider flex items-center gap-2 group"
+                        className="cursor-pointer flex-1 sm:flex-none px-4 py-3 rounded-md bg-gray-900 border border-gray-800 text-gray-400 hover:text-white hover:border-indigo-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 group"
                     >
                         <span className="group-hover:-translate-x-1 transition-transform">←</span> Prev
                     </button>
 
                     <button
                         onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={isFetching || (hasData && data.length < PER_PAGE)}
-                        className="cursor-pointer px-4 py-3 rounded-md bg-gray-900 border border-gray-800 text-gray-400 hover:text-white hover:border-indigo-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-xs font-bold uppercase tracking-wider flex items-center gap-2 group"
+                        disabled={isFetching || (hasData && data.length < perPage)}
+                        className="cursor-pointer flex-1 sm:flex-none px-4 py-3 rounded-md bg-gray-900 border border-gray-800 text-gray-400 hover:text-white hover:border-indigo-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 group"
                     >
                         Next <span className="group-hover:translate-x-1 transition-transform">→</span>
                     </button>
