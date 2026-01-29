@@ -17,7 +17,7 @@ export function useCoinData(coinId: string) {
 
         if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.error || 'Server error while fetching data.');
+            throw new Error(`Error ${response.status}: ${errorData.message || errorData.error || 'Not Found'}`);
         }
 
         let data = await response.json();

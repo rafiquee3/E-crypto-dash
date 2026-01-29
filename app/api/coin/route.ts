@@ -66,7 +66,7 @@ export async function GET(req: Request) {
         console.error('API Error:', error);
         return NextResponse.json(
         { error: 'Internal Server Error', message: 'An error occurred while processing your request.' },
-        { status: 500 }
+        { status: 404 }
         );
     }
 }

@@ -254,15 +254,4 @@ export const currencies =
         }
     };
 
-    export const ALL_COIN_IDS = [
-        "bitcoin", "ripple-usd", "ethereum", "tether", "binancecoin", "solana", "ripple", "usd-coin", "staked-ether", "dogecoin", "cardano",
-        "tron", "avalanche-2", "shiba-inu", "polkadot", "chainlink", "bitcoin-cash", "near", "wrapped-bitcoin", "polygon-ecosystem", "litecoin",
-        "internet-computer", "uniswap", "pepe", "dai", "ethereum-classic", "render-token", "kaspa", "stellar", "aptos", "monero",
-        "arbitrum", "hedera-hashgraph", "cosmos", "okb", "filecoin", "stacks", "lido-dao", "cronos", "immutable-x", "theta-token",
-        "maker", "fantom", "vechain", "dogwifhat", "optimism", "arweave", "bittensor", "graph-token", "thorchain", "mantle",
-        "the-sandbox", "quant-network", "injective-protocol", "bonk", "asolana", "eos", "aave", "floki", "jupiter-exchange-solana", "algorand",
-        "gala", "kucoin-shares", "flow", "ordinals", "helium", "synthetix-network-token", "bitget-token", "akash-network", "beam", "mina-protocol",
-        "ronin", "core-dao", "dydx-chain", "axie-infinity", "pyth-network", "enjincoin", "conflux-token", "worldcoin-wld", "pendle", "seinetwork",
-        "ethena", "ethena-usde", "neo", "chiliz", "gatechain-token", "manta-network", "blur", "aragon", "osmosis", "zilliqa",
-        "decentraland", "iota", "kava", "gnosis", "pancakeswap-token", "woonetwork", "1inch", "convex-finance", "oasis-network", "nxm"
-    ];
+

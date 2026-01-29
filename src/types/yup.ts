@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { ALL_COIN_IDS, currencies } from '../mocks/data/marketDataMock';
+import { currencies } from '../mocks/data/marketDataMock';
 
 export const CoinMarketDataSchema = yup.object({
     id: yup.string().required('Required value'),
@@ -217,12 +217,10 @@ export const CoinDetailParamsSchema = yup.object({
     .string()
     .lowercase()
     .trim()
-    .required('coinsId is required')
-    .oneOf(
-      [...ALL_COIN_IDS],
-      ({ values }) => `Unsupported id. Please use one of: ${values}`
-    )
-    .default('btc'),
+    .required('coinId is required')
+    .min(2, 'coinId must be at least 2 characters')
+    .max(50, 'coinId is too long')
+    .default('bitcoin'),
 
 }).noUnknown();
 
