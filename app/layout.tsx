@@ -7,6 +7,7 @@ import { MswProvider } from "@/providers/MswProvider";
 import { ReduxProvider } from "@/store/ReduxProvider";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorFallback } from "@/components/ErrorFallback";
+import { Footer } from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
               <QueryProvider>
               <Header/>
                   {children}
+              <Footer/>
               </QueryProvider>
             </MswProvider>
           </ReduxProvider>

@@ -8,6 +8,7 @@ const {
         market_cap_rank,
         name,
         symbol,
+        image,
         current_price,
         price_change_percentage_1h_in_currency,
         price_change_percentage_24h_in_currency,
@@ -19,8 +20,9 @@ const {
     return (
         <tr className="hover:bg-gray-800/30 transition-colors group">
             <td className="px-6 py-4 text-gray-500 font-mono text-sm bg-gray-800/30 text-center">{market_cap_rank}</td>
-            <td className="px-6 py-4 bg-gray-800/50">
-                <Link href={`/dashboard/${id}`} className="flex items-center gap-3">
+            <td className="bg-gray-800/50">
+                <Link href={`/dashboard/${id}`} className="flex items-center gap-4 w-full px-4 py-6">
+                    <img src={image} alt={name} className="w-8 h-8 rounded-full" />
                     <div className="flex flex-col">
                         <span className="text-white font-semibold group-hover:text-indigo-400 transition-colors">{name}</span>
                         <span className="text-gray-500 text-xs uppercase font-medium">{symbol}</span>
