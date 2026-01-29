@@ -52,7 +52,7 @@ export function GlobalStats() {
                 <span className="text-gray-200">{formatCurrency(volume)}</span>
             </div>
 
-            <div className="w-[1px] h-3 bg-gray-800" />
+            <div className="w-[1px] h-3 bg-gray-800 hidden min-[1400px]:flex" />
 
             <div className="flex items-center gap-2 hidden min-[1400px]:flex">
                 <span className="text-gray-500 uppercase">Dominance:</span>

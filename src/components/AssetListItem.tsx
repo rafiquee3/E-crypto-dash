@@ -19,7 +19,7 @@ const {
 
     return (
         <Link
-            href={`/dashboard/${id}`}
+            href={`/coin/${id}`}
             className="flex items-center odd:bg-gray-800/40 even:bg-gray-800/30 hover:bg-blue-800/30 transition-all duration-200 group px-6 py-6"
         >
             <div className="w-12 text-center text-gray-500 font-mono text-sm group-hover:text-gray-400 transition-colors">

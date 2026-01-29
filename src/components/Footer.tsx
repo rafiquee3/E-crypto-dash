@@ -23,7 +23,7 @@ export function Footer() {
                         <h4 className="text-sm font-semibold text-gray-200 uppercase tracking-wider">Resources</h4>
                         <ul className="space-y-2 text-sm text-gray-500">
                             <li><a href="https://www.coingecko.com" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-400 transition-colors">CoinGecko API</a></li>
-                            <li><Link href="/dashboard" className="hover:text-indigo-400 transition-colors">Market List</Link></li>
+                            <li><Link href="/" className="hover:text-indigo-400 transition-colors">Market List</Link></li>
                         </ul>
                     </div>
 

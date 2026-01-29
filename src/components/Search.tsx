@@ -35,7 +35,7 @@ export function Search() {
     const handleSelect = (coinId: string) => {
         setIsOpen(false);
         setInputValue('');
-        router.push(`/dashboard/${coinId}`);
+        router.push(`/coin/${coinId}`);
     };
 
     return (
