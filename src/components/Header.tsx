@@ -17,12 +17,8 @@ export function Header() {
                 <CurrencySelector />
             </div>
 
-            <div className="flex-1 max-w-md mx-8 hidden md:block">
+            <div className="flex-1 max-w-md mx-8 ">
                 <Search />
-            </div>
-
-            <div className="flex items-center gap-4">
-                <div className="h-8 w-8 rounded-full bg-gray-800 border border-gray-700"></div>
             </div>
         </header>
     );

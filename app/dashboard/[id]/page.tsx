@@ -5,7 +5,7 @@ export default async function CoinDetailsPage({params, searchParams}: {params: P
     const { price } = await searchParams;
 
     return (
-        <div className="p-8 mt-16">
+        <div className="p-8 mt-16 mb-16">
           <h1 className="text-2xl font-bold">Coin: {id}</h1>
           <CoinCapStream coinId={id.toLowerCase()}/>
         </div>
