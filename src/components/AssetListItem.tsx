@@ -32,23 +32,23 @@ const {
             <td className="px-6 py-4 text-right font-medium text-gray-100">
                 {formatCurrency(current_price, currency)}
             </td>
-            <td className={`px-6 py-4 text-right font-medium ${
+            <td className={`hidden min-[450px]:table-cell px-6 py-4 text-right font-medium ${
                 (price_change_percentage_1h_in_currency ?? 0) >= 0 ? 'text-emerald-400' : 'text-rose-400'
             }`}>
                 {formatPercentage(price_change_percentage_1h_in_currency)}
             </td>
-            <td className={`px-6 py-4 text-right font-medium ${
+            <td className={`hidden min-[600px]:table-cell px-6 py-4 text-right font-medium ${
                 (price_change_percentage_24h_in_currency ?? 0) >= 0 ? 'text-emerald-400' : 'text-rose-400'
             }`}>
                 {formatPercentage(price_change_percentage_24h_in_currency)}
             </td>
-            <td className="px-6 py-4 text-right text-gray-300">
+            <td className="hidden min-[700px]:table-cell px-6 py-4 text-right text-gray-300">
                 {formatLargeNumber(total_volume)}
             </td>
-            <td className="px-6 py-4 text-right text-gray-300">
+            <td className="hidden min-[800px]:table-cell px-6 py-4 text-right text-gray-300">
                 {formatLargeNumber(market_cap)}
             </td>
-            <td className={`px-6 py-4 text-right pr-8 font-medium ${
+            <td className={`hidden min-[900px]:table-cell px-6 py-4 text-right pr-8 font-medium ${
                 (price_change_percentage_7d_in_currency ?? 0) >= 0 ? 'text-emerald-400' : 'text-rose-400'
             }`}>
                 {formatPercentage(price_change_percentage_7d_in_currency)}

@@ -42,18 +42,18 @@ export function AssetList() {
     }
 
     return (
-        <div className="overflow-x-auto rounded-xl border border-gray-800 bg-gray-950/50 backdrop-blur-sm mb-20 mt-30">
-            <table className="w-full text-left border-collapse">
+        <div className="overflow-x-auto rounded-xl border border-gray-800 bg-gray-950/50 mb-20 mt-30">
+            <table className="w-full text-left border-collapse min-w-[350px]">
                 <thead>
                     <tr className="border-b border-gray-800 text-gray-400 text-xs uppercase tracking-wider font-semibold bg-gray-800/30">
-                       <th className="px-6 py-4 font-medium">#</th>
+                        <th className="px-6 py-4 font-medium">#</th>
                         <th className="px-6 py-4 font-medium">Coin</th>
                         <th className="px-6 py-4 font-medium text-right">Price</th>
-                        <th className="px-6 py-4 font-medium text-right">1h</th>
-                        <th className="px-6 py-4 font-medium text-right">24h</th>
-                        <th className="px-6 py-4 font-medium text-right">Volume</th>
-                        <th className="px-6 py-4 font-medium text-right">Market Cap</th>
-                        <th className="px-6 py-4 font-medium text-right pr-8">Last 7 Days</th>
+                        <th className="hidden min-[450px]:table-cell px-6 py-4 font-medium text-right">1h</th>
+                        <th className="hidden min-[600px]:table-cell px-6 py-4 font-medium text-right">24h</th>
+                        <th className="hidden min-[700px]:table-cell px-6 py-4 font-medium text-right">Volume</th>
+                        <th className="hidden min-[800px]:table-cell px-6 py-4 font-medium text-right truncate">Market Cap</th>
+                        <th className="hidden min-[900px]:table-cell px-6 py-4 font-medium text-right pr-8 truncate">Last 7 Days</th>
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-800/50">

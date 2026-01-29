@@ -36,7 +36,7 @@ export function GlobalStats() {
     const change24h = data.market_cap_change_percentage_24h_usd;
 
     return (
-        <div className="flex items-center gap-6 py-2 px-6 bg-gray-950/40 backdrop-blur-md rounded-full border border-indigo-500/20 text-[11px] font-medium tracking-wide">
+        <div className="hidden min-[860px]:flex items-center gap-6 py-2 px-6 bg-gray-950/40 backdrop-blur-md rounded-full border border-indigo-500/20 text-[11px] font-medium tracking-wide">
             <div className="flex items-center gap-2">
                 <span className="text-gray-500 uppercase">Market Cap:</span>
                 <span className="text-indigo-400">{formatCurrency(marketCap)}</span>
@@ -54,7 +54,7 @@ export function GlobalStats() {
 
             <div className="w-[1px] h-3 bg-gray-800" />
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 hidden min-[1130px]:flex">
                 <span className="text-gray-500 uppercase">Dominance:</span>
                 <div className="flex items-center gap-3">
                     <div className="flex items-center gap-1.5">
