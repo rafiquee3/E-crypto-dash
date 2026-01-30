@@ -150,7 +150,8 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
   };
 
   async search(query: string) {
-    const response = await fetch(`${this.baseUrl}/search?query=${query}`, {
+    const queryParams = new URLSearchParams({ query }).toString();
+    const response = await fetch(`${this.baseUrl}/search?${queryParams}`, {
       headers: {
         'x-cg-demo-api-key': this.apiKey,
         'Content-Type': 'application/json',

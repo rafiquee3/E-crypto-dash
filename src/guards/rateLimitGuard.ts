@@ -43,11 +43,17 @@ export async function checkRateLimit(
     };
   } catch (error) {
     console.error('Rate limiting error (Redis failure):', error);
+
+    // Fail-Closed: Block requests if security infrastructure fails
     return {
-      success: true,
-      limit: 0,
-      remaining: 0,
-      reset: Date.now(),
+      success: false,
+      response: NextResponse.json(
+        {
+          error: 'Service temporarily degraded',
+          message: 'Security validation service is unavailable. Please try again in a few minutes.'
+        },
+        { status: 503 }
+      ),
     };
   }
 }
