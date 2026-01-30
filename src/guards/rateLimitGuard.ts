@@ -43,17 +43,19 @@ export async function checkRateLimit(
     };
   } catch (error) {
     console.error('Rate limiting error (Redis failure):', error);
+/*     return {
+      success: true, // Allow api CoinGecko call
+      limit: 0,
+      remaining: 0,
+      reset: Date.now(),
+    }; */
 
-    // Fail-Closed: Block requests if security infrastructure fails
     return {
-      success: false,
+      success: false, // Stop api call
       response: NextResponse.json(
-        {
-          error: 'Service temporarily degraded',
-          message: 'Security validation service is unavailable. Please try again in a few minutes.'
-        },
-        { status: 503 }
-      ),
+          { error: 'Service temporary degraded', message: 'System under maintenance, please try again later' },
+          { status: 503 } // 503 Service Unavailable
+        )
     };
   }
 }
