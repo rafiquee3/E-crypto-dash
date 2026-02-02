@@ -43,7 +43,7 @@ export async function GET(req: Request) {
         }
 
         const dataString = JSON.stringify(data);
-        const etag = crypto.createHash('md5').update(dataString).digest('hex');
+        const etag = crypto.createHash('sha256').update(dataString).digest('hex');
         const ifNoneMatch = req.headers.get('if-none-match');
 
         if (ifNoneMatch === etag) {

@@ -52,7 +52,8 @@ export function Search() {
                     placeholder="Search coins..."
                     value={inputValue}
                     onChange={(e) => {
-                        setInputValue(e.target.value);
+                        const val = e.target.value.replace(/[^a-zA-Z0-9\s-]/g, '');
+                        setInputValue(val);
                         setIsOpen(true);
                     }}
                     onFocus={() => setIsOpen(true)}

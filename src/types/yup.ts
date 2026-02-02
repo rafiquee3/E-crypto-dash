@@ -231,9 +231,11 @@ export interface CoinDetailParams extends yup.InferType<typeof CoinDetailParamsS
 export const SearchQuerySchema = yup.object({
   query: yup
     .string()
+    .trim()
     .required('Search query is required')
     .min(2, 'Search query must be at least 2 characters long')
-    .max(100, 'Search query is too long'),
+    .max(100, 'Search query is too long')
+    .matches(/^[a-zA-Z0-9\s-]+$/, 'Search query contains invalid characters'),
 }).noUnknown();
 
 export interface SearchQuery extends yup.InferType<typeof SearchQuerySchema> {}

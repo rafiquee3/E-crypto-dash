@@ -53,7 +53,7 @@ export async function GET(req: Request) {
         const dataString = JSON.stringify(data);
 
         const etag = crypto
-            .createHash('md5')
+            .createHash('sha256')
             .update(dataString)
             .digest('hex');
 
