@@ -14,10 +14,14 @@ export function useCryptoMarkets(options = {}) {
         price_change_percentage: '1h,24h,7d',
     };
 
-    const params: {[key: string]: string | number | boolean} = useMemo(() => ({
+    // We stringify options to have a stable dependency even if the object reference changes.
+    // This ensures useMemo only runs when the actual values inside options change.
+    const optionsSerialized = JSON.stringify(options);
+
+    const params = useMemo(() => ({
         ...defaultOptions,
         ...options,
-    }), [options]);
+    }), [optionsSerialized]);
 
     const stringifiedParams = Object.fromEntries(
         Object.entries(params).map(([key, value]) => [key, String(value)])
