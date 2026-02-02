@@ -152,11 +152,12 @@ export function CoinCapStream({coinId}: {coinId: string}) {
 
         <div className="md:col-span-1 space-y-6">
           <div className="space-y-2">
-              <h2 className="text-4xl font-bold tracking-tight text-white">
+              <h2 className="text-4xl font-bold tracking-tight text-white focus:outline-none" aria-live="polite">
                 {price || '...'}
               </h2>
               <div className={`text-lg font-medium ${data.stats.change24h >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                {data.stats.change24h >= 0 ? '▲' : '▼'}{Math.abs(data.stats.change24h).toFixed(1)}%(24h)
+                <span aria-hidden="true">{data.stats.change24h >= 0 ? '▲' : '▼'}</span>
+                {Math.abs(data.stats.change24h).toFixed(1)}%(24h)
               </div>
 
             <p className="text-gray-500 text-sm mt-1 uppercase tracking-wider font-medium">Currency ({currency.code})</p>
@@ -202,7 +203,11 @@ export function CoinCapStream({coinId}: {coinId: string}) {
           <div className="bg-gray-900/40 rounded-2xl p-6 border border-gray-800/50">
             <h3 className="text-gray-400 text-xs uppercase tracking-widest font-bold mb-4">Live Real-time Feed (1s)</h3>
             <div className="w-full min-h-[150px] min-w-[150px]">
-              <Chart  chartData={chartData} currencyCode={currency.code}/>
+              <Chart
+                chartData={chartData}
+                currencyCode={currency.code}
+                ariaLabel={`Live real-time price feed for ${coinId}`}
+              />
             </div>
           </div>
 
@@ -212,6 +217,7 @@ export function CoinCapStream({coinId}: {coinId: string}) {
               <Chart
                 chartData={historicalChartData}
                 currencyCode={currency.code}
+                ariaLabel={`Historical 24h price chart for ${coinId}`}
               />
             </div>
           </div>

@@ -11,15 +11,43 @@ export function Search() {
     const containerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
+    const [activeIndex, setActiveIndex] = useState(-1);
+    const listRef = useRef<HTMLUListElement>(null);
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedValue(inputValue);
+            setActiveIndex(-1); // Reset index on search query change
         }, 300);
 
         return () => clearTimeout(timer);
     }, [inputValue]);
 
     const { data, isLoading, isFetching } = useCoinSearch(debouncedValue);
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (!isOpen || !data?.coins?.length) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setActiveIndex((prev) => (prev < data.coins.length - 1 ? prev + 1 : prev));
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setActiveIndex((prev) => (prev > 0 ? prev - 1 : -1));
+        } else if (e.key === 'Enter' && activeIndex >= 0) {
+            e.preventDefault();
+            handleSelect(data.coins[activeIndex].id);
+        } else if (e.key === 'Escape') {
+            setIsOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        if (activeIndex >= 0 && listRef.current) {
+            const activeElement = listRef.current.children[activeIndex] as HTMLElement;
+            activeElement?.scrollIntoView({ block: 'nearest' });
+        }
+    }, [activeIndex]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -35,11 +63,12 @@ export function Search() {
     const handleSelect = (coinId: string) => {
         setIsOpen(false);
         setInputValue('');
+        setActiveIndex(-1);
         router.push(`/coin/${coinId}`);
     };
 
     return (
-        <div ref={containerRef} className="relative w-full max-w-md">
+        <div ref={containerRef} className="relative w-full max-w-md" role="combobox" aria-expanded={isOpen} aria-haspopup="listbox" aria-controls="search-results">
             <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg className="h-5 w-5 text-gray-100 group-focus-within:text-indigo-100 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,12 +80,16 @@ export function Search() {
                     className="block w-full pl-10 pr-3 py-2 border border-gray-800 rounded-xl leading-5 bg-gray-900/50 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all sm:text-sm backdrop-blur-md truncate"
                     placeholder="Search coins..."
                     value={inputValue}
+                    aria-autocomplete="list"
+                    aria-controls="search-results"
+                    aria-activedescendant={activeIndex >= 0 ? `result-item-${activeIndex}` : undefined}
                     onChange={(e) => {
                         const val = e.target.value.replace(/[^a-zA-Z0-9\s-]/g, '');
                         setInputValue(val);
                         setIsOpen(true);
                     }}
                     onFocus={() => setIsOpen(true)}
+                    onKeyDown={handleKeyDown}
                 />
 
                 {(isLoading || isFetching) && debouncedValue.length >= 2 && (
@@ -67,19 +100,19 @@ export function Search() {
             </div>
 
             {isOpen && debouncedValue.length >= 2 && (
-                <div className="fixed top-15 left-0 md:absolute md:top-12 z-50 mt-2 w-full bg-gray-900/95 border border-gray-800 rounded-xl shadow-2xl backdrop-blur-xl overflow-hidden animate-in fade-in zoom-in duration-200">
+                <div id="search-results" className="fixed top-15 left-0 md:absolute md:top-12 z-50 mt-2 w-full bg-gray-900/95 border border-gray-800 rounded-xl shadow-2xl backdrop-blur-xl overflow-hidden animate-in fade-in zoom-in duration-200" role="listbox">
                     {data?.coins && data.coins.length > 0 ? (
-                        <ul className="max-h-80 overflow-y-auto py-2">
-                            {data.coins.map((coin: any) => (
-                                <li key={coin.id}>
+                        <ul ref={listRef} className="max-h-80 overflow-y-auto py-2">
+                            {data.coins.map((coin: any, index: number) => (
+                                <li key={coin.id} id={`result-item-${index}`} role="option" aria-selected={index === activeIndex}>
                                     <button
                                         onClick={() => handleSelect(coin.id)}
-                                        className="w-full flex items-center px-4 py-3 hover:bg-white/5 transition-colors text-left"
+                                        className={`w-full flex items-center px-4 py-3 transition-colors text-left ${index === activeIndex ? 'bg-white/10' : 'hover:bg-white/5'}`}
                                     >
                                         <div className="relative h-6 w-6 flex-shrink-0 mr-3">
                                             <img
                                                 src={coin.thumb}
-                                                alt={coin.name}
+                                                alt="" // Setting to empty because name is right next to it
                                                 className="rounded-full"
                                             />
                                         </div>
@@ -95,7 +128,7 @@ export function Search() {
                             ))}
                         </ul>
                     ) : !isLoading && (
-                        <div className="px-4 py-6 text-center text-gray-500 text-sm italic">
+                        <div className="px-4 py-6 text-center text-gray-500 text-sm italic" role="status">
                             No coins found for "{debouncedValue}"
                         </div>
                     )}

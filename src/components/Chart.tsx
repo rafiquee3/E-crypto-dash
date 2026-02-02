@@ -4,9 +4,10 @@ import { useState, useEffect, useRef } from 'react';
 interface ChartProps {
   chartData: {time: number, price: number}[];
   currencyCode: string;
+  ariaLabel?: string;
 }
 
-export function Chart({chartData, currencyCode} : ChartProps) {
+export function Chart({chartData, currencyCode, ariaLabel} : ChartProps) {
   const [dimensions, setDimensions] = useState<{width: number, height: number} | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -45,7 +46,16 @@ export function Chart({chartData, currencyCode} : ChartProps) {
   }, []);
 
   return (
-    <div ref={containerRef} className="w-full relative" style={{ aspectRatio: '2/1' }}>
+    <div
+        ref={containerRef}
+        className="w-full relative"
+        style={{ aspectRatio: '2/1' }}
+        role="img"
+        aria-label={ariaLabel || "Cryptocurrency price chart"}
+    >
+        <span className="sr-only">
+            {ariaLabel || "Line chart showing price history over time."}
+        </span>
         {dimensions ? (
             <AreaChart
                 width={dimensions.width}
