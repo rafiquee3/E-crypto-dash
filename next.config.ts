@@ -8,9 +8,9 @@ const securityHeaders = [
       default-src 'self';
       script-src 'self' 'unsafe-eval' 'unsafe-inline';
       style-src 'self' 'unsafe-inline';
-      img-src 'self' https://assets.coingecko.com data: blob:;
+      img-src 'self' https://assets.coingecko.com https://coin-images.coingecko.com data: blob:;
       font-src 'self';
-      connect-src 'self' https://api.coingecko.com wss://ws.coincap.io;
+      connect-src 'self' https://api.coingecko.com https://api.frankfurter.app wss://ws.coincap.io;
       frame-ancestors 'none';
     `.replace(/\s{2,}/g, ' ').trim()
   },
