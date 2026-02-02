@@ -3,19 +3,8 @@ import { useCoinData } from "@/hooks/useCoinData";
 import { RootState } from "@/store/store";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
+import { Chart } from "./Chart";
 import { notFound } from "next/navigation";
-import dynamic from 'next/dynamic';
-
-// Lazy load the Chart component to reduce initial bundle size.
-// Recharts depends on browser APIs, so we disable SSR.
-const Chart = dynamic(() => import("./Chart").then(mod => mod.Chart), {
-    ssr: false,
-    loading: () => (
-        <div className="w-full h-full flex items-center justify-center bg-gray-900/20 rounded-xl animate-pulse border border-gray-800/50">
-            <div className="text-gray-600 text-[10px] uppercase tracking-widest font-bold">Loading Chart Engine...</div>
-        </div>
-    )
-});
 
 export function CoinCapStream({coinId}: {coinId: string}) {
     const {
@@ -212,17 +201,15 @@ export function CoinCapStream({coinId}: {coinId: string}) {
         <div className="md:col-span-2 space-y-8">
           <div className="bg-gray-900/40 rounded-2xl p-6 border border-gray-800/50">
             <h3 className="text-gray-400 text-xs uppercase tracking-widest font-bold mb-4">Live Real-time Feed (1s)</h3>
-            <div className="h-[250px] w-full">
-              <Chart width={'100%'} height={'100%'} chartData={chartData} currencyCode={currency.code}/>
+            <div className="w-full min-h-[150px] min-w-[150px]">
+              <Chart  chartData={chartData} currencyCode={currency.code}/>
             </div>
           </div>
 
           <div className="bg-gray-900/40 rounded-2xl p-6 border border-gray-800/50">
             <h3 className="text-gray-400 text-xs uppercase tracking-widest font-bold mb-4">Historical Context (24h)</h3>
-            <div className="h-[250px] w-full">
+            <div className="w-full min-h-[150px] min-w-[150px]">
               <Chart
-                width={'100%'}
-                height={'100%'}
                 chartData={historicalChartData}
                 currencyCode={currency.code}
               />

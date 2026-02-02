@@ -4,6 +4,7 @@ import { validateGlobalParams, validateMarketParams } from "@/guards/validationG
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { unstable_cache } from 'next/cache';
+import { createErrorResponse } from "@/utils/errorUtils";
 
 const getValidatedGlobalData = unstable_cache(
   async (currency: string) => {
@@ -64,10 +65,6 @@ export async function GET(req: Request) {
         response.headers.set('X-RateLimit-Reset', String(Math.ceil(rateLimitResult.reset / 1000)));
         return response;
     } catch (error: unknown) {
-        console.error('API Error:', error);
-        return NextResponse.json(
-        { error: 'Internal Server Error', message: 'An error occurred while processing your request.' },
-        { status: 500 }
-        );
+        return createErrorResponse(error, 500);
     }
 }

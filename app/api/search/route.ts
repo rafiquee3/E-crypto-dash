@@ -2,6 +2,7 @@ import { CoinGeckoAdapter } from "@/adapters/adapters/CoinGeckoAdapter";
 import { checkRateLimit } from "@/guards/rateLimitGuard";
 import { validateSearchParams } from "@/guards/validationGuard";
 import { NextResponse } from 'next/server';
+import { createErrorResponse } from "@/utils/errorUtils";
 
 export async function GET(req: Request) {
     const rateLimitResult = await checkRateLimit(req);
@@ -34,10 +35,6 @@ export async function GET(req: Request) {
 
         return response;
     } catch (error: unknown) {
-        console.error('Search API Error:', error);
-        return NextResponse.json(
-            { error: 'Internal Server Error', message: 'An error occurred during search.' },
-            { status: 500 }
-        );
+        return createErrorResponse(error, 500);
     }
 }
