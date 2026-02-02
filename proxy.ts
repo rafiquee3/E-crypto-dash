@@ -1,11 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-/**
- * Global Middleware for Handling CORS and other Request-level security.
- * In Next.js App Router, this is the most efficient place to handle CORS for all API routes.
- */
-
 // List of allowed origins for CORS.
 // In production, this should be restricted to your domain only.
 const allowedOrigins = [
@@ -13,7 +8,7 @@ const allowedOrigins = [
   'https://your-production-domain.com', // Replace with your actual domain
 ];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // We only care about API routes for CORS
   if (!request.nextUrl.pathname.startsWith('/api')) {
     return NextResponse.next();
