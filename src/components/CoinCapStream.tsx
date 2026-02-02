@@ -29,6 +29,7 @@ export function CoinCapStream({coinId}: {coinId: string}) {
 
         let ws: WebSocket | null = null;
         let timeoutId: NodeJS.Timeout;
+        let retryCount = 0;
 
         lastPriceRef.current = data.stats.price;
         setPrice(data.stats.price.toLocaleString(undefined, {
@@ -49,7 +50,12 @@ export function CoinCapStream({coinId}: {coinId: string}) {
 
         const connect = () => {
           ws = new WebSocket(`wss://ws.coincap.io/prices?assets=${coinId}`);
-          console.log(`[WS] connection`);
+
+          ws.onopen = () => {
+            console.log(`[WS] connected to ${coinId}`);
+            retryCount = 0; // Reset retries on successful connection
+          };
+
           ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
 
@@ -66,11 +72,23 @@ export function CoinCapStream({coinId}: {coinId: string}) {
           };
 
           ws.onclose = (e) => {
-            console.log(`[WS] connection lost. Code: ${e.code}. Reconnect 3s...`);
-            timeoutId = setTimeout(connect, 3000);
+            if (e.wasClean) return;
+
+            // Exponential Backoff: delay = 1s, 2s, 4s, 8s... up to 30s
+            // Added Jitter: +- 0-1000ms to prevent thundering herd
+            const baseDelay = Math.min(1000 * Math.pow(2, retryCount), 30000);
+            const jitter = Math.random() * 1000;
+            const delay = baseDelay + jitter;
+
+            console.log(`[WS] connection lost. Code: ${e.code}. Reconnect in ${Math.round(delay)}ms... (Attempt ${retryCount + 1})`);
+
+            timeoutId = setTimeout(() => {
+              retryCount++;
+              connect();
+            }, delay);
           }
 
-          ws.onerror = (err) => {
+          ws.onerror = () => {
             ws?.close();
           };
         };
@@ -86,7 +104,8 @@ export function CoinCapStream({coinId}: {coinId: string}) {
               ws.close();
           }
         };
-    }, [data]);
+
+    }, [coinId, currency.exchangeRate, data?.chart]);
 
     if (isLoading) {
         return (
