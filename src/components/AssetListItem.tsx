@@ -1,8 +1,9 @@
 import { CoinMarketData } from "../types/yup";
 import { formatCurrency, formatLargeNumber, formatPercentage } from "../utils/utils";
 import Link from 'next/link';
+import { memo } from 'react';
 
-export function AssetListItem({marketData, currency}: {marketData: CoinMarketData, currency: string}) {
+function AssetListItemComponent({marketData, currency}: {marketData: CoinMarketData, currency: string}) {
 const {
         id,
         market_cap_rank,
@@ -21,6 +22,12 @@ const {
         <Link
             href={`/coin/${id}`}
             className="flex items-center odd:bg-gray-800/40 even:bg-gray-800/30 hover:bg-blue-800/30 transition-all duration-200 group px-6 py-6"
+            style={{
+                // Browser-level virtualization: don't paint rows that are off-screen
+                contentVisibility: 'auto',
+                // Tell the browser to expect a ~81px height to prevent scrollbar jumping
+                containIntrinsicSize: 'auto 81px',
+            } as React.CSSProperties}
         >
             <div className="w-12 text-center text-gray-500 font-mono text-sm group-hover:text-gray-400 transition-colors">
                 {market_cap_rank}
@@ -64,3 +71,5 @@ const {
         </Link>
     )
 }
+
+export const AssetListItem = memo(AssetListItemComponent);
