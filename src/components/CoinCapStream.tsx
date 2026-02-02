@@ -3,8 +3,19 @@ import { useCoinData } from "@/hooks/useCoinData";
 import { RootState } from "@/store/store";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { Chart } from "./Chart";
 import { notFound } from "next/navigation";
+import dynamic from 'next/dynamic';
+
+// Lazy load the Chart component to reduce initial bundle size.
+// Recharts depends on browser APIs, so we disable SSR.
+const Chart = dynamic(() => import("./Chart").then(mod => mod.Chart), {
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-full flex items-center justify-center bg-gray-900/20 rounded-xl animate-pulse border border-gray-800/50">
+            <div className="text-gray-600 text-[10px] uppercase tracking-widest font-bold">Loading Chart Engine...</div>
+        </div>
+    )
+});
 
 export function CoinCapStream({coinId}: {coinId: string}) {
     const {
