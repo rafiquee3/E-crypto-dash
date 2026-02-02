@@ -50,9 +50,10 @@ export async function GET(req: Request) {
             return new Response(null, { status: 304 });
         }
 
-        const response = NextResponse.json(data, {
+        const response = new NextResponse(dataString, {
             status: 200,
             headers: {
+                'Content-Type': 'application/json',
                 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
                 'ETag': etag
             }

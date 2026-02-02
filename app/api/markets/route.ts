@@ -70,9 +70,14 @@ export async function GET(req: Request) {
 
             max-age: Refers to the user's browser (private cache).
             s-maxage: Refers exclusively to public cache servers or CDNs. */
-        const response = NextResponse.json(data, { status: 200,   headers: {
-            'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
-        } });
+        const response = new NextResponse(dataString, {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
+                'ETag': etag
+            }
+        });
 
         response.headers.set('X-RateLimit-Limit', String(rateLimitResult.limit));
         response.headers.set('X-RateLimit-Remaining', String(rateLimitResult.remaining));

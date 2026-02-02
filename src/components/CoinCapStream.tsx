@@ -1,7 +1,7 @@
 'use client';
 import { useCoinData } from "@/hooks/useCoinData";
 import { RootState } from "@/store/store";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { Chart } from "./Chart";
 import { notFound } from "next/navigation";
@@ -107,6 +107,11 @@ export function CoinCapStream({coinId}: {coinId: string}) {
 
     }, [coinId, currency.exchangeRate, data?.chart]);
 
+    const historicalChartData = useMemo(() => {
+        if (!data?.chart) return [];
+        return data.chart.map((p: any) => ({ time: p[0], price: p[1] }));
+    }, [data?.chart]);
+
     if (isLoading) {
         return (
             <div className="flex items-center justify-center py-20">
@@ -207,7 +212,7 @@ export function CoinCapStream({coinId}: {coinId: string}) {
               <Chart
                 width={'100%'}
                 height={'100%'}
-                chartData={data.chart.map((p: any) => ({ time: p[0], price: p[1] }))}
+                chartData={historicalChartData}
                 currencyCode={currency.code}
               />
             </div>
