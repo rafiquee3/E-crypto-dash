@@ -1,5 +1,6 @@
 'use client';
 import { Component, ReactNode, ReactElement } from 'react';
+import * as Sentry from "@sentry/nextjs";
 import { ErrorFallbackProps } from './ErrorFallback';
 
 interface Props {
@@ -21,6 +22,13 @@ export class ErrorBoundary extends Component<Props, State> {
 
     componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
         console.error('Error caught by boundary:', error, errorInfo);
+
+        // Report the error to Sentry with additional component trace information
+        Sentry.captureException(error, {
+            extra: {
+                componentStack: errorInfo.componentStack
+            }
+        });
     }
 
     resetError = () => {
