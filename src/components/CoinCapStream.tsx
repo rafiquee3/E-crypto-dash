@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { Chart } from "./Chart";
 import { notFound } from "next/navigation";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 export function CoinCapStream({coinId}: {coinId: string}) {
     const {
@@ -146,7 +147,7 @@ export function CoinCapStream({coinId}: {coinId: string}) {
     if (!data || !data.stats || !data.chart) {
         notFound();
     }
-
+ErrorBoundary
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
@@ -203,11 +204,13 @@ export function CoinCapStream({coinId}: {coinId: string}) {
           <div className="bg-gray-900/40 rounded-2xl p-6 border border-gray-800/50">
             <h3 className="text-gray-400 text-xs uppercase tracking-widest font-bold mb-4">Live Real-time Feed (1s)</h3>
             <div className="w-full min-h-[150px] min-w-[150px]">
-              <Chart
-                chartData={chartData}
-                currencyCode={currency.code}
-                ariaLabel={`Live real-time price feed for ${coinId}`}
-              />
+              <ErrorBoundary fallback={<p>Live chart display issue.</p>}>
+                <Chart
+                  chartData={chartData}
+                  currencyCode={currency.code}
+                  ariaLabel={`Live real-time price feed for ${coinId}`}
+                />
+              </ErrorBoundary>
             </div>
           </div>
 

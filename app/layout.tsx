@@ -8,6 +8,7 @@ import { ReduxProvider } from "@/store/ReduxProvider";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorFallback } from "@/components/ErrorFallback";
 import { Footer } from "@/components/Footer";
+import { SentryContextSync } from "@/components/SentryContextSync";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,10 +37,13 @@ export default function RootLayout({
       >
         <ErrorBoundary fallback={<ErrorFallback />}>
           <ReduxProvider>
+            <SentryContextSync />
             <MswProvider>
               <QueryProvider>
               <Header/>
+                <ErrorBoundary fallback={<ErrorFallback />}>
                   {children}
+                </ErrorBoundary>
               <Footer/>
               </QueryProvider>
             </MswProvider>
