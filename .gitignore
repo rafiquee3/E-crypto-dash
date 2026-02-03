@@ -49,3 +49,6 @@ next-env.d.ts
 # vscode - ignore all except shared settings
 .vscode/*
 !.vscode/settings.json
+
+# Sentry Config File
+.env.sentry-build-plugin
