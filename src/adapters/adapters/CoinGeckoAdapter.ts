@@ -1,5 +1,14 @@
-import { CoinMarketData, CoinMarketDataListSchema, CoinMarketDataSchema, CoinMarketParams, GlobalDataSchema, GlobalData, CoinDetailDataSchema, CoinDetailData } from "@/types/yup";
-import { ICryptoDataProvider } from "./ICryptoDataProvider";
+import {
+  CoinMarketData,
+  CoinMarketDataListSchema,
+  CoinMarketDataSchema,
+  CoinMarketParams,
+  GlobalDataSchema,
+  GlobalData,
+  CoinDetailDataSchema,
+  CoinDetailData,
+} from '@/types/yup';
+import { ICryptoDataProvider } from './ICryptoDataProvider';
 
 export class CoinGeckoAdapter implements ICryptoDataProvider {
   private readonly apiKey: string;
@@ -12,7 +21,9 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
     this.apiKey = apiKey;
   }
 
-  async fetchMarketData(params: Partial<CoinMarketParams> & {vs_currency: string}): Promise<CoinMarketData[]> {
+  async fetchMarketData(
+    params: Partial<CoinMarketParams> & { vs_currency: string },
+  ): Promise<CoinMarketData[]> {
     if (!params?.vs_currency) {
       throw new Error("The required parameter 'vs_currency' is not available.");
     }
@@ -27,11 +38,11 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
     }).toString();
 
     const response = await fetch(`${this.baseUrl}/coins/markets?${queryParams}`, {
-        headers: {
-          'x-cg-demo-api-key': this.apiKey,
-          'Content-Type': 'application/json',
-        },
-        next: { revalidate: 60 }
+      headers: {
+        'x-cg-demo-api-key': this.apiKey,
+        'Content-Type': 'application/json',
+      },
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {
@@ -39,13 +50,13 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
     }
 
     let rawData = await response.json();
-      if (typeof rawData === 'string') {
-            try {
-                rawData = JSON.parse(rawData);
-            } catch (err) {
-                console.warn('Failed to parse JSON string from response', err);
-            }
-        }
+    if (typeof rawData === 'string') {
+      try {
+        rawData = JSON.parse(rawData);
+      } catch (err) {
+        console.warn('Failed to parse JSON string from response', err);
+      }
+    }
     return CoinMarketDataListSchema.validateSync(rawData, {
       abortEarly: false,
       strict: false,
@@ -58,7 +69,7 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
         'x-cg-demo-api-key': this.apiKey,
         'Content-Type': 'application/json',
       },
-      next: { revalidate: 60 }
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {
@@ -67,12 +78,12 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
 
     let rawData = await response.json();
     if (typeof rawData === 'string') {
-          try {
-              rawData = JSON.parse(rawData);
-          } catch (err) {
-              console.warn('Failed to parse JSON string from response', err);
-          }
+      try {
+        rawData = JSON.parse(rawData);
+      } catch (err) {
+        console.warn('Failed to parse JSON string from response', err);
       }
+    }
 
     const data = rawData.data;
 
@@ -82,49 +93,49 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
     }) as GlobalData;
   }
 
-  async fetchCoinData(currency: string, coinId: string) {
+  async fetchCoinData(currency: string, coinId: string, days: string = '1') {
     const [marketRes, chartRes] = await Promise.all([
       fetch(`${this.baseUrl}/coins/${coinId}?localization=false&tickers=false`, {
-      headers: {
-        'x-cg-demo-api-key': this.apiKey,
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 60 }
+        headers: {
+          'x-cg-demo-api-key': this.apiKey,
+          'Content-Type': 'application/json',
+        },
+        next: { revalidate: 60 },
       }),
-      fetch(`${this.baseUrl}/coins/${coinId}/market_chart?vs_currency=${currency}&days=1`, {
-      headers: {
-        'x-cg-demo-api-key': this.apiKey,
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 60 }
-      })
+      fetch(`${this.baseUrl}/coins/${coinId}/market_chart?vs_currency=${currency}&days=${days}`, {
+        headers: {
+          'x-cg-demo-api-key': this.apiKey,
+          'Content-Type': 'application/json',
+        },
+        next: { revalidate: 60 },
+      }),
     ]);
 
     if (!marketRes.ok) {
       throw this.handleApiError(marketRes);
-    };
+    }
 
     if (!chartRes.ok) {
       throw this.handleApiError(chartRes);
-    };
+    }
 
     let marketData = await marketRes.json();
     let chartData = await chartRes.json();
 
     if (typeof marketData === 'string') {
-        try {
-            marketData = JSON.parse(marketData);
-        } catch (err) {
-            console.warn('Failed to parse JSON string from response', err);
-        }
+      try {
+        marketData = JSON.parse(marketData);
+      } catch (err) {
+        console.warn('Failed to parse JSON string from response', err);
+      }
     }
 
     if (typeof chartData === 'string') {
-        try {
-            chartData = JSON.parse(chartData);
-        } catch (err) {
-            console.warn('Failed to parse JSON string from response', err);
-        }
+      try {
+        chartData = JSON.parse(chartData);
+      } catch (err) {
+        console.warn('Failed to parse JSON string from response', err);
+      }
     }
 
     const data = {
@@ -140,14 +151,14 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
         athChange: marketData.market_data.ath_change_percentage[currency],
         rank: marketData.market_cap_rank,
       },
-      chart: chartData.prices
+      chart: chartData.prices,
     };
 
     return CoinDetailDataSchema.validateSync(data, {
       abortEarly: false,
       strict: false,
     }) as CoinDetailData;
-  };
+  }
 
   async search(query: string) {
     const queryParams = new URLSearchParams({ query }).toString();
@@ -156,7 +167,7 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
         'x-cg-demo-api-key': this.apiKey,
         'Content-Type': 'application/json',
       },
-      next: { revalidate: 300 }
+      next: { revalidate: 300 },
     });
 
     if (!response.ok) {
@@ -174,9 +185,6 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
       429: 'Rate limit exceeded',
     };
 
-    return new Error(
-      errorMessages[response.status] ??
-      `API error (status: ${response.status})`
-    );
+    return new Error(errorMessages[response.status] ?? `API error (status: ${response.status})`);
   }
 }
