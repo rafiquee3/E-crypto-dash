@@ -1,6 +1,6 @@
-import { http, HttpResponse } from 'msw'
-import { marketDataMock } from './data/marketDataMock'
-import { globalDataMock } from './data/globalDataMock';
+import { http, HttpResponse } from 'msw';
+import { marketDataMock } from './data/marketDataMock';
+import { globalDataMock, mockSearchResults } from './data/globalDataMock';
 
 export const handlers = [
   http.get(`/api/markets`, () => {

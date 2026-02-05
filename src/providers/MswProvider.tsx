@@ -15,7 +15,6 @@ export function MswProvider({ children }: { children: React.ReactNode }) {
       };
 
       initMsw();
-      setIsReady(true);
     } else {
       setIsReady(true);
     }
