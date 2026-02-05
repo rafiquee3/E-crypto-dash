@@ -1,211 +1,997 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`AssetList should match stable table snapshot 1`] = `
-<table>
-  <thead>
-    <tr>
-      <th>
-        #
-      </th>
-      <th>
-        Coin
-      </th>
-      <th>
-        Price
-      </th>
-      <th>
-        1h
-      </th>
-      <th>
-        24h
-      </th>
-      <th>
-        Volume
-      </th>
-      <th>
-        Market Cap
-      </th>
-      <th>
-        Last 7 Days
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        1
-      </td>
-      <td>
+<div
+  class="space-y-6"
+>
+  <div
+    class="rounded-xl border border-gray-800 bg-gray-950/50"
+  >
+    <div>
+      <div
+        class="flex items-center border-b border-gray-800 text-gray-500 text-[10px] uppercase tracking-[0.2em] font-bold bg-gray-900/40 px-6 py-5 sticky top-0 z-10"
+      >
         <div
-          class="flex items-center"
+          class="w-12 text-center"
         >
-          <span>
-            Bitcoin
-          </span>
-          <span>
-            btc
-          </span>
+          Rank
         </div>
-      </td>
-      <td>
-        $90,121.00
-      </td>
-      <td>
-        +8.08%
-      </td>
-      <td>
-        +28.15%
-      </td>
-      <td>
-        42.1B
-      </td>
-      <td>
-        1.8T
-      </td>
-      <td>
-        +4.39%
-      </td>
-    </tr>
-    <tr>
-      <td>
-        2
-      </td>
-      <td>
         <div
-          class="flex items-center"
+          class="flex-1 px-4"
         >
-          <span>
-            Ethereum
-          </span>
-          <span>
-            eth
-          </span>
+          Coin
         </div>
-      </td>
-      <td>
-        $3,106.02
-      </td>
-      <td>
-        -6.27%
-      </td>
-      <td>
-        +140.82%
-      </td>
-      <td>
-        15.1B
-      </td>
-      <td>
-        375.0B
-      </td>
-      <td>
-        +161.64%
-      </td>
-    </tr>
-    <tr>
-      <td>
-        3
-      </td>
-      <td>
         <div
-          class="flex items-center"
+          class="w-32 text-right"
         >
-          <span>
-            Tether
-          </span>
-          <span>
-            usdt
-          </span>
+          Price
         </div>
-      </td>
-      <td>
-        $1.00
-      </td>
-      <td>
-        +0.06%
-      </td>
-      <td>
-        -0.08%
-      </td>
-      <td>
-        45.5B
-      </td>
-      <td>
-        186.2B
-      </td>
-      <td>
-        -0.53%
-      </td>
-    </tr>
-    <tr>
-      <td>
-        4
-      </td>
-      <td>
         <div
-          class="flex items-center"
+          class="hidden min-[520px]:block w-24 text-right text-indigo-400/80"
         >
-          <span>
-            BNB
-          </span>
-          <span>
-            bnb
-          </span>
+          1h
         </div>
-      </td>
-      <td>
-        $901.68
-      </td>
-      <td>
-        +34.24%
-      </td>
-      <td>
-        +285.18%
-      </td>
-      <td>
-        998.3M
-      </td>
-      <td>
-        124.3B
-      </td>
-      <td>
-        +106.81%
-      </td>
-    </tr>
-    <tr>
-      <td>
-        5
-      </td>
-      <td>
         <div
-          class="flex items-center"
+          class="hidden min-[600px]:block w-24 text-right text-indigo-400/80"
         >
-          <span>
-            XRP
-          </span>
-          <span>
-            xrp
-          </span>
+          24h
         </div>
-      </td>
-      <td>
-        $2.03
-      </td>
-      <td>
-        -25.31%
-      </td>
-      <td>
-        +215.81%
-      </td>
-      <td>
-        1.9B
-      </td>
-      <td>
-        122.2B
-      </td>
-      <td>
-        -73.82%
-      </td>
-    </tr>
-  </tbody>
-</table>
+        <div
+          class="hidden min-[700px]:block w-24 text-right"
+        >
+          Volume
+        </div>
+        <div
+          class="hidden min-[800px]:block w-24 text-right"
+        >
+          M Cap
+        </div>
+        <div
+          class="hidden min-[990px]:block w-24 text-right pr-2"
+        >
+          Last 7d
+        </div>
+      </div>
+      <div
+        class="divide-y divide-gray-800/30"
+      >
+        <a
+          aria-label="View details for Bitcoin"
+          class="flex items-center odd:bg-gray-800/40 even:bg-gray-800/30 hover:bg-blue-800/30 transition-all duration-200 group px-6 py-6"
+          href="/coin/bitcoin"
+          style="content-visibility: auto; contain-intrinsic-size: auto 81px;"
+        >
+          <div
+            class="w-12 text-center text-gray-500 font-mono text-sm group-hover:text-gray-400 transition-colors"
+          >
+            1
+          </div>
+          <div
+            class="flex-1 flex items-center gap-4 min-w-0 px-4"
+          >
+            <img
+              alt=""
+              class="hidden min-[400px]:block w-8 h-8 rounded-full flex-shrink-0 shadow-lg shadow-black/50"
+              src="https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400"
+            />
+            <div
+              class="flex flex-col min-w-0"
+            >
+              <span
+                class="text-white font-semibold group-hover:text-indigo-400 transition-colors truncate"
+              >
+                Bitcoin
+              </span>
+              <span
+                class="text-gray-500 text-[10px] uppercase font-bold tracking-wider"
+              >
+                btc
+              </span>
+            </div>
+          </div>
+          <div
+            class="w-32 text-right font-mono text-sm font-medium text-gray-100 group-hover:text-white"
+          >
+            $90,121.00
+          </div>
+          <div
+            aria-label="1 hour change: +0.08% gain"
+            class="hidden min-[520px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +0.08%
+          </div>
+          <div
+            aria-label="24 hour change: +0.28% gain"
+            class="hidden min-[600px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +0.28%
+          </div>
+          <div
+            class="hidden min-[700px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            42.1B
+          </div>
+          <div
+            class="hidden min-[800px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            1.8T
+          </div>
+          <div
+            aria-label="7 day change: +0.04% gain"
+            class="hidden min-[990px]:block w-24 text-right pr-2 font-medium text-xs text-emerald-400"
+          >
+            +0.04%
+          </div>
+        </a>
+        <a
+          aria-label="View details for Ethereum"
+          class="flex items-center odd:bg-gray-800/40 even:bg-gray-800/30 hover:bg-blue-800/30 transition-all duration-200 group px-6 py-6"
+          href="/coin/ethereum"
+          style="content-visibility: auto; contain-intrinsic-size: auto 81px;"
+        >
+          <div
+            class="w-12 text-center text-gray-500 font-mono text-sm group-hover:text-gray-400 transition-colors"
+          >
+            2
+          </div>
+          <div
+            class="flex-1 flex items-center gap-4 min-w-0 px-4"
+          >
+            <img
+              alt=""
+              class="hidden min-[400px]:block w-8 h-8 rounded-full flex-shrink-0 shadow-lg shadow-black/50"
+              src="https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628"
+            />
+            <div
+              class="flex flex-col min-w-0"
+            >
+              <span
+                class="text-white font-semibold group-hover:text-indigo-400 transition-colors truncate"
+              >
+                Ethereum
+              </span>
+              <span
+                class="text-gray-500 text-[10px] uppercase font-bold tracking-wider"
+              >
+                eth
+              </span>
+            </div>
+          </div>
+          <div
+            class="w-32 text-right font-mono text-sm font-medium text-gray-100 group-hover:text-white"
+          >
+            $3,106.02
+          </div>
+          <div
+            aria-label="1 hour change: -0.06% loss"
+            class="hidden min-[520px]:block w-24 text-right font-medium text-xs text-rose-400"
+          >
+            -0.06%
+          </div>
+          <div
+            aria-label="24 hour change: +1.41% gain"
+            class="hidden min-[600px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +1.41%
+          </div>
+          <div
+            class="hidden min-[700px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            15.1B
+          </div>
+          <div
+            class="hidden min-[800px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            375.0B
+          </div>
+          <div
+            aria-label="7 day change: +1.62% gain"
+            class="hidden min-[990px]:block w-24 text-right pr-2 font-medium text-xs text-emerald-400"
+          >
+            +1.62%
+          </div>
+        </a>
+        <a
+          aria-label="View details for Tether"
+          class="flex items-center odd:bg-gray-800/40 even:bg-gray-800/30 hover:bg-blue-800/30 transition-all duration-200 group px-6 py-6"
+          href="/coin/tether"
+          style="content-visibility: auto; contain-intrinsic-size: auto 81px;"
+        >
+          <div
+            class="w-12 text-center text-gray-500 font-mono text-sm group-hover:text-gray-400 transition-colors"
+          >
+            3
+          </div>
+          <div
+            class="flex-1 flex items-center gap-4 min-w-0 px-4"
+          >
+            <img
+              alt=""
+              class="hidden min-[400px]:block w-8 h-8 rounded-full flex-shrink-0 shadow-lg shadow-black/50"
+              src="https://coin-images.coingecko.com/coins/images/325/large/Tether.png?1696501661"
+            />
+            <div
+              class="flex flex-col min-w-0"
+            >
+              <span
+                class="text-white font-semibold group-hover:text-indigo-400 transition-colors truncate"
+              >
+                Tether
+              </span>
+              <span
+                class="text-gray-500 text-[10px] uppercase font-bold tracking-wider"
+              >
+                usdt
+              </span>
+            </div>
+          </div>
+          <div
+            class="w-32 text-right font-mono text-sm font-medium text-gray-100 group-hover:text-white"
+          >
+            $1.00
+          </div>
+          <div
+            aria-label="1 hour change: +0.00% gain"
+            class="hidden min-[520px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +0.00%
+          </div>
+          <div
+            aria-label="24 hour change: -0.00% loss"
+            class="hidden min-[600px]:block w-24 text-right font-medium text-xs text-rose-400"
+          >
+            -0.00%
+          </div>
+          <div
+            class="hidden min-[700px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            45.5B
+          </div>
+          <div
+            class="hidden min-[800px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            186.2B
+          </div>
+          <div
+            aria-label="7 day change: -0.01% loss"
+            class="hidden min-[990px]:block w-24 text-right pr-2 font-medium text-xs text-rose-400"
+          >
+            -0.01%
+          </div>
+        </a>
+        <a
+          aria-label="View details for BNB"
+          class="flex items-center odd:bg-gray-800/40 even:bg-gray-800/30 hover:bg-blue-800/30 transition-all duration-200 group px-6 py-6"
+          href="/coin/binancecoin"
+          style="content-visibility: auto; contain-intrinsic-size: auto 81px;"
+        >
+          <div
+            class="w-12 text-center text-gray-500 font-mono text-sm group-hover:text-gray-400 transition-colors"
+          >
+            4
+          </div>
+          <div
+            class="flex-1 flex items-center gap-4 min-w-0 px-4"
+          >
+            <img
+              alt=""
+              class="hidden min-[400px]:block w-8 h-8 rounded-full flex-shrink-0 shadow-lg shadow-black/50"
+              src="https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970"
+            />
+            <div
+              class="flex flex-col min-w-0"
+            >
+              <span
+                class="text-white font-semibold group-hover:text-indigo-400 transition-colors truncate"
+              >
+                BNB
+              </span>
+              <span
+                class="text-gray-500 text-[10px] uppercase font-bold tracking-wider"
+              >
+                bnb
+              </span>
+            </div>
+          </div>
+          <div
+            class="w-32 text-right font-mono text-sm font-medium text-gray-100 group-hover:text-white"
+          >
+            $901.68
+          </div>
+          <div
+            aria-label="1 hour change: +0.34% gain"
+            class="hidden min-[520px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +0.34%
+          </div>
+          <div
+            aria-label="24 hour change: +2.85% gain"
+            class="hidden min-[600px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +2.85%
+          </div>
+          <div
+            class="hidden min-[700px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            998.3M
+          </div>
+          <div
+            class="hidden min-[800px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            124.3B
+          </div>
+          <div
+            aria-label="7 day change: +1.07% gain"
+            class="hidden min-[990px]:block w-24 text-right pr-2 font-medium text-xs text-emerald-400"
+          >
+            +1.07%
+          </div>
+        </a>
+        <a
+          aria-label="View details for XRP"
+          class="flex items-center odd:bg-gray-800/40 even:bg-gray-800/30 hover:bg-blue-800/30 transition-all duration-200 group px-6 py-6"
+          href="/coin/ripple"
+          style="content-visibility: auto; contain-intrinsic-size: auto 81px;"
+        >
+          <div
+            class="w-12 text-center text-gray-500 font-mono text-sm group-hover:text-gray-400 transition-colors"
+          >
+            5
+          </div>
+          <div
+            class="flex-1 flex items-center gap-4 min-w-0 px-4"
+          >
+            <img
+              alt=""
+              class="hidden min-[400px]:block w-8 h-8 rounded-full flex-shrink-0 shadow-lg shadow-black/50"
+              src="https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442"
+            />
+            <div
+              class="flex flex-col min-w-0"
+            >
+              <span
+                class="text-white font-semibold group-hover:text-indigo-400 transition-colors truncate"
+              >
+                XRP
+              </span>
+              <span
+                class="text-gray-500 text-[10px] uppercase font-bold tracking-wider"
+              >
+                xrp
+              </span>
+            </div>
+          </div>
+          <div
+            class="w-32 text-right font-mono text-sm font-medium text-gray-100 group-hover:text-white"
+          >
+            $2.03
+          </div>
+          <div
+            aria-label="1 hour change: -0.25% loss"
+            class="hidden min-[520px]:block w-24 text-right font-medium text-xs text-rose-400"
+          >
+            -0.25%
+          </div>
+          <div
+            aria-label="24 hour change: +2.16% gain"
+            class="hidden min-[600px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +2.16%
+          </div>
+          <div
+            class="hidden min-[700px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            1.9B
+          </div>
+          <div
+            class="hidden min-[800px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            122.2B
+          </div>
+          <div
+            aria-label="7 day change: -0.74% loss"
+            class="hidden min-[990px]:block w-24 text-right pr-2 font-medium text-xs text-rose-400"
+          >
+            -0.74%
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex flex-col sm:flex-row items-center justify-between px-2 gap-4"
+  >
+    <div
+      class="flex items-center gap-6"
+    >
+      <div
+        class="text-gray-500 text-[12px] uppercase font-bold tracking-wider"
+      >
+        Page 
+        <span
+          class="text-indigo-400 font-bold"
+        >
+          1
+        </span>
+      </div>
+      <div
+        class="flex items-center gap-3"
+      >
+        <span
+          class="text-gray-600 text-[12px] uppercase font-bold tracking-wider"
+        >
+          Show:
+        </span>
+        <select
+          class="bg-gray-900 border border-gray-800 text-gray-300 text-xs font-bold rounded-md px-2 py-1.5 focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
+        >
+          <option
+            value="10"
+          >
+            10
+          </option>
+          <option
+            value="20"
+          >
+            20
+          </option>
+          <option
+            value="30"
+          >
+            30
+          </option>
+          <option
+            value="40"
+          >
+            40
+          </option>
+          <option
+            value="50"
+          >
+            50
+          </option>
+          <option
+            value="60"
+          >
+            60
+          </option>
+          <option
+            value="70"
+          >
+            70
+          </option>
+          <option
+            value="80"
+          >
+            80
+          </option>
+        </select>
+      </div>
+    </div>
+    <div
+      class="flex gap-2 w-full sm:w-auto"
+    >
+      <button
+        class="cursor-pointer flex-1 sm:flex-none px-4 py-3 rounded-md bg-gray-900 border border-gray-800 text-gray-400 hover:text-white hover:border-indigo-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 group"
+        disabled=""
+      >
+        <span
+          class="group-hover:-translate-x-1 transition-transform"
+        >
+          ←
+        </span>
+         Prev
+      </button>
+      <button
+        class="cursor-pointer flex-1 sm:flex-none px-4 py-3 rounded-md bg-gray-900 border border-gray-800 text-gray-400 hover:text-white hover:border-indigo-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 group"
+        disabled=""
+      >
+        Next 
+        <span
+          class="group-hover:translate-x-1 transition-transform"
+        >
+          →
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Snapshot Tests should match snapshot when data is loaded 1`] = `
+<div
+  class="space-y-6"
+>
+  <div
+    class="rounded-xl border border-gray-800 bg-gray-950/50"
+  >
+    <div>
+      <div
+        class="flex items-center border-b border-gray-800 text-gray-500 text-[10px] uppercase tracking-[0.2em] font-bold bg-gray-900/40 px-6 py-5 sticky top-0 z-10"
+      >
+        <div
+          class="w-12 text-center"
+        >
+          Rank
+        </div>
+        <div
+          class="flex-1 px-4"
+        >
+          Coin
+        </div>
+        <div
+          class="w-32 text-right"
+        >
+          Price
+        </div>
+        <div
+          class="hidden min-[520px]:block w-24 text-right text-indigo-400/80"
+        >
+          1h
+        </div>
+        <div
+          class="hidden min-[600px]:block w-24 text-right text-indigo-400/80"
+        >
+          24h
+        </div>
+        <div
+          class="hidden min-[700px]:block w-24 text-right"
+        >
+          Volume
+        </div>
+        <div
+          class="hidden min-[800px]:block w-24 text-right"
+        >
+          M Cap
+        </div>
+        <div
+          class="hidden min-[990px]:block w-24 text-right pr-2"
+        >
+          Last 7d
+        </div>
+      </div>
+      <div
+        class="divide-y divide-gray-800/30"
+      >
+        <a
+          aria-label="View details for Bitcoin"
+          class="flex items-center odd:bg-gray-800/40 even:bg-gray-800/30 hover:bg-blue-800/30 transition-all duration-200 group px-6 py-6"
+          href="/coin/bitcoin"
+          style="content-visibility: auto; contain-intrinsic-size: auto 81px;"
+        >
+          <div
+            class="w-12 text-center text-gray-500 font-mono text-sm group-hover:text-gray-400 transition-colors"
+          >
+            1
+          </div>
+          <div
+            class="flex-1 flex items-center gap-4 min-w-0 px-4"
+          >
+            <img
+              alt=""
+              class="hidden min-[400px]:block w-8 h-8 rounded-full flex-shrink-0 shadow-lg shadow-black/50"
+              src="https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400"
+            />
+            <div
+              class="flex flex-col min-w-0"
+            >
+              <span
+                class="text-white font-semibold group-hover:text-indigo-400 transition-colors truncate"
+              >
+                Bitcoin
+              </span>
+              <span
+                class="text-gray-500 text-[10px] uppercase font-bold tracking-wider"
+              >
+                btc
+              </span>
+            </div>
+          </div>
+          <div
+            class="w-32 text-right font-mono text-sm font-medium text-gray-100 group-hover:text-white"
+          >
+            $90,121.00
+          </div>
+          <div
+            aria-label="1 hour change: +0.08% gain"
+            class="hidden min-[520px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +0.08%
+          </div>
+          <div
+            aria-label="24 hour change: +0.28% gain"
+            class="hidden min-[600px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +0.28%
+          </div>
+          <div
+            class="hidden min-[700px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            42.1B
+          </div>
+          <div
+            class="hidden min-[800px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            1.8T
+          </div>
+          <div
+            aria-label="7 day change: +0.04% gain"
+            class="hidden min-[990px]:block w-24 text-right pr-2 font-medium text-xs text-emerald-400"
+          >
+            +0.04%
+          </div>
+        </a>
+        <a
+          aria-label="View details for Ethereum"
+          class="flex items-center odd:bg-gray-800/40 even:bg-gray-800/30 hover:bg-blue-800/30 transition-all duration-200 group px-6 py-6"
+          href="/coin/ethereum"
+          style="content-visibility: auto; contain-intrinsic-size: auto 81px;"
+        >
+          <div
+            class="w-12 text-center text-gray-500 font-mono text-sm group-hover:text-gray-400 transition-colors"
+          >
+            2
+          </div>
+          <div
+            class="flex-1 flex items-center gap-4 min-w-0 px-4"
+          >
+            <img
+              alt=""
+              class="hidden min-[400px]:block w-8 h-8 rounded-full flex-shrink-0 shadow-lg shadow-black/50"
+              src="https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628"
+            />
+            <div
+              class="flex flex-col min-w-0"
+            >
+              <span
+                class="text-white font-semibold group-hover:text-indigo-400 transition-colors truncate"
+              >
+                Ethereum
+              </span>
+              <span
+                class="text-gray-500 text-[10px] uppercase font-bold tracking-wider"
+              >
+                eth
+              </span>
+            </div>
+          </div>
+          <div
+            class="w-32 text-right font-mono text-sm font-medium text-gray-100 group-hover:text-white"
+          >
+            $3,106.02
+          </div>
+          <div
+            aria-label="1 hour change: -0.06% loss"
+            class="hidden min-[520px]:block w-24 text-right font-medium text-xs text-rose-400"
+          >
+            -0.06%
+          </div>
+          <div
+            aria-label="24 hour change: +1.41% gain"
+            class="hidden min-[600px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +1.41%
+          </div>
+          <div
+            class="hidden min-[700px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            15.1B
+          </div>
+          <div
+            class="hidden min-[800px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            375.0B
+          </div>
+          <div
+            aria-label="7 day change: +1.62% gain"
+            class="hidden min-[990px]:block w-24 text-right pr-2 font-medium text-xs text-emerald-400"
+          >
+            +1.62%
+          </div>
+        </a>
+        <a
+          aria-label="View details for Tether"
+          class="flex items-center odd:bg-gray-800/40 even:bg-gray-800/30 hover:bg-blue-800/30 transition-all duration-200 group px-6 py-6"
+          href="/coin/tether"
+          style="content-visibility: auto; contain-intrinsic-size: auto 81px;"
+        >
+          <div
+            class="w-12 text-center text-gray-500 font-mono text-sm group-hover:text-gray-400 transition-colors"
+          >
+            3
+          </div>
+          <div
+            class="flex-1 flex items-center gap-4 min-w-0 px-4"
+          >
+            <img
+              alt=""
+              class="hidden min-[400px]:block w-8 h-8 rounded-full flex-shrink-0 shadow-lg shadow-black/50"
+              src="https://coin-images.coingecko.com/coins/images/325/large/Tether.png?1696501661"
+            />
+            <div
+              class="flex flex-col min-w-0"
+            >
+              <span
+                class="text-white font-semibold group-hover:text-indigo-400 transition-colors truncate"
+              >
+                Tether
+              </span>
+              <span
+                class="text-gray-500 text-[10px] uppercase font-bold tracking-wider"
+              >
+                usdt
+              </span>
+            </div>
+          </div>
+          <div
+            class="w-32 text-right font-mono text-sm font-medium text-gray-100 group-hover:text-white"
+          >
+            $1.00
+          </div>
+          <div
+            aria-label="1 hour change: +0.00% gain"
+            class="hidden min-[520px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +0.00%
+          </div>
+          <div
+            aria-label="24 hour change: -0.00% loss"
+            class="hidden min-[600px]:block w-24 text-right font-medium text-xs text-rose-400"
+          >
+            -0.00%
+          </div>
+          <div
+            class="hidden min-[700px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            45.5B
+          </div>
+          <div
+            class="hidden min-[800px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            186.2B
+          </div>
+          <div
+            aria-label="7 day change: -0.01% loss"
+            class="hidden min-[990px]:block w-24 text-right pr-2 font-medium text-xs text-rose-400"
+          >
+            -0.01%
+          </div>
+        </a>
+        <a
+          aria-label="View details for BNB"
+          class="flex items-center odd:bg-gray-800/40 even:bg-gray-800/30 hover:bg-blue-800/30 transition-all duration-200 group px-6 py-6"
+          href="/coin/binancecoin"
+          style="content-visibility: auto; contain-intrinsic-size: auto 81px;"
+        >
+          <div
+            class="w-12 text-center text-gray-500 font-mono text-sm group-hover:text-gray-400 transition-colors"
+          >
+            4
+          </div>
+          <div
+            class="flex-1 flex items-center gap-4 min-w-0 px-4"
+          >
+            <img
+              alt=""
+              class="hidden min-[400px]:block w-8 h-8 rounded-full flex-shrink-0 shadow-lg shadow-black/50"
+              src="https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970"
+            />
+            <div
+              class="flex flex-col min-w-0"
+            >
+              <span
+                class="text-white font-semibold group-hover:text-indigo-400 transition-colors truncate"
+              >
+                BNB
+              </span>
+              <span
+                class="text-gray-500 text-[10px] uppercase font-bold tracking-wider"
+              >
+                bnb
+              </span>
+            </div>
+          </div>
+          <div
+            class="w-32 text-right font-mono text-sm font-medium text-gray-100 group-hover:text-white"
+          >
+            $901.68
+          </div>
+          <div
+            aria-label="1 hour change: +0.34% gain"
+            class="hidden min-[520px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +0.34%
+          </div>
+          <div
+            aria-label="24 hour change: +2.85% gain"
+            class="hidden min-[600px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +2.85%
+          </div>
+          <div
+            class="hidden min-[700px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            998.3M
+          </div>
+          <div
+            class="hidden min-[800px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            124.3B
+          </div>
+          <div
+            aria-label="7 day change: +1.07% gain"
+            class="hidden min-[990px]:block w-24 text-right pr-2 font-medium text-xs text-emerald-400"
+          >
+            +1.07%
+          </div>
+        </a>
+        <a
+          aria-label="View details for XRP"
+          class="flex items-center odd:bg-gray-800/40 even:bg-gray-800/30 hover:bg-blue-800/30 transition-all duration-200 group px-6 py-6"
+          href="/coin/ripple"
+          style="content-visibility: auto; contain-intrinsic-size: auto 81px;"
+        >
+          <div
+            class="w-12 text-center text-gray-500 font-mono text-sm group-hover:text-gray-400 transition-colors"
+          >
+            5
+          </div>
+          <div
+            class="flex-1 flex items-center gap-4 min-w-0 px-4"
+          >
+            <img
+              alt=""
+              class="hidden min-[400px]:block w-8 h-8 rounded-full flex-shrink-0 shadow-lg shadow-black/50"
+              src="https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442"
+            />
+            <div
+              class="flex flex-col min-w-0"
+            >
+              <span
+                class="text-white font-semibold group-hover:text-indigo-400 transition-colors truncate"
+              >
+                XRP
+              </span>
+              <span
+                class="text-gray-500 text-[10px] uppercase font-bold tracking-wider"
+              >
+                xrp
+              </span>
+            </div>
+          </div>
+          <div
+            class="w-32 text-right font-mono text-sm font-medium text-gray-100 group-hover:text-white"
+          >
+            $2.03
+          </div>
+          <div
+            aria-label="1 hour change: -0.25% loss"
+            class="hidden min-[520px]:block w-24 text-right font-medium text-xs text-rose-400"
+          >
+            -0.25%
+          </div>
+          <div
+            aria-label="24 hour change: +2.16% gain"
+            class="hidden min-[600px]:block w-24 text-right font-medium text-xs text-emerald-400"
+          >
+            +2.16%
+          </div>
+          <div
+            class="hidden min-[700px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            1.9B
+          </div>
+          <div
+            class="hidden min-[800px]:block w-24 text-right text-gray-400 text-xs font-medium"
+          >
+            122.2B
+          </div>
+          <div
+            aria-label="7 day change: -0.74% loss"
+            class="hidden min-[990px]:block w-24 text-right pr-2 font-medium text-xs text-rose-400"
+          >
+            -0.74%
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex flex-col sm:flex-row items-center justify-between px-2 gap-4"
+  >
+    <div
+      class="flex items-center gap-6"
+    >
+      <div
+        class="text-gray-500 text-[12px] uppercase font-bold tracking-wider"
+      >
+        Page 
+        <span
+          class="text-indigo-400 font-bold"
+        >
+          1
+        </span>
+      </div>
+      <div
+        class="flex items-center gap-3"
+      >
+        <span
+          class="text-gray-600 text-[12px] uppercase font-bold tracking-wider"
+        >
+          Show:
+        </span>
+        <select
+          class="bg-gray-900 border border-gray-800 text-gray-300 text-xs font-bold rounded-md px-2 py-1.5 focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
+        >
+          <option
+            value="10"
+          >
+            10
+          </option>
+          <option
+            value="20"
+          >
+            20
+          </option>
+          <option
+            value="30"
+          >
+            30
+          </option>
+          <option
+            value="40"
+          >
+            40
+          </option>
+          <option
+            value="50"
+          >
+            50
+          </option>
+          <option
+            value="60"
+          >
+            60
+          </option>
+          <option
+            value="70"
+          >
+            70
+          </option>
+          <option
+            value="80"
+          >
+            80
+          </option>
+        </select>
+      </div>
+    </div>
+    <div
+      class="flex gap-2 w-full sm:w-auto"
+    >
+      <button
+        class="cursor-pointer flex-1 sm:flex-none px-4 py-3 rounded-md bg-gray-900 border border-gray-800 text-gray-400 hover:text-white hover:border-indigo-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 group"
+        disabled=""
+      >
+        <span
+          class="group-hover:-translate-x-1 transition-transform"
+        >
+          ←
+        </span>
+         Prev
+      </button>
+      <button
+        class="cursor-pointer flex-1 sm:flex-none px-4 py-3 rounded-md bg-gray-900 border border-gray-800 text-gray-400 hover:text-white hover:border-indigo-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 group"
+        disabled=""
+      >
+        Next 
+        <span
+          class="group-hover:translate-x-1 transition-transform"
+        >
+          →
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
 `;

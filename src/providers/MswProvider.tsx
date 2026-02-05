@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 
-export function MswProvider({children}: {children: React.ReactNode;}) {
+export function MswProvider({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -9,12 +9,12 @@ export function MswProvider({children}: {children: React.ReactNode;}) {
       const initMsw = async () => {
         const { worker } = await import('../mocks/browser');
         await worker.start({
-        onUnhandledRequest: 'bypass', // for Websocket CoinCap
-      });
+          onUnhandledRequest: 'bypass', // for Websocket CoinCap
+        });
         setIsReady(true);
       };
 
-      //initMsw();
+      initMsw();
       setIsReady(true);
     } else {
       setIsReady(true);
