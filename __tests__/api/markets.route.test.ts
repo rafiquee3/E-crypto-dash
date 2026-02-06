@@ -30,12 +30,14 @@ describe('api/markets', () => {
     jest
       .spyOn(CoinGeckoAdapter.prototype, 'fetchMarketData')
       .mockImplementation(mockFetchMarketData);
+
     mockMarketsRateLimit.limit.mockResolvedValue({
       success: true,
       limit: 60,
       remaining: 59,
       reset: Date.now() + 60000,
     } as Awaited<ReturnType<(typeof marketsRateLimit)['limit']>>);
+
     mockGetClientIdentifier.mockReturnValue('test-ip');
   });
 
@@ -198,7 +200,14 @@ describe('api/markets', () => {
   });
 
   describe('Server Errors (500)', () => {
+    const originalEnv = process.env.NODE_ENV;
+
+    afterEach(() => {
+      (process.env as any).NODE_ENV = originalEnv;
+    });
+
     it('should return 500 when fetchMarketData throws an error', async () => {
+      (process.env as any).NODE_ENV = 'production';
       mockFetchMarketData.mockRejectedValue(new Error('API connection failed'));
 
       const req = new Request('http://localhost/api/markets?vs_currency=usd');
@@ -206,11 +215,11 @@ describe('api/markets', () => {
 
       expect(res.status).toBe(500);
       const body = await res.json();
-      expect(body.error).toBe('Internal Server Error');
-      expect(body.message).toBe('An error occurred while processing your request.');
+      expect(body.message).toBe('An internal server error occurred. Please try again later.');
     });
 
     it('should not leak internal error details to client', async () => {
+      (process.env as any).NODE_ENV = 'production';
       const internalError = new Error('Sensitive database connection string');
       mockFetchMarketData.mockRejectedValue(internalError);
 
@@ -221,6 +230,7 @@ describe('api/markets', () => {
       const body = await res.json();
       expect(body.message).not.toContain('Sensitive');
       expect(body.message).not.toContain('database');
+      expect(body.message).toBe('An internal server error occurred. Please try again later.');
     });
   });
 });
