@@ -30,7 +30,6 @@ if (typeof (global as any).WritableStream === 'undefined') {
   } as any;
 }
 
-
 // Minimal BroadcastChannel stub for msw v2 (used for worker messaging)
 if (typeof (global as any).BroadcastChannel === 'undefined') {
   class BroadcastChannel {
@@ -57,7 +56,10 @@ if (typeof (global as any).BroadcastChannel === 'undefined') {
 // However some modules import them at init time, so provide minimal stubs if missing.
 if (typeof (global as any).Request === 'undefined') {
   (global as any).Request = class Request {
-    constructor(public input?: any, public init?: any) {}
+    constructor(
+      public input?: any,
+      public init?: any,
+    ) {}
   } as any;
 }
 
@@ -71,20 +73,43 @@ if (typeof (global as any).Response === 'undefined') {
       this.status = init?.status ?? 200;
       this.headers = init?.headers ?? {};
     }
-    clone() { return this; }
-    text() { return Promise.resolve(String(this.body ?? '')); }
-    json() { return Promise.resolve(this.body); }
-    get ok() { return this.status >= 200 && this.status < 300; }
+    clone() {
+      return this;
+    }
+    text() {
+      return Promise.resolve(String(this.body ?? ''));
+    }
+    json() {
+      if (typeof this.body === 'string') {
+        try {
+          return Promise.resolve(JSON.parse(this.body));
+        } catch (e) {
+          return Promise.resolve(this.body);
+        }
+      }
+      return Promise.resolve(this.body);
+    }
+    get ok() {
+      return this.status >= 200 && this.status < 300;
+    }
   } as any;
 }
 
 if (typeof (global as any).Headers === 'undefined') {
   (global as any).Headers = class Headers {
     private map = new Map<string, string>();
-    constructor(init?: any) { if (init) Object.entries(init).forEach(([k,v]) => this.map.set(k, String(v))); }
-    get(k: string) { return this.map.get(k.toLowerCase()) ?? null; }
-    append(k: string, v: string) { this.map.set(k.toLowerCase(), v); }
-    all() { return Object.fromEntries(this.map); }
+    constructor(init?: any) {
+      if (init) Object.entries(init).forEach(([k, v]) => this.map.set(k, String(v)));
+    }
+    get(k: string) {
+      return this.map.get(k.toLowerCase()) ?? null;
+    }
+    append(k: string, v: string) {
+      this.map.set(k.toLowerCase(), v);
+    }
+    all() {
+      return Object.fromEntries(this.map);
+    }
   } as any;
 }
 
@@ -105,7 +130,7 @@ if (typeof (global as any).TextDecoder === 'undefined') {
     }
     decode(input?: ArrayBuffer | Uint8Array): string {
       if (!input) return '';
-      const u8 = input instanceof ArrayBuffer ? new Uint8Array(input) : input as Uint8Array;
+      const u8 = input instanceof ArrayBuffer ? new Uint8Array(input) : (input as Uint8Array);
       return Buffer.from(u8).toString(this.encoding);
     }
   }
