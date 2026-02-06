@@ -7,6 +7,8 @@ import {
   GlobalData,
   CoinDetailDataSchema,
   CoinDetailData,
+  SearchResponseSchema,
+  SearchResponse,
 } from '@/types/yup';
 import { ICryptoDataProvider } from './ICryptoDataProvider';
 
@@ -174,8 +176,20 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
       throw this.handleApiError(response);
     }
 
-    const data = await response.json();
-    return data;
+    let rawData = await response.json();
+    if (typeof rawData === 'string') {
+      try {
+        rawData = JSON.parse(rawData);
+      } catch (err) {
+        console.warn('Failed to parse JSON string from response', err);
+      }
+    }
+
+    const data = rawData;
+    return SearchResponseSchema.validateSync(data, {
+      abortEarly: false,
+      strict: false,
+    }) as SearchResponse;
   }
 
   private handleApiError(response: Response): Error {

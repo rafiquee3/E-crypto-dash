@@ -261,3 +261,20 @@ export const SearchQuerySchema = yup
   .noUnknown();
 
 export interface SearchQuery extends yup.InferType<typeof SearchQuerySchema> {}
+
+export const SearchResponseSchema = yup.object({
+  coins: yup
+    .array()
+    .of(
+      yup.object({
+        id: yup.string().required(),
+        name: yup.string().required(),
+        symbol: yup.string().required(),
+        thumb: yup.string().required(),
+        market_cap_rank: yup.number().nullable(),
+      }),
+    )
+    .required(),
+});
+
+export interface SearchResponse extends yup.InferType<typeof SearchResponseSchema> {}
