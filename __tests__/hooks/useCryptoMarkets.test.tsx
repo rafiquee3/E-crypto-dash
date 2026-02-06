@@ -43,6 +43,28 @@ describe('useCryptoMarkets Hook', () => {
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
       expect(result.current.data).toStrictEqual(MarketDataFrontMock);
     });
+
+    it('should call fetch with the correct URL parameters', async () => {
+      let capturedRequest: Request | null = null;
+      server.use(
+        http.get('/api/markets', ({ request }) => {
+          capturedRequest = request;
+          return HttpResponse.json(MarketDataFrontMock);
+        }),
+      );
+
+      const options = { vs_currency: 'eur', per_page: 50 };
+      const { result } = renderHook(() => useCryptoMarkets(options), {
+        wrapper: QueryProvider,
+      });
+
+      await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+      const url = new URL(capturedRequest!.url);
+      expect(url.searchParams.get('vs_currency')).toBe('eur');
+      expect(url.searchParams.get('per_page')).toBe('50');
+      expect(url.searchParams.get('order')).toBe('market_cap_desc');
+    });
   });
 
   describe('Error Handling', () => {

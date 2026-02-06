@@ -31,6 +31,25 @@ describe('useGlobalData Hook', () => {
       expect(result.current.data).toStrictEqual(globalDataMock);
     });
 
+    it('should call fetch with the correct URL parameters', async () => {
+      let capturedRequest: Request | null = null;
+      server.use(
+        http.get('/api/markets/global', ({ request }) => {
+          capturedRequest = request;
+          return HttpResponse.json(globalDataMock);
+        }),
+      );
+
+      const { result } = renderHook(() => useGlobalData(), {
+        wrapper: AllTheProviders,
+      });
+
+      await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+      const url = new URL(capturedRequest!.url);
+      expect(url.searchParams.get('currency')).toBeDefined();
+    });
+
     it('should transition correctly through loading and success states', async () => {
       const { result } = renderHook(() => useGlobalData(), {
         wrapper: AllTheProviders,
