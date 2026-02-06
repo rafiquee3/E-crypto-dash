@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Search } from '@/components/Search';
 import { ReduxProvider } from '@/store/ReduxProvider';
-import * as searchHook from '@/hooks/useCoinSearch';
+import { useCoinSearch } from '@/hooks/useCoinSearch';
 
 // Mock next/navigation
 const mockPush = jest.fn();
@@ -13,10 +13,10 @@ jest.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams(),
 }));
 
-// Mock the hook directly to avoid MSW/JSDOM fetch leaks
 jest.mock('@/hooks/useCoinSearch');
+window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
-const mockUseCoinSearch = searchHook.useCoinSearch as jest.Mock;
+const mockUseCoinSearch = useCoinSearch as jest.MockedFunction<typeof useCoinSearch>;
 
 const renderSearch = () => {
   return render(
@@ -31,7 +31,7 @@ describe('Search Component', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    // Default mock state: loading finished, results found
+
     mockUseCoinSearch.mockReturnValue({
       data: {
         coins: [
@@ -47,7 +47,7 @@ describe('Search Component', () => {
       },
       isLoading: false,
       isFetching: false,
-    });
+    } as any);
   });
 
   it('renders search input correctly', () => {
@@ -84,8 +84,7 @@ describe('Search Component', () => {
       data: { coins: [] },
       isLoading: false,
       isFetching: false,
-    });
-
+    } as any);
     renderSearch();
     const input = screen.getByRole('textbox');
     await user.type(input, 'xyz');
@@ -119,7 +118,8 @@ describe('Search Component', () => {
     // ArrowDown should highlight the first result
     await user.keyboard('{ArrowDown}');
     const options = screen.getAllByRole('option');
-    expect(options[0]).toHaveClass('bg-gray-800'); // Check if active style is applied
+    const button = options[0].querySelector('button');
+    expect(button).toHaveClass('bg-white/10');
 
     // Enter should select the highlighted result
     await user.keyboard('{Enter}');
