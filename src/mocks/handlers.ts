@@ -9,4 +9,7 @@ export const handlers = [
   http.get(`/api/markets/global`, () => {
     return HttpResponse.json(globalDataMock.data);
   }),
+  http.get(`/api/search`, () => {
+    return HttpResponse.json(mockSearchResults);
+  }),
 ];
