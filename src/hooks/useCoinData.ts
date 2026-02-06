@@ -24,14 +24,6 @@ export function useCoinData(coinId: string, days: string = '1') {
 
     let data = await response.json();
 
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (err) {
-        console.warn('Failed to parse JSON string from response', err);
-      }
-    }
-
     return data;
   };
 
