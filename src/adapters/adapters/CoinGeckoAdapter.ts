@@ -95,7 +95,11 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
     }) as GlobalData;
   }
 
-  async fetchCoinData(currency: string, coinId: string, days: string = '1') {
+  async fetchCoinData(
+    currency: string,
+    coinId: string,
+    days: string = '1',
+  ): Promise<CoinDetailData> {
     const [marketRes, chartRes] = await Promise.all([
       fetch(`${this.baseUrl}/coins/${coinId}?localization=false&tickers=false`, {
         headers: {
@@ -162,7 +166,7 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
     }) as CoinDetailData;
   }
 
-  async search(query: string) {
+  async search(query: string): Promise<SearchResponse> {
     const queryParams = new URLSearchParams({ query }).toString();
     const response = await fetch(`${this.baseUrl}/search?${queryParams}`, {
       headers: {
