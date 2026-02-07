@@ -273,3 +273,22 @@ export const coinChartMock = {
     [1625184000000, 36000],
   ],
 };
+
+export const CoinDetailFrontMock = {
+  stats: {
+    price: 50000,
+    marketCap: 1000000000,
+    volume: 50000000,
+    supply: 19000000,
+    change24h: 2.5,
+    high24h: 51000,
+    low24h: 49000,
+    ath: 69000,
+    athChange: -27.5,
+    rank: 1,
+  },
+  chart: [
+    [1625097600000, 48000],
+    [1625184000000, 50000],
+  ],
+};
