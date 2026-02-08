@@ -156,6 +156,7 @@ export const globalDataMock = {
 export const mockSearchResults = {
   coins: [
     { id: 'bitcoin', name: 'Bitcoin', symbol: 'BTC', thumb: '/btc.png' },
+    { id: 'ethereum', name: 'Ethereum', symbol: 'ETH', thumb: '/eth.png' },
     { id: 'bitcoin-cash', name: 'Bitcoin Cash', symbol: 'BCH', thumb: '/bch.png' },
   ],
 };

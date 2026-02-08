@@ -32,6 +32,9 @@ export class HomePage {
   }
 
   async selectSearchResult(coinName: string) {
-    await this.page.getByRole('option', { name: new RegExp(coinName, 'i') }).click();
+    await this.page
+      .getByRole('option', { name: new RegExp(coinName, 'i') })
+      .first()
+      .click();
   }
 }
