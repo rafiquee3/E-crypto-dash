@@ -15,7 +15,7 @@ export class CoinDetailPage {
     this.liveChart = page.getByText('Live Real-time Feed');
     this.historicalChart = page.getByText('Historical Context');
     this.timeRangeButtons = page.locator(
-      'button:has-text("24h"), button:has-text("7j"), button:has-text("1M")',
+      'button:has-text("24h"), button:has-text("7d"), button:has-text("1M")',
     );
   }
 
@@ -27,7 +27,7 @@ export class CoinDetailPage {
     await expect(this.priceHeading).toBeVisible({ timeout: 10000 });
   }
 
-  async selectTimeRange(range: '24h' | '7j' | '1M' | '3M' | '1A') {
+  async selectTimeRange(range: '24h' | '7d' | '1M' | '3M' | '1Y') {
     await this.page.getByRole('button', { name: range }).click();
   }
 

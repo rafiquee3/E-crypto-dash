@@ -261,7 +261,7 @@ describe('CoinCapStream Component', () => {
   it('should change day range and call useCoinData with new parameters', async () => {
     renderCoinCapStream();
 
-    const sevenDaysButton = screen.getByRole('button', { name: /7j/i });
+    const sevenDaysButton = screen.getByRole('button', { name: /7d/i });
     fireEvent.click(sevenDaysButton);
 
     await waitFor(() => {

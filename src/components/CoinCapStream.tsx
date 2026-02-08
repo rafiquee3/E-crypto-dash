@@ -27,10 +27,10 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
 
   const timeRanges = [
     { label: '24h', value: '1' },
-    { label: '7j', value: '7' },
+    { label: '7d', value: '7' },
     { label: '1M', value: '30' },
     { label: '3M', value: '90' },
-    { label: '1A', value: '365' },
+    { label: '1Y', value: '365' },
   ];
 
   useEffect(() => {
