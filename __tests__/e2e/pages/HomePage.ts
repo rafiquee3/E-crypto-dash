@@ -1,3 +1,4 @@
+import { globalDataMock, marketDataMock } from '@/mocks/data/marketDataMock';
 import { Page, Locator, expect } from '@playwright/test';
 
 export class HomePage {
@@ -15,7 +16,25 @@ export class HomePage {
     this.currencySelector = page.locator('[data-testid="currency-selector"]');
   }
 
+  async syncData() {
+    await this.page.route('**/api/markets*', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(marketDataMock),
+      });
+    });
+
+    await this.page.route('**/api/markets/global*', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(globalDataMock),
+      });
+    });
+  }
   async goto() {
+    await this.syncData();
     await this.page.goto('/');
   }
 

@@ -1,9 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from './pages/HomePage';
+import { CoinDetailPage } from './pages/CoinDetailPage';
 
 test.describe('Search Functionality', () => {
   test('should search and navigate to coin', async ({ page }) => {
     const homePage = new HomePage(page);
+    const coinDetail = new CoinDetailPage(page);
+
+    await homePage.syncData();
+    await coinDetail.syncData('ethereum');
+
     await homePage.goto();
     await homePage.waitForDataLoad();
 
@@ -14,6 +20,7 @@ test.describe('Search Functionality', () => {
     await homePage.selectSearchResult('Ethereum');
 
     await expect(page).toHaveURL(/\/coin\/ethereum/i);
+    await coinDetail.waitForDataLoad();
   });
 
   test('should show empty state for invalid search', async ({ page }) => {
@@ -27,6 +34,11 @@ test.describe('Search Functionality', () => {
 
   test('should support keyboard navigation', async ({ page }) => {
     const homePage = new HomePage(page);
+    const coinDetail = new CoinDetailPage(page);
+
+    await homePage.syncData();
+    await coinDetail.syncData('bitcoin');
+
     await homePage.goto();
     await homePage.waitForDataLoad();
 
@@ -39,5 +51,6 @@ test.describe('Search Functionality', () => {
     await page.keyboard.press('Enter');
 
     await expect(page).toHaveURL(/coin/);
+    await coinDetail.waitForDataLoad();
   });
 });

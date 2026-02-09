@@ -243,12 +243,10 @@ export const MarketDataFrontMock = [
 ];
 
 export const globalDataMock = {
-  data: {
-    total_market_cap: { usd: 2500000000000 },
-    total_volume: { usd: 100000000000 },
-    market_cap_percentage: { btc: 50.1, eth: 17.5 },
-    market_cap_change_percentage_24h_usd: -1.2,
-  },
+  total_market_cap: { usd: 2500000000000 },
+  total_volume: { usd: 100000000000 },
+  market_cap_percentage: { btc: 50.1, eth: 17.5 },
+  market_cap_change_percentage_24h_usd: -1.2,
 };
 
 export const coinDetailMock = {

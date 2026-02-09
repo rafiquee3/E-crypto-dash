@@ -1,5 +1,5 @@
 import path from 'path';
-import { CoinDetailFrontMock } from '@/mocks/data/marketDataMock';
+import { CoinDetailFrontMock, globalDataMock } from '@/mocks/data/marketDataMock';
 import { Page, Locator, expect } from '@playwright/test';
 
 export class CoinDetailPage {
@@ -58,6 +58,14 @@ export class CoinDetailPage {
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify(CoinDetailFrontMock),
+      });
+    });
+
+    await this.page.route('**/api/markets/global*', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(globalDataMock),
       });
     });
   }
