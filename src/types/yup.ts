@@ -53,16 +53,14 @@ export const CoinDetailDataSchema = yup.object({
     .required(),
 
   chart: yup
-    .array()
-    .of(
-      yup
-        .array()
-        .of(yup.number().required())
-        .min(2, 'Each point must have timestamp and price')
-        .max(2, 'Each point cannot have more than 2 values'),
-    )
-    .required('Chart data is required')
-    .min(1, 'Chart data cannot be empty'),
+    .object({
+      '1': yup.array().of(yup.array().of(yup.number().required())).required(),
+      '7': yup.array().of(yup.array().of(yup.number().required())).required(),
+      '30': yup.array().of(yup.array().of(yup.number().required())).required(),
+      '90': yup.array().of(yup.array().of(yup.number().required())).required(),
+      '365': yup.array().of(yup.array().of(yup.number().required())).required(),
+    })
+    .required('Chart data is required'),
 });
 
 export interface CoinDetailData extends yup.InferType<typeof CoinDetailDataSchema> {}

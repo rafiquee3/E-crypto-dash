@@ -95,38 +95,71 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
     }) as GlobalData;
   }
 
-  async fetchCoinData(
-    currency: string,
-    coinId: string,
-    days: string = '1',
-  ): Promise<CoinDetailData> {
-    const [marketRes, chartRes] = await Promise.all([
-      fetch(`${this.baseUrl}/coins/${coinId}?localization=false&tickers=false`, {
-        headers: {
-          'x-cg-demo-api-key': this.apiKey,
-          'Content-Type': 'application/json',
-        },
-        next: { revalidate: 60 },
-      }),
-      fetch(`${this.baseUrl}/coins/${coinId}/market_chart?vs_currency=${currency}&days=${days}`, {
-        headers: {
-          'x-cg-demo-api-key': this.apiKey,
-          'Content-Type': 'application/json',
-        },
-        next: { revalidate: 60 },
-      }),
-    ]);
+  async fetchCoinData(currency: string, coinId: string): Promise<CoinDetailData> {
+    const [marketRes, chartRes1, chartRes7, chartRes30, chartRes90, chartRes365] =
+      await Promise.all([
+        fetch(`${this.baseUrl}/coins/${coinId}?localization=false&tickers=false`, {
+          headers: {
+            'x-cg-demo-api-key': this.apiKey,
+            'Content-Type': 'application/json',
+          },
+          next: { revalidate: 60 },
+        }), // 1 7 30 90 365
+        fetch(`${this.baseUrl}/coins/${coinId}/market_chart?vs_currency=${currency}&days=${1}`, {
+          headers: {
+            'x-cg-demo-api-key': this.apiKey,
+            'Content-Type': 'application/json',
+          },
+          next: { revalidate: 60 },
+        }),
+        fetch(`${this.baseUrl}/coins/${coinId}/market_chart?vs_currency=${currency}&days=${7}`, {
+          headers: {
+            'x-cg-demo-api-key': this.apiKey,
+            'Content-Type': 'application/json',
+          },
+          next: { revalidate: 60 },
+        }),
+        fetch(`${this.baseUrl}/coins/${coinId}/market_chart?vs_currency=${currency}&days=${30}`, {
+          headers: {
+            'x-cg-demo-api-key': this.apiKey,
+            'Content-Type': 'application/json',
+          },
+          next: { revalidate: 60 },
+        }),
+        fetch(`${this.baseUrl}/coins/${coinId}/market_chart?vs_currency=${currency}&days=${90}`, {
+          headers: {
+            'x-cg-demo-api-key': this.apiKey,
+            'Content-Type': 'application/json',
+          },
+          next: { revalidate: 60 },
+        }),
+        fetch(`${this.baseUrl}/coins/${coinId}/market_chart?vs_currency=${currency}&days=${365}`, {
+          headers: {
+            'x-cg-demo-api-key': this.apiKey,
+            'Content-Type': 'application/json',
+          },
+          next: { revalidate: 60 },
+        }),
+      ]);
 
     if (!marketRes.ok) {
       throw this.handleApiError(marketRes);
     }
 
-    if (!chartRes.ok) {
-      throw this.handleApiError(chartRes);
-    }
+    if (!chartRes1.ok) throw this.handleApiError(chartRes1);
+    if (!chartRes7.ok) throw this.handleApiError(chartRes7);
+    if (!chartRes30.ok) throw this.handleApiError(chartRes30);
+    if (!chartRes90.ok) throw this.handleApiError(chartRes90);
+    if (!chartRes365.ok) throw this.handleApiError(chartRes365);
 
     let marketData = await marketRes.json();
-    let chartData = await chartRes.json();
+    const [c1, c7, c30, c90, c365] = await Promise.all([
+      chartRes1.json(),
+      chartRes7.json(),
+      chartRes30.json(),
+      chartRes90.json(),
+      chartRes365.json(),
+    ]);
 
     if (typeof marketData === 'string') {
       try {
@@ -136,13 +169,13 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
       }
     }
 
-    if (typeof chartData === 'string') {
-      try {
-        chartData = JSON.parse(chartData);
-      } catch (err) {
-        console.warn('Failed to parse JSON string from response', err);
-      }
-    }
+    const chartMap: Record<string, any> = {
+      '1': c1,
+      '7': c7,
+      '30': c30,
+      '90': c90,
+      '365': c365,
+    };
 
     const data = {
       stats: {
@@ -157,7 +190,13 @@ export class CoinGeckoAdapter implements ICryptoDataProvider {
         athChange: marketData.market_data.ath_change_percentage[currency],
         rank: marketData.market_cap_rank,
       },
-      chart: chartData.prices,
+      chart: {
+        '1': chartMap['1'].prices,
+        '7': chartMap['7'].prices,
+        '30': chartMap['30'].prices,
+        '90': chartMap['90'].prices,
+        '365': chartMap['365'].prices,
+      },
     };
 
     return CoinDetailDataSchema.validateSync(data, {

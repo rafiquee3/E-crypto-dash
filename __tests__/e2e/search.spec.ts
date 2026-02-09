@@ -50,6 +50,8 @@ test.describe('Search Functionality', () => {
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('Enter');
 
+    await page.waitForTimeout(300);
+
     await expect(page).toHaveURL(/coin/);
     await coinDetail.waitForDataLoad();
   });

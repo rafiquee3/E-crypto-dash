@@ -7,12 +7,12 @@ import { unstable_cache } from 'next/cache';
 import { createErrorResponse } from '@/utils/errorUtils';
 
 const getValidatedCoinData = unstable_cache(
-  async (currency: string, coinId: string, days: string) => {
+  async (currency: string, coinId: string) => {
     console.log('[CACHE MISS]: Fetching Coin Data from CoinGecko and validating with Yup...');
     const adapter = new CoinGeckoAdapter(process.env.COINGECKO_API_KEY_SECRET!);
-    return await adapter.fetchCoinData(currency, coinId, days);
+    return await adapter.fetchCoinData(currency, coinId);
   },
-  ['coin-detail-data'],
+  ['coin-detail-data-v2'],
   { revalidate: 60, tags: ['coin-data'] },
 );
 
@@ -35,7 +35,7 @@ export async function GET(req: Request) {
   const days = validationResult.data.days || '1';
 
   try {
-    const data = await getValidatedCoinData(currency, coinId, days);
+    const data = await getValidatedCoinData(currency, coinId);
     const duration = Date.now() - startTime;
 
     if (duration < 10) {

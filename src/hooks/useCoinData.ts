@@ -5,12 +5,12 @@ import { useSelector } from 'react-redux';
 
 const COIN_QUERY_KEY = 'cryptoGlobal';
 
-export function useCoinData(coinId: string, days: string = '1') {
+export function useCoinData(coinId: string) {
   const currency = useSelector((state: RootState) => state.ui.currency);
-  const queryKey = [COIN_QUERY_KEY, currency, coinId, days];
+  const queryKey = [COIN_QUERY_KEY, currency, coinId];
 
   const queryFn = async () => {
-    const params = { currency: currency.code, coinId, days };
+    const params = { currency: currency.code, coinId };
     const urlParams = new URLSearchParams(params).toString();
     const url = `/api/coin?${urlParams}`;
     const response = await fetch(url);

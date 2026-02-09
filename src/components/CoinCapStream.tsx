@@ -18,7 +18,7 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
     refetch, // refresh data
     status,
     isSuccess,
-  } = useCoinData(coinId, days);
+  } = useCoinData(coinId);
 
   const [chartData, setChartData] = useState<{ time: number; price: number }[]>([]);
   const currency = useSelector((state: RootState) => state.ui.currency);
@@ -27,15 +27,15 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
 
   const timeRanges = [
     { label: '24h', value: '1' },
-    { label: '7d', value: '7' },
+    { label: '7j', value: '7' },
     { label: '1M', value: '30' },
     { label: '3M', value: '90' },
-    { label: '1Y', value: '365' },
+    { label: '1A', value: '365' },
   ];
 
   useEffect(() => {
     if (!coinId) return;
-    if (!data?.stats || !data?.chart) return;
+    if (!data?.stats || !data?.chart || !data.chart[days as keyof typeof data.chart]) return;
 
     let ws: WebSocket | null = null;
     let timeoutId: NodeJS.Timeout;
@@ -49,7 +49,8 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
       }),
     );
 
-    const history = data.chart.map((p: any) => ({ time: p[0], price: p[1] }));
+    const currentChart = data.chart[days as keyof typeof data.chart] || [];
+    const history = currentChart.map((p: any) => ({ time: p[0], price: p[1] }));
     setChartData([...history].slice(-20));
 
     const chartInterval = setInterval(() => {
@@ -124,9 +125,10 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
   }, [coinId, currency.exchangeRate, data?.chart]);
 
   const historicalChartData = useMemo(() => {
-    if (!data?.chart) return [];
-    return data.chart.map((p: any) => ({ time: p[0], price: p[1] }));
-  }, [data?.chart]);
+    if (!data?.chart || !data.chart[days as keyof typeof data.chart]) return [];
+    const currentChart = data.chart[days as keyof typeof data.chart];
+    return currentChart.map((p: any) => ({ time: p[0], price: p[1] }));
+  }, [data?.chart, days]);
 
   if (isLoading) {
     return (
@@ -158,10 +160,10 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
     );
   }
 
-  if (!data || !data.stats || !data.chart) {
+  if (!data || !data.stats || !data.chart || !data.chart[days as keyof typeof data.chart]) {
     notFound();
   }
-  ErrorBoundary;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div className="md:col-span-1 space-y-6">
