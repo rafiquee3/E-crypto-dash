@@ -258,17 +258,20 @@ describe('CoinCapStream Component', () => {
     wsCloseSpy.mockRestore();
   });
 
-  it('should change day range and call useCoinData with new parameters', async () => {
+  it('should change day range button styling when clicked', async () => {
     renderCoinCapStream();
 
     const sevenDaysButton = screen.getByRole('button', { name: /7d/i });
+    const oneDayButton = screen.getByRole('button', { name: /24h/i });
+
+    // Initially 24h should be selected
+    expect(oneDayButton).toHaveClass('bg-gray-700');
+
     fireEvent.click(sevenDaysButton);
 
     await waitFor(() => {
-      expect(mockUseCoinData).toHaveBeenCalledWith(COINID, '7');
+      expect(sevenDaysButton).toHaveClass('bg-gray-700');
     });
-
-    expect(sevenDaysButton).toHaveClass('bg-gray-700');
   });
 
   it('should react to currency change in Redux', async () => {

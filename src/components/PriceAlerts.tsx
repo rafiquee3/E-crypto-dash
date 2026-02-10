@@ -39,7 +39,7 @@ export function PriceAlerts({ coinId, currentPrice }: { coinId: string; currentP
   };
 
   return (
-    <div className="relative">
+    <div className="hidden min-[560px]:block relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 text-gray-400 hover:text-white transition-colors border border-gray-700/50"
@@ -61,7 +61,7 @@ export function PriceAlerts({ coinId, currentPrice }: { coinId: string; currentP
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-70 bg-gray-900 border border-gray-700/50 rounded-xl shadow-2xl p-4 z-2 animate-in fade-in slide-in-from-top-2">
+        <div className="absolute left-0 mt-2 w-70 bg-gray-900 border border-gray-700/50 rounded-xl shadow-2xl p-4 z-20 animate-in fade-in slide-in-from-top-2">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-sm font-bold text-white uppercase tracking-wider">Price Alerts</h3>
             <button onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-white">

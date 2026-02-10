@@ -84,12 +84,12 @@ describe('fetchGlobalData', () => {
   it('should correctly fetch and validate global data', async () => {
     server.use(
       http.get(`${BASE_URL}/global`, () => {
-        return HttpResponse.json(globalDataMock);
+        return HttpResponse.json({ data: globalDataMock });
       }),
     );
 
     const result = await adapter.fetchGlobalData('usd');
-    expect(result).toStrictEqual(globalDataMock.data);
+    expect(result).toStrictEqual(globalDataMock);
   });
 
   it('should throw validation error if global data is missing required fields', async () => {
@@ -138,41 +138,37 @@ describe('fetchCoinData', () => {
   const coinId = 'bitcoin';
   const currency = 'usd';
 
-  it('should correctly fetch and validate coin data with days parameter', async () => {
-    const days = '7';
+  it('should correctly fetch and validate coin data for all time ranges', async () => {
+    // Mock coin detail request
     server.use(
       http.get(`${BASE_URL}/coins/${coinId}`, () => {
         return HttpResponse.json(coinDetailMock);
       }),
+    );
+
+    // Mock chart requests for all ranges
+    server.use(
       http.get(`${BASE_URL}/coins/${coinId}/market_chart`, ({ request }: { request: Request }) => {
         const url = new URL(request.url);
-        expect(url.searchParams.get('vs_currency')).toBe(currency);
-        expect(url.searchParams.get('days')).toBe(days);
-        return HttpResponse.json(coinChartMock);
+        const days = url.searchParams.get('days');
+
+        if (['1', '7', '30', '90', '365'].includes(days!)) {
+          return HttpResponse.json(coinChartMock);
+        }
+        return new HttpResponse(null, { status: 404 });
       }),
     );
 
-    const result = await adapter.fetchCoinData(currency, coinId, days);
+    const result = await adapter.fetchCoinData(currency, coinId);
 
     expect(result.stats.price).toBe(50000);
-    expect(result.chart).toHaveLength(2);
-    expect.assertions(4);
-  });
-
-  it('should use default days=1 if not provided', async () => {
-    server.use(
-      http.get(`${BASE_URL}/coins/${coinId}`, () => {
-        return HttpResponse.json(coinDetailMock);
-      }),
-      http.get(`${BASE_URL}/coins/${coinId}/market_chart`, ({ request }: { request: Request }) => {
-        const url = new URL(request.url);
-        expect(url.searchParams.get('days')).toBe('1');
-        return HttpResponse.json(coinChartMock);
-      }),
-    );
-
-    await adapter.fetchCoinData(currency, coinId);
-    expect.assertions(1);
+    expect(result.chart).toHaveProperty('1');
+    expect(result.chart).toHaveProperty('7');
+    expect(result.chart).toHaveProperty('30');
+    expect(result.chart).toHaveProperty('90');
+    expect(result.chart).toHaveProperty('365');
+    // Verify structure of one chart
+    expect(result.chart['1']).toHaveLength(2);
   });
 
   it('should throw error if one of the requests fails', async () => {
@@ -180,6 +176,7 @@ describe('fetchCoinData', () => {
       http.get(`${BASE_URL}/coins/${coinId}`, () => {
         return new HttpResponse(null, { status: 404 });
       }),
+      // Even if charts succeed, the whole call should fail
       http.get(`${BASE_URL}/coins/${coinId}/market_chart`, () => {
         return HttpResponse.json(coinChartMock);
       }),

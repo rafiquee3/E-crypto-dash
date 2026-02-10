@@ -44,13 +44,13 @@ describe('api/coin route', () => {
     it('should return coin data when parameters are valid', async () => {
       mockFetchCoinData.mockResolvedValue(coinDetailMock);
 
-      const req = new Request('http://localhost/api/coin?currency=usd&coinId=bitcoin&days=1');
+      const req = new Request('http://localhost/api/coin?currency=usd&coinId=bitcoin');
       const response = await GET(req);
 
       expect(response.status).toBe(200);
       const data = await response.json();
       expect(data).toStrictEqual(coinDetailMock);
-      expect(mockFetchCoinData).toHaveBeenCalledWith('usd', 'bitcoin', '1');
+      expect(mockFetchCoinData).toHaveBeenCalledWith('usd', 'bitcoin');
     });
 
     it('should set rate limit headers in the response', async () => {

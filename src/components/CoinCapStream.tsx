@@ -2,8 +2,9 @@
 import { useCoinData } from '@/hooks/useCoinData';
 import { RootState } from '@/store/store';
 import { useEffect, useRef, useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Chart } from './Chart';
+import { toggleAlert } from '@/store/uiSlice';
 import { notFound } from 'next/navigation';
 import { ErrorBoundary } from './ErrorBoundary';
 import { PriceAlerts } from './PriceAlerts';
@@ -25,6 +26,22 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
   const currency = useSelector((state: RootState) => state.ui.currency);
   const [price, setPrice] = useState<string | null>(null);
   const lastPriceRef = useRef<number | null>(null);
+
+  const dispatch = useDispatch();
+  const alerts = useSelector((state: RootState) => state.ui.alerts || []);
+  const alertsRef = useRef(alerts);
+
+  useEffect(() => {
+    alertsRef.current = alerts;
+  }, [alerts]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'Notification' in window) {
+      if (Notification.permission === 'default') {
+        Notification.requestPermission();
+      }
+    }
+  }, []);
 
   const timeRanges = [
     { label: '24h', value: '1' },
@@ -78,6 +95,26 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
           const numericPrice = parseFloat(data[coinId]) * currency.exchangeRate;
 
           lastPriceRef.current = numericPrice;
+
+          // Check alerts
+          alertsRef.current.forEach((alert) => {
+            if (alert.active && alert.coinId === coinId && alert.currency === currency.code) {
+              const isHit =
+                alert.condition === 'above'
+                  ? numericPrice >= alert.targetPrice
+                  : numericPrice <= alert.targetPrice;
+
+              if (isHit) {
+                if (Notification.permission === 'granted') {
+                  new Notification(`Price Alert: ${coinId.toUpperCase()}`, {
+                    body: `${coinId} is now ${alert.condition} ${alert.targetPrice} ${currency.code.toUpperCase()}`,
+                    icon: '/favicon.ico',
+                  });
+                }
+                dispatch(toggleAlert(alert.id));
+              }
+            }
+          });
 
           setPrice(
             numericPrice.toLocaleString(undefined, {
@@ -277,12 +314,14 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
           <div
             className={`w-full min-h-[150px] min-w-[150px] transition-opacity duration-200 ${isFetching ? 'opacity-50' : 'opacity-100'}`}
           >
-            <Chart
-              chartData={historicalChartData}
-              currencyCode={currency.code}
-              days={parseInt(days)}
-              ariaLabel={`Historical ${timeRanges.find((tr) => tr.value === days)?.label} price chart for ${coinId}`}
-            />
+            <ErrorBoundary fallback={<p>Chart display issue.</p>}>
+              <Chart
+                chartData={historicalChartData}
+                currencyCode={currency.code}
+                days={parseInt(days)}
+                ariaLabel={`Historical ${timeRanges.find((tr) => tr.value === days)?.label} price chart for ${coinId}`}
+              />
+            </ErrorBoundary>
           </div>
         </div>
       </div>

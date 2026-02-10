@@ -13,7 +13,6 @@ const AllTheProviders = ({ children }: { children: React.ReactNode }) => (
 );
 
 const COINID = 'bitcoin';
-const DAYS = '1';
 
 describe('useCoinData Hook', () => {
   beforeEach(() => {
@@ -26,7 +25,7 @@ describe('useCoinData Hook', () => {
 
   describe('Success States', () => {
     it('should return coin data when the request is successful', async () => {
-      const { result } = renderHook(() => useCoinData(COINID, DAYS), {
+      const { result } = renderHook(() => useCoinData(COINID), {
         wrapper: AllTheProviders,
       });
 
@@ -43,7 +42,7 @@ describe('useCoinData Hook', () => {
         }),
       );
 
-      const { result } = renderHook(() => useCoinData(COINID, DAYS), {
+      const { result } = renderHook(() => useCoinData(COINID), {
         wrapper: AllTheProviders,
       });
 
@@ -51,12 +50,11 @@ describe('useCoinData Hook', () => {
 
       const url = new URL(capturedRequest!.url);
       expect(url.searchParams.get('coinId')).toBe(COINID);
-      expect(url.searchParams.get('days')).toBe(DAYS);
       expect(url.searchParams.get('currency')).toBeDefined();
     });
 
     it('should transition correctly through loading and success states', async () => {
-      const { result } = renderHook(() => useCoinData(COINID, DAYS), {
+      const { result } = renderHook(() => useCoinData(COINID), {
         wrapper: AllTheProviders,
       });
 
@@ -75,7 +73,7 @@ describe('useCoinData Hook', () => {
         }),
       );
 
-      const { result } = renderHook(() => useCoinData(COINID, DAYS), {
+      const { result } = renderHook(() => useCoinData(COINID), {
         wrapper: AllTheProviders,
       });
 
@@ -90,7 +88,7 @@ describe('useCoinData Hook', () => {
         }),
       );
 
-      const { result } = renderHook(() => useCoinData(COINID, DAYS), { wrapper: AllTheProviders });
+      const { result } = renderHook(() => useCoinData(COINID), { wrapper: AllTheProviders });
 
       await waitFor(() => expect(result.current.isError).toBe(true));
     });
@@ -107,7 +105,7 @@ describe('useCoinData Hook', () => {
         }),
       );
 
-      const { result, rerender } = renderHook(() => useCoinData(COINID, DAYS), {
+      const { result, rerender } = renderHook(() => useCoinData(COINID), {
         wrapper: AllTheProviders,
       });
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
