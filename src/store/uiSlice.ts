@@ -6,6 +6,14 @@ export interface UiState {
     code: string;
     exchangeRate: number;
   };
+  alerts: {
+    id: string;
+    coinId: string;
+    targetPrice: number;
+    condition: 'above' | 'below';
+    active: boolean;
+    currency: string;
+  }[];
 }
 
 const initialState: UiState = {
@@ -13,6 +21,7 @@ const initialState: UiState = {
     code: 'usd',
     exchangeRate: 1.0,
   },
+  alerts: [],
 };
 
 export const uiSlice = createSlice({
@@ -26,10 +35,23 @@ export const uiSlice = createSlice({
       // immutable state based off those changes
       state.currency = action.payload;
     },
+    addAlert: (state, action: PayloadAction<UiState['alerts'][0]>) => {
+      state.alerts.push(action.payload);
+    },
+    removeAlert: (state, action: PayloadAction<string>) => {
+      state.alerts = state.alerts.filter((alert) => alert.id !== action.payload);
+    },
+    toggleAlert: (state, action: PayloadAction<string>) => {
+      // action.payload -> ID alert
+      const alert = state.alerts.find((a) => a.id === action.payload);
+      if (alert) {
+        alert.active = !alert.active;
+      }
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCurrency } = uiSlice.actions;
+export const { setCurrency, addAlert, removeAlert, toggleAlert } = uiSlice.actions;
 
 export default uiSlice.reducer;

@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { Chart } from './Chart';
 import { notFound } from 'next/navigation';
 import { ErrorBoundary } from './ErrorBoundary';
+import { PriceAlerts } from './PriceAlerts';
 
 export function CoinCapStream({ coinId }: { coinId: string }) {
   const [days, setDays] = useState<string>('1');
@@ -27,7 +28,7 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
 
   const timeRanges = [
     { label: '24h', value: '1' },
-    { label: '7j', value: '7' },
+    { label: '7d', value: '7' },
     { label: '1M', value: '30' },
     { label: '3M', value: '90' },
     { label: '1A', value: '365' },
@@ -168,12 +169,15 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div className="md:col-span-1 space-y-6">
         <div className="space-y-2">
-          <h2
-            className="text-4xl font-bold tracking-tight text-white focus:outline-none"
-            aria-live="polite"
-          >
-            {price || '...'}
-          </h2>
+          <div className="flex items-center gap-4">
+            <h2
+              className="text-4xl font-bold tracking-tight text-white focus:outline-none"
+              aria-live="polite"
+            >
+              {price || '...'}
+            </h2>
+            {data?.stats?.price && <PriceAlerts coinId={coinId} currentPrice={data.stats.price} />}
+          </div>
           <div
             className={`text-lg font-medium ${data.stats.change24h >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}
           >
