@@ -1,5 +1,5 @@
 import { withSentryConfig } from '@sentry/nextjs';
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const securityHeaders = [
   // CSP
@@ -15,36 +15,38 @@ const securityHeaders = [
       worker-src 'self' blob:;
       child-src 'self' blob:;
       frame-ancestors 'none';
-    `.replace(/\s{2,}/g, ' ').trim()
+    `
+      .replace(/\s{2,}/g, ' ')
+      .trim(),
   },
   // Clickjacking protection
   {
     key: 'X-Frame-Options',
-    value: 'DENY'
+    value: 'DENY',
   },
   // MIME type sniffing
   {
     key: 'X-Content-Type-Options',
-    value: 'nosniff'
+    value: 'nosniff',
   },
   // Referrer
   {
     key: 'Referrer-Policy',
-    value: 'strict-origin-when-cross-origin'
+    value: 'strict-origin-when-cross-origin',
   },
   // HSTS
   {
     key: 'Strict-Transport-Security',
 
     // Enforce HTTPS for the next year (31536000 seconds).
-    value: 'max-age=31536000; includeSubDomains'
+    value: 'max-age=31536000; includeSubDomains',
   },
   {
     key: 'Permissions-Policy',
 
     // Disable unused browser features for enhanced privacy and security.
-    value: 'camera=(), microphone=(), geolocation=()'
-  }
+    value: 'camera=(), microphone=(), geolocation=()',
+  },
 ];
 
 const nextConfig: NextConfig = {
@@ -63,9 +65,9 @@ export default withSentryConfig(nextConfig, {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
-  org: "sokolowski",
+  org: 'sokolowski',
 
-  project: "javascript-nextjs",
+  project: 'scanner-nextjs',
 
   // Only print logs for uploading source maps in CI
   silent: !process.env.CI,
@@ -80,12 +82,7 @@ export default withSentryConfig(nextConfig, {
   // This can increase your server load as well as your hosting bill.
   // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
   // side errors will fail.
-  // tunnelRoute: "/monitoring",
-
-  // Hides source maps from the public production build to protect source code.
-  sourcemaps: {
-    deleteSourcemapsAfterUpload: true,
-  },
+  tunnelRoute: '/monitoring',
 
   webpack: {
     // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
