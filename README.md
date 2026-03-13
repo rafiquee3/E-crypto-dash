@@ -1,6 +1,6 @@
 # E-Crypto Dash 🚀
 
-[![Live Demo](https://img.shields.io/badge/Demo-Online-success.svg?style=for-the-badge)](https://scanner-app-flax.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Demo-Online-success.svg?style=for-the-badge)](https://e-crypto-dash-eight.vercel.app)
 
 A modern, responsive, and highly optimized Cryptocurrency Dashboard built with Next.js 16, React 19, and Tailwind CSS v4. Track real-time market data across various cryptocurrencies, switch between currencies dynamically, and enjoy a seamless user experience.
 
@@ -87,7 +87,7 @@ npx playwright test
 ## 🌐 Live Demo
 
 Check out the live application hosted on Vercel:
-👉 **[E-Crypto Dash Live Demo](https://scanner-app-flax.vercel.app)**
+👉 **[E-Crypto Dash Live Demo](https://e-crypto-dash-eight.vercel.app)**
 
 ## 📄 License
 
