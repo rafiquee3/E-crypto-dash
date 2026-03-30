@@ -70,7 +70,7 @@ describe('errorUtils - createErrorResponse', () => {
 
   it('should create 500 response with generic error', () => {
     const error = new Error('Database connection failed');
-    const response = createErrorResponse(error, 500);
+    createErrorResponse(error, 500);
 
     expect(NextResponse.json).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -82,7 +82,7 @@ describe('errorUtils - createErrorResponse', () => {
 
   it('should create 404 response with "Not Found" error', () => {
     const error = new Error('Resource not found');
-    const response = createErrorResponse(error, 404);
+    createErrorResponse(error, 404);
 
     expect(NextResponse.json).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -94,7 +94,7 @@ describe('errorUtils - createErrorResponse', () => {
 
   it('should create 400 response with "Bad Request" error', () => {
     const error = new Error('Invalid input');
-    const response = createErrorResponse(error, 400);
+    createErrorResponse(error, 400);
 
     expect(NextResponse.json).toHaveBeenCalledWith(
       expect.objectContaining({

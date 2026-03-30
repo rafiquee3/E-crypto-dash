@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 export function onRenderCallback(
     id: string,
     phase: 'mount' | 'update' | 'nested-update',

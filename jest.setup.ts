@@ -2,6 +2,7 @@ process.env.COINGECKO_API_KEY_SECRET = 'TEST_API_KEY';
 process.env.NEXT_PUBLIC_API_URL = 'http://localhost:3000';
 
 try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const undici = require('undici');
   global.fetch = undici.fetch as any;
   global.Request = undici.Request as any;
@@ -21,7 +22,9 @@ try {
       });
     };
   }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 } catch (err) {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const nodeFetch = require('node-fetch');
   global.fetch = nodeFetch as any;
   global.Request = nodeFetch.Request as any;

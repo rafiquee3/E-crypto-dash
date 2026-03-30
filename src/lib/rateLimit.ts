@@ -12,8 +12,8 @@ import { Redis } from '@upstash/redis';
  * or mock the rate limiter (see documentation).
  */
 const redis = new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL!,
-    token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 });
 
 /**
@@ -30,10 +30,10 @@ const redis = new Redis({
  * ```
  */
 export const apiRateLimit = new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(100, '1 m'), // 100 requests per minute
-    analytics: true,
-    prefix: '@upstash/ratelimit/api',
+  redis,
+  limiter: Ratelimit.slidingWindow(100, '1 m'), // 100 requests per minute
+  analytics: true,
+  prefix: '@upstash/ratelimit/api',
 });
 
 /**
@@ -50,10 +50,10 @@ export const apiRateLimit = new Ratelimit({
  * ```
  */
 export const marketsRateLimit = new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(60, '1 m'), // 60 requests per minute
-    analytics: true,
-    prefix: '@upstash/ratelimit/markets',
+  redis,
+  limiter: Ratelimit.slidingWindow(60, '1 m'), // 60 requests per minute
+  analytics: true,
+  prefix: '@upstash/ratelimit/markets',
 });
 
 /**
@@ -69,10 +69,10 @@ export const marketsRateLimit = new Ratelimit({
  * ```
  */
 export const writeRateLimit = new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(10, '1 m'), // 10 requests per minute
-    analytics: true,
-    prefix: '@upstash/ratelimit/write',
+  redis,
+  limiter: Ratelimit.slidingWindow(10, '1 m'), // 10 requests per minute
+  analytics: true,
+  prefix: '@upstash/ratelimit/write',
 });
 
 /**
@@ -87,25 +87,25 @@ export const writeRateLimit = new Ratelimit({
  * @returns Client identifier string (IP address)
  */
 export function getClientIdentifier(request: Request): string {
-    // This header is set by many servers (e.g., Nginx). If present, it is usually the most
-    // reliable and "clean" (containing only a single IP address).
-    // For specific platforms:
-    // Cloudflare: CF-Connecting-IP
-    // Vercel: x-real-ip or x-vercel-proxied-for
-    // Akamai/Fastly: True-Client-IP
-    const realIp = request.headers.get('x-real-ip');
-    if (realIp) return realIp.trim();
+  // This header is set by many servers (e.g., Nginx). If present, it is usually the most
+  // reliable and "clean" (containing only a single IP address).
+  // For specific platforms:
+  // Cloudflare: CF-Connecting-IP
+  // Vercel: x-real-ip or x-vercel-proxied-for
+  // Akamai/Fastly: True-Client-IP
+  const realIp = request.headers.get('x-real-ip');
+  if (realIp) return realIp.trim();
 
-    const forwarded = request.headers.get('x-forwarded-for');
-    if (forwarded) {
-        // X-Forwarded-For can contain multiple IPs, take the first one (original client)
-        return forwarded.split(',')[0].trim();
-    }
+  const forwarded = request.headers.get('x-forwarded-for');
+  if (forwarded) {
+    // X-Forwarded-For can contain multiple IPs, take the first one (original client)
+    return forwarded.split(',')[0].trim();
+  }
 
-    // Fallback: try to get IP from request (may not be available in all environments)
-    // Note: In Next.js App Router, request.ip might not be available
-    // You may need to use middleware to extract IP properly
+  // Fallback: try to get IP from request (may not be available in all environments)
+  // Note: In Next.js App Router, request.ip might not be available
+  // You may need to use middleware to extract IP properly
 
-    // 'unknown' - as a final fallback, which allows applying a global limit for unidentified clients instead of blocking them.
-    return 'unknown';
+  // 'unknown' - as a final fallback, which allows applying a global limit for unidentified clients instead of blocking them.
+  return 'unknown';
 }

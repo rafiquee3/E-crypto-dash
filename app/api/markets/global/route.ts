@@ -1,6 +1,6 @@
 import { CoinGeckoAdapter } from "@/adapters/adapters/CoinGeckoAdapter";
 import { checkRateLimit } from "@/guards/rateLimitGuard";
-import { validateGlobalParams, validateMarketParams } from "@/guards/validationGuard";
+import { validateGlobalParams } from "@/guards/validationGuard";
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { unstable_cache } from 'next/cache';

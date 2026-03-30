@@ -1,5 +1,5 @@
 import { CoinGeckoAdapter } from '@/adapters/adapters/CoinGeckoAdapter';
-const { http, HttpResponse } = require('msw');
+import { http, HttpResponse } from 'msw';
 import {
   marketDataMock,
   globalDataMock,
@@ -9,7 +9,6 @@ import {
 import { mockSearchResults } from '@/mocks/data/globalDataMock';
 import { server } from '@/mocks/node';
 
-const Request = global.Request;
 const BASE_URL = 'https://api.coingecko.com/api/v3';
 const adapter = new CoinGeckoAdapter(process.env.COINGECKO_API_KEY_SECRET!);
 
@@ -61,7 +60,7 @@ describe('fetchMarketData', () => {
   });
 
   it('should throw an error if vs_currency is missing', async () => {
-    // @ts-ignore
+    // @ts-expect-error missing params
     await expect(adapter.fetchMarketData({})).rejects.toThrow(
       "The required parameter 'vs_currency' is not available.",
     );

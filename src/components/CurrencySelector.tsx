@@ -19,7 +19,7 @@ export function CurrencySelector() {
       }
 
       dispatch(setCurrency({code: newCode, exchangeRate: rate}));
-    } catch (error) {
+    } catch {
       console.error('Error fetching exchange rates:');
       dispatch(setCurrency({ code: 'usd', exchangeRate: 1.0 }));
     }

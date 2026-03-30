@@ -18,8 +18,6 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
     error, // object
     isFetching,
     refetch, // refresh data
-    status,
-    isSuccess,
   } = useCoinData(coinId);
 
   const [chartData, setChartData] = useState<{ time: number; price: number }[]>([]);
@@ -160,12 +158,14 @@ export function CoinCapStream({ coinId }: { coinId: string }) {
         ws.close();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coinId, currency.exchangeRate, data?.chart]);
 
   const historicalChartData = useMemo(() => {
     if (!data?.chart || !data.chart[days as keyof typeof data.chart]) return [];
     const currentChart = data.chart[days as keyof typeof data.chart];
     return currentChart.map((p: any) => ({ time: p[0], price: p[1] }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.chart, days]);
 
   if (isLoading) {

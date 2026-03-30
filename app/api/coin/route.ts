@@ -32,7 +32,7 @@ export async function GET(req: Request) {
 
   const currency = validationResult.data.currency;
   const coinId = validationResult.data.coinId;
-  const days = validationResult.data.days || '1';
+  // const days = validationResult.data.days || '1';
 
   try {
     const data = await getValidatedCoinData(currency, coinId);

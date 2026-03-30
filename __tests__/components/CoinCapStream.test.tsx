@@ -223,7 +223,7 @@ describe('CoinCapStream Component', () => {
       .find((el) => el.getAttribute('data-aria-label')?.includes('Live')) as HTMLElement;
 
     expect(liveChart).toBeDefined();
-    const initialPoints = parseInt(liveChart.getAttribute('data-points') || '0');
+    parseInt(liveChart.getAttribute('data-points') || '0');
 
     act(() => {
       socketRef.send(JSON.stringify({ [COINID]: '61000' }));

@@ -13,7 +13,7 @@ export function AssetList() {
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
   const perPage = parseInt(searchParams.get('perPage') || '10', 10);
 
-  const { data, isLoading, isError, error, isFetching, refetch, status, isSuccess } =
+  const { data, isLoading, isError, isFetching, refetch } =
     useCryptoMarkets({
       vs_currency: currency.code,
       per_page: String(perPage),

@@ -157,7 +157,7 @@ export function Search() {
           ) : (
             !isLoading && (
               <div className="px-4 py-6 text-center text-gray-500 text-sm italic" role="status">
-                No coins found for "{debouncedValue}"
+                No coins found for &quot;{debouncedValue}&quot;
               </div>
             )
           )}

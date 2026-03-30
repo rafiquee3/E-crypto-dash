@@ -32,7 +32,7 @@ export class CoinDetailPage {
 
     // Setup the mock server
     await this.page.addInitScript((cid) => {
-      // @ts-ignore
+      // @ts-expect-error Mock injected globally
       const { Server, WebSocket } = window.Mock;
 
       // Replace global WebSocket with the mock version

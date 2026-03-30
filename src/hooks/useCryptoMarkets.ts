@@ -23,6 +23,7 @@ export function useCryptoMarkets(options = {}) {
       ...defaultOptions,
       ...options,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [optionsSerialized],
   );
 
@@ -43,7 +44,7 @@ export function useCryptoMarkets(options = {}) {
       throw new Error(errorData.error || 'Server error while fetching data.');
     }
 
-    let data = await response.json();
+    const data = await response.json();
 
     return data;
   };

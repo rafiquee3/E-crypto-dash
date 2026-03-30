@@ -22,7 +22,7 @@ export function useCoinData(coinId: string) {
       );
     }
 
-    let data = await response.json();
+    const data = await response.json();
 
     return data;
   };

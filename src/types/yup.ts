@@ -63,17 +63,17 @@ export const CoinDetailDataSchema = yup.object({
     .required('Chart data is required'),
 });
 
-export interface CoinDetailData extends yup.InferType<typeof CoinDetailDataSchema> {}
+export type CoinDetailData = yup.InferType<typeof CoinDetailDataSchema>;
 
 export const CoinMarketDataListSchema = yup.array(CoinMarketDataSchema);
 
-export interface CoinMarketData extends yup.InferType<typeof CoinMarketDataSchema> {}
+export type CoinMarketData = yup.InferType<typeof CoinMarketDataSchema>;
 
-const transformToNumber = (originalValue: any): number | null => {
+const transformToNumber = (originalValue: unknown): number | null => {
   if (originalValue === null || originalValue === undefined || originalValue === '') {
     return null;
   }
-  const numValue = parseFloat(originalValue);
+  const numValue = parseFloat(String(originalValue));
   return isNaN(numValue) ? null : numValue;
 };
 
@@ -173,7 +173,7 @@ export const CoinsMarketParamsSchema = yup
   })
   .noUnknown(true, 'Unknown object keys'); // Reject unknown object keys
 
-export interface CoinMarketParams extends yup.InferType<typeof CoinsMarketParamsSchema> {}
+export type CoinMarketParams = yup.InferType<typeof CoinsMarketParamsSchema>;
 
 export interface GlobalData {
   total_market_cap: Record<string, number>;
@@ -221,7 +221,7 @@ export const VsCurrencySchema = yup
   })
   .noUnknown();
 
-export interface GlobalDataParams extends yup.InferType<typeof VsCurrencySchema> {}
+export type GlobalDataParams = yup.InferType<typeof VsCurrencySchema>;
 
 export const CoinDetailParamsSchema = yup
   .object({
@@ -244,7 +244,7 @@ export const CoinDetailParamsSchema = yup
   })
   .noUnknown();
 
-export interface CoinDetailParams extends yup.InferType<typeof CoinDetailParamsSchema> {}
+export type CoinDetailParams = yup.InferType<typeof CoinDetailParamsSchema>;
 
 export const SearchQuerySchema = yup
   .object({
@@ -258,7 +258,7 @@ export const SearchQuerySchema = yup
   })
   .noUnknown();
 
-export interface SearchQuery extends yup.InferType<typeof SearchQuerySchema> {}
+export type SearchQuery = yup.InferType<typeof SearchQuerySchema>;
 
 export const SearchResponseSchema = yup.object({
   coins: yup
@@ -275,4 +275,4 @@ export const SearchResponseSchema = yup.object({
     .required(),
 });
 
-export interface SearchResponse extends yup.InferType<typeof SearchResponseSchema> {}
+export type SearchResponse = yup.InferType<typeof SearchResponseSchema>;

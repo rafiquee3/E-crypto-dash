@@ -1,6 +1,6 @@
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { server } from '@/mocks/node';
-import { delay, http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { marketDataMock } from '@/mocks/data/marketDataMock';
 import { AssetList } from '@/components/AssetList';
 import QueryProvider from '@/providers/QueryProvider';

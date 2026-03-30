@@ -6,15 +6,16 @@ export function MswProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-      const initMsw = async () => {
-        const { worker } = await import('../mocks/browser');
-        await worker.start({
-          onUnhandledRequest: 'bypass', // for Websocket CoinCap
-        });
-        setIsReady(true);
-      };
+      // const initMsw = async () => {
+      //   const { worker } = await import('../mocks/browser');
+      //   await worker.start({
+      //     onUnhandledRequest: 'bypass', // for Websocket CoinCap
+      //   });
+      //   setIsReady(true);
+      // };
 
-      //initMsw();
+      // initMsw();
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsReady(true);
     } else {
       setIsReady(true);

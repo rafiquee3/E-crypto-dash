@@ -9,7 +9,7 @@ export default function NotFound() {
           Coin not found
         </h2>
         <p className="text-gray-400 mb-8">
-          It looks like the crypto you're looking for doesn't exist.
+          It looks like the crypto you&apos;re looking for doesn&apos;t exist.
         </p>
 
         <Link

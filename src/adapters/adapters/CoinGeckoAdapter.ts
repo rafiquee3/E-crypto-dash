@@ -1,7 +1,6 @@
 import {
   CoinMarketData,
   CoinMarketDataListSchema,
-  CoinMarketDataSchema,
   CoinMarketParams,
   GlobalDataSchema,
   GlobalData,

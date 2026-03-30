@@ -83,7 +83,7 @@ if (typeof (global as any).Response === 'undefined') {
       if (typeof this.body === 'string') {
         try {
           return Promise.resolve(JSON.parse(this.body));
-        } catch (e) {
+        } catch {
           return Promise.resolve(this.body);
         }
       }
